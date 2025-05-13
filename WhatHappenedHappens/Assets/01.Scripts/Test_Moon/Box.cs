@@ -52,7 +52,12 @@ public class Box : MonoBehaviour, IRecordable
 
     public void SetMovementRecords(List<ObjectMovementRecord> records)
     {
-        movementRecords = records;
+        movementRecords = new List<ObjectMovementRecord>();
+
+        foreach (var record in records)
+        {
+            movementRecords.Add(new ObjectMovementRecord(record.time, record.position));
+        }
     }
 
     public List<ObjectMovementRecord> GetMovementRecords()
