@@ -79,7 +79,19 @@ public class ParadoxManager : MonoBehaviour
         lastRecordTime = 0f;
 
         currentPlayerRecording.Clear();
+
+        // ResetScene();
+        ClearAllObjectRecords();
+
         playerReturnPosition = player.transform.position;
+    }
+
+    private void ClearAllObjectRecords()
+    {
+        foreach (var obj in FindObjectsOfType<MonoBehaviour>().OfType<IRecordable>())
+        {
+            obj.SetMovementRecords(new List<ObjectMovementRecord>());
+        }
     }
 
     public void StopRecording()

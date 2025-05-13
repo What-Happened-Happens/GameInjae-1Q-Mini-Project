@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Ball : MonoBehaviour
+public class Ball : MonoBehaviour, IRecordable
 {
     private Vector3 startPosition;
+    private List<ObjectMovementRecord> movementRecords = new List<ObjectMovementRecord>();
+
     public float moveDistance = 1f;
     public float moveDuration = 1f;
 
@@ -24,6 +26,47 @@ public class Ball : MonoBehaviour
         transform.position = startPosition;
     }
 
+    //  --- IRecordable 구현부 ---
+
+    public void RecordPosition(float time)
+    {
+        // 현재 위치를 기록
+        movementRecords.Add(new ObjectMovementRecord(time, transform.position));
+    }
+
+    public void SetMovementRecords(List<ObjectMovementRecord> records)
+    {
+        movementRecords = records;
+    }
+
+    public List<ObjectMovementRecord> GetMovementRecords()
+    {
+        return movementRecords;
+    }
+
+    public IEnumerator ReplayMovement()
+    {
+        if (movementRecords.Count == 0) yield break;
+
+        for (int i = 1; i < movementRecords.Count; i++)
+        {
+            float waitTime = movementRecords[i].time - movementRecords[i - 1].time;
+            Vector3 start = movementRecords[i - 1].position;
+            Vector3 end = movementRecords[i].position;
+
+            float elapsed = 0f;
+            while (elapsed < waitTime)
+            {
+                transform.position = Vector3.Lerp(start, end, elapsed / waitTime);
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+
+            transform.position = end;
+        }
+    }
+
+    // MoveSmoothly 코루틴
     private IEnumerator MoveSmoothly()
     {
         Vector3 start = transform.position;
