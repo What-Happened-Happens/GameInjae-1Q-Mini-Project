@@ -18,17 +18,15 @@ public class ParadoxManager : MonoBehaviour
     private int maxParadox = 3;
 
     public float recordingStartTime = 0f;
-    public float recordingEndTime = 0f;
     public float replayStartTime = 0f;
     private float lastRecordTime = 0f;
     private int ghostCounter = 0;
 
-    private List<ParadoxEvent> currentRecording = new List<ParadoxEvent>();
     private List<PlayerMovementRecord> currentPlayerRecording = new List<PlayerMovementRecord>();
 
-    private Queue<List<ParadoxEvent>> paradoxQueue = new Queue<List<ParadoxEvent>>();
-    private Queue<List<PlayerMovementRecord>> ghostQueue = new Queue<List<PlayerMovementRecord>>();
-
+    // PlayerMovementRecord + IRecordable 묶은 전체 상태 기록 큐
+    private Queue<(List<PlayerMovementRecord> playerRecords, List<List<ObjectMovementRecord>> objectRecords)> objectQueue
+        = new Queue<(List<PlayerMovementRecord>, List<List<ObjectMovementRecord>>)>();
 
     private void Awake()
     {
@@ -50,6 +48,12 @@ public class ParadoxManager : MonoBehaviour
             if (elapsed - lastRecordTime >= 0.1f)
             {
                 currentPlayerRecording.Add(new PlayerMovementRecord(elapsed, player.transform.position));
+
+                foreach (var obj in FindObjectsOfType<MonoBehaviour>().OfType<IRecordable>())
+                {
+                    obj.RecordPosition(elapsed);
+                }
+
                 lastRecordTime = elapsed;
             }
 
@@ -62,13 +66,11 @@ public class ParadoxManager : MonoBehaviour
 
     public void StartRecording()
     {
-        float timePassedSinceReplay = Time.time - replayStartTime;
-
-        // 현재 재생 중이면 남은 패러독스만 유지
-        if (isReplaying && (paradoxQueue.Count > 0 || ghostQueue.Count > 0))
+        if (isReplaying && objectQueue.Count > 0)
         {
-            Debug.Log($"[Paradox] 기존 패러독스 {timePassedSinceReplay:F2}s 지점부터 잘라냄");
-            TrimOngoingReplays(timePassedSinceReplay);
+            float timePassed = Time.time - replayStartTime;
+            Debug.Log($"[Paradox] 기존 재생 중단 및 {timePassed:F2}s 지점부터 잘라냄");
+            TrimOngoingReplays(timePassed);
         }
 
         Debug.Log("[Paradox] 녹화 시작");
@@ -76,77 +78,40 @@ public class ParadoxManager : MonoBehaviour
         recordingStartTime = Time.time;
         lastRecordTime = 0f;
 
-        currentRecording.Clear();
         currentPlayerRecording.Clear();
-
         playerReturnPosition = player.transform.position;
     }
 
-    private void StopRecording()
+    public void StopRecording()
     {
         isRecording = false;
+
+        if (objectQueue.Count >= maxParadox)
+            objectQueue.Dequeue();
+
+        objectQueue.Enqueue((new List<PlayerMovementRecord>(currentPlayerRecording), GetAllObjectRecords()));
+
         Debug.Log("[Paradox] 녹화 종료");
 
-        if (paradoxQueue.Count >= maxParadox)
-        {
-            paradoxQueue.Dequeue();
-            ghostQueue.Dequeue();
-        }
-
-        paradoxQueue.Enqueue(new List<ParadoxEvent>(currentRecording));
-        ghostQueue.Enqueue(new List<PlayerMovementRecord>(currentPlayerRecording));
-
-        recordingEndTime = Time.time;
-
-        // 오브젝트 위치 초기화 -> 녹화 종료 시점
         ResetScene();
-
-        // 재생
         ReplayParadoxes();
     }
-
-
-    // [기존 재생 패러독스를 현재 시간 이후만 남김]
-    private void TrimOngoingReplays(float timePassed)
-    {
-        Queue<List<ParadoxEvent>> trimmedParadoxQueue = new Queue<List<ParadoxEvent>>();
-        foreach (var eventList in paradoxQueue)
-        {
-            var trimmed = eventList.Where(ev => ev.time >= timePassed)
-                                   .Select(ev => new ParadoxEvent(ev.time - timePassed, ev.target, ev.action))
-                                   .ToList();
-            trimmedParadoxQueue.Enqueue(trimmed);
-        }
-        paradoxQueue = trimmedParadoxQueue;
-
-        Queue<List<PlayerMovementRecord>> trimmedGhostQueue = new Queue<List<PlayerMovementRecord>>();
-        foreach (var movementList in ghostQueue)
-        {
-            var trimmed = movementList.Where(r => r.time >= timePassed)
-                                      .Select(r => new PlayerMovementRecord(r.time - timePassed, r.position))
-                                      .ToList();
-            trimmedGhostQueue.Enqueue(trimmed);
-        }
-        ghostQueue = trimmedGhostQueue;
-
-        Debug.Log($"[Paradox] 잘린 후 남은 패러독스 수: {paradoxQueue.Count}, 고스트 수: {ghostQueue.Count}");
-    }
-
 
     private void ResetScene()
     {
         player.transform.position = playerReturnPosition;
-
         foreach (var box in FindObjectsOfType<Box>()) box.ResetPosition();
         foreach (var ball in FindObjectsOfType<Ball>()) ball.ResetPosition();
     }
 
-    public void RecordEvent(ParadoxEvent ev)
+    private List<List<ObjectMovementRecord>> GetAllObjectRecords()
     {
-        if (isRecording)
+        List<List<ObjectMovementRecord>> result = new List<List<ObjectMovementRecord>>();
+        foreach (var obj in FindObjectsOfType<MonoBehaviour>().OfType<IRecordable>())
         {
-            currentRecording.Add(ev);
+            result.Add(obj.GetMovementRecords());
         }
+        return result;
     }
 
     private void ReplayParadoxes()
@@ -154,38 +119,35 @@ public class ParadoxManager : MonoBehaviour
         isReplaying = true;
         replayStartTime = Time.time;
 
-        var paradoxList = paradoxQueue.ToList();
-        var ghostList = ghostQueue.ToList();
-
         ghostCounter = 0;
 
-        for (int i = 0; i < paradoxList.Count; i++)
+        var queueArray = objectQueue.ToArray();
+        for (int i = 0; i < queueArray.Length; i++)
         {
-            var paradoxEvents = paradoxList[i];
-            var ghostData = (i < ghostList.Count) ? ghostList[i] : null;
+            var (playerRecords, objectRecords) = queueArray[i];
 
-            if (paradoxEvents == null || ghostData == null || ghostData.Count < 2)
+            if (playerRecords == null || playerRecords.Count < 2)
             {
-                Debug.Log($"[Paradox] 패러독스 {i}의 데이터가 부족합니다.");
+                Debug.LogWarning($"[Paradox] 고스트 {i} 데이터 부족");
                 continue;
             }
 
-            foreach (var ev in paradoxEvents)
-                StartCoroutine(DelayedExecute(ev));
-
+            // 고스트 생성 및 재생
             GameObject ghost = Instantiate(ghostPlayerPrefab);
             ghost.name = "GhostPlayer_" + i;
-            ghost.transform.position = ghostData[0].position;
+            ghost.transform.position = playerRecords[0].position;
 
             ghostCounter++;
-            StartCoroutine(ReplayGhostMovement(ghost, ghostData));
-        }
-    }
+            StartCoroutine(ReplayGhostMovement(ghost, playerRecords));
 
-    private IEnumerator DelayedExecute(ParadoxEvent ev)
-    {
-        yield return new WaitForSeconds(ev.time);
-        ev.Execute();
+            // 실제 오브젝트 위치 재생
+            var recordables = FindObjectsOfType<MonoBehaviour>().OfType<IRecordable>().ToList();
+            for (int j = 0; j < Mathf.Min(objectRecords.Count, recordables.Count); j++)
+            {
+                recordables[j].SetMovementRecords(objectRecords[j]);
+                StartCoroutine(recordables[j].ReplayMovement());
+            }
+        }
     }
 
     private IEnumerator ReplayGhostMovement(GameObject ghost, List<PlayerMovementRecord> data)
@@ -213,8 +175,10 @@ public class ParadoxManager : MonoBehaviour
             Destroy(ghost);
 
         ghostCounter--;
-        if (ghostCounter == 0) ResetObjectsAfterPlayback();
+        if (ghostCounter == 0)
+            ResetObjectsAfterPlayback();
     }
+
 
     private void ResetObjectsAfterPlayback()
     {
@@ -222,5 +186,29 @@ public class ParadoxManager : MonoBehaviour
         foreach (var ball in FindObjectsOfType<Ball>()) ball.ResetPosition();
 
         isReplaying = false;
+    }
+
+    public void TrimOngoingReplays(float timePassed)
+    {
+        var trimmedQueue = new Queue<(List<PlayerMovementRecord>, List<List<ObjectMovementRecord>>)>();
+
+        foreach (var (playerRecords, objectRecords) in objectQueue)
+        {
+            var trimmedPlayer = playerRecords
+                .Where(r => r.time >= timePassed)
+                .Select(r => new PlayerMovementRecord(r.time - timePassed, r.position))
+                .ToList();
+
+            var trimmedObjects = objectRecords
+                .Select(list => list
+                    .Where(r => r.time >= timePassed)
+                    .Select(r => new ObjectMovementRecord(r.time - timePassed, r.position))
+                    .ToList()
+                ).ToList();
+
+            trimmedQueue.Enqueue((trimmedPlayer, trimmedObjects));
+        }
+
+        objectQueue = trimmedQueue;
     }
 }
