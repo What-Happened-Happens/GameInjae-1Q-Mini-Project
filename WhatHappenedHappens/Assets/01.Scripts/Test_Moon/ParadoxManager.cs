@@ -8,6 +8,7 @@ public class ParadoxManager : MonoBehaviour
 {
     public static ParadoxManager Instance;
 
+    [Header("Player")]
     public GameObject player;
     public GameObject ghostPlayerPrefab;
 
@@ -26,8 +27,11 @@ public class ParadoxManager : MonoBehaviour
     private Queue<List<PlayerMovementRecord>> objectQueue = new Queue<List<PlayerMovementRecord>>();
 
     // [ 오브젝트 초기 위치 ]
-    public Transform platformPos;
-    public Vector2 StartPlatformPos; 
+    [Header("Objects Position")]
+    public Transform B1_Pos;
+    private Vector3 B1_Start_Pos;
+    public Transform B2_Pos;
+    private Vector3 B2_Start_Pos;
 
     private void Awake()
     {
@@ -79,6 +83,8 @@ public class ParadoxManager : MonoBehaviour
         recordingStartTime = Time.time;
         lastRecordTime = 0f;
 
+        SaveStartPoint();
+
         currentPlayerRecording.Clear();
 
         playerReturnPosition = player.transform.position;
@@ -87,7 +93,10 @@ public class ParadoxManager : MonoBehaviour
     // [ 초기 위치 저장 ]
     public void SaveStartPoint()
     {
-        StartPlatformPos = platformPos.position; // 플랫폼 
+        B1_Start_Pos = B1_Pos.position; // 플랫폼 
+        B2_Start_Pos = B2_Pos.position; 
+
+        Debug.Log($"[Paradox] 초기 위치 저장: B1({B1_Start_Pos}), B2({B2_Start_Pos})");
     }
 
     public void StopRecording()
@@ -107,7 +116,10 @@ public class ParadoxManager : MonoBehaviour
 
     private void ResetScene()
     {
-        platformPos.position = StartPlatformPos;
+        B1_Pos.position = B1_Start_Pos;
+        B2_Pos.position = B2_Start_Pos;
+
+        Debug.Log($"[Paradox] 초기 위치 복원: B1({B1_Start_Pos}), B2({B2_Start_Pos})");
 
         player.transform.position = playerReturnPosition;
     }
