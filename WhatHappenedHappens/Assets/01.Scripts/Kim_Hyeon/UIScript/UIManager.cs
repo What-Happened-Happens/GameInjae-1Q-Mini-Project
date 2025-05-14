@@ -12,7 +12,7 @@ public class UIManager : MonoBehaviour
     }
 
     // 플레이어가 카드키 오브젝트를 먹었을 때 호출할 SetActive를 true로 변환★
-    void PlayerGetCardKey(bool isGetCardKey)
+    public void PlayerGetCardKey(bool isGetCardKey)
     {
         if (isGetCardKey == false) return;
         Debug.Assert(isGetCardKey != true, $"카드키를 먹은 isGetCardKey 결과 값 : {isGetCardKey}");
