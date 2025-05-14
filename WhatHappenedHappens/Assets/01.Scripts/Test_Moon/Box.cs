@@ -10,6 +10,8 @@ public class Box : MonoBehaviour, IRecordable
 
     private List<ObjectMovementRecord> movementRecords = new List<ObjectMovementRecord>();
 
+    private Vector3 originalPosition;
+
     private void Start()
     {
         startPosition = transform.position;

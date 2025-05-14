@@ -11,8 +11,6 @@ public class Button : MonoBehaviour
     {
         if (!other.CompareTag("Player")) return;
 
-        Debug.Log("[Button] Player가 버튼에 닿았습니다.");
-
         Box box = FindObjectOfType<Box>();
         if (box != null)
         {

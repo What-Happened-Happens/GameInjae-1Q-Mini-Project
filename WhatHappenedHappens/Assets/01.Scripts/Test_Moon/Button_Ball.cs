@@ -11,7 +11,7 @@ public class Button_Ball : MonoBehaviour
     {
         if (!other.CompareTag("Player")) return;
 
-        Debug.Log("[Ball] Player가 버튼에 닿았습니다.");
+        // Debug.Log("[Ball] Player가 버튼에 닿았습니다.");
 
         Ball ball = FindObjectOfType<Ball>();
         if (ball != null)

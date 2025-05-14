@@ -7,7 +7,7 @@ public class Ball : MonoBehaviour, IRecordable
     private Vector3 startPosition;
     private List<ObjectMovementRecord> movementRecords = new List<ObjectMovementRecord>();
 
-    public float moveDistance = 1f;
+    public float moveDistance = 3f;
     public float moveDuration = 1f;
 
     private void Start()
@@ -70,7 +70,7 @@ public class Ball : MonoBehaviour, IRecordable
     private IEnumerator MoveSmoothly()
     {
         Vector3 start = transform.position;
-        Vector3 end = start + Vector3.up * moveDistance;
+        Vector3 end = start + Vector3.right * moveDistance;
         float elapsed = 0f;
 
         while (elapsed < moveDuration)
