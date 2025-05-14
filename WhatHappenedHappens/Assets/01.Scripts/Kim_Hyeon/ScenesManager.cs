@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Script.Scenes
+namespace Scripts.Kim_Hyeon
 {
     public class ScenesManager: MonoBehaviour
     {
