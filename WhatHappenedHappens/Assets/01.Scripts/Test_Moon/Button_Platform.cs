@@ -17,7 +17,7 @@ public class Button_Platform : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            movingPlatform.alwaysOn = true; // 플랫폼을 항상 작동하도록 설정
+            movingPlatform.alwaysOn = true; 
         }
     }
 
@@ -25,7 +25,7 @@ public class Button_Platform : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            movingPlatform.alwaysOn = false; // 플랫폼을 항상 작동하도록 설정
+            movingPlatform.alwaysOn = false; 
         }
     }
 }

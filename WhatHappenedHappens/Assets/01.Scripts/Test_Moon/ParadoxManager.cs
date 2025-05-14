@@ -23,10 +23,11 @@ public class ParadoxManager : MonoBehaviour
     private int ghostCounter = 0;
 
     private List<PlayerMovementRecord> currentPlayerRecording = new List<PlayerMovementRecord>();
+    private Queue<List<PlayerMovementRecord>> objectQueue = new Queue<List<PlayerMovementRecord>>();
 
-    // PlayerMovementRecord + IRecordable 묶은 전체 상태 기록 큐
-    private Queue<(List<PlayerMovementRecord> playerRecords, List<List<ObjectMovementRecord>> objectRecords)> objectQueue
-        = new Queue<(List<PlayerMovementRecord>, List<List<ObjectMovementRecord>>)>();
+    // [ 오브젝트 초기 위치 ]
+    public Transform platformPos;
+    public Vector2 StartPlatformPos; 
 
     private void Awake()
     {
@@ -57,7 +58,7 @@ public class ParadoxManager : MonoBehaviour
                 lastRecordTime = elapsed;
             }
 
-            if (elapsed >= 10f)
+            if (elapsed >= 5f)
             {
                 StopRecording();
             }
@@ -80,18 +81,13 @@ public class ParadoxManager : MonoBehaviour
 
         currentPlayerRecording.Clear();
 
-        // ResetScene();
-        ClearAllObjectRecords();
-
         playerReturnPosition = player.transform.position;
     }
 
-    private void ClearAllObjectRecords()
+    // [ 초기 위치 저장 ]
+    public void SaveStartPoint()
     {
-        foreach (var obj in FindObjectsOfType<MonoBehaviour>().OfType<IRecordable>())
-        {
-            obj.SetMovementRecords(new List<ObjectMovementRecord>());
-        }
+        StartPlatformPos = platformPos.position; // 플랫폼 
     }
 
     public void StopRecording()
@@ -101,7 +97,7 @@ public class ParadoxManager : MonoBehaviour
         if (objectQueue.Count >= maxParadox)
             objectQueue.Dequeue();
 
-        objectQueue.Enqueue((new List<PlayerMovementRecord>(currentPlayerRecording), GetAllObjectRecords()));
+        objectQueue.Enqueue(new List<PlayerMovementRecord>(currentPlayerRecording));
 
         Debug.Log("[Paradox] 녹화 종료");
 
@@ -111,19 +107,9 @@ public class ParadoxManager : MonoBehaviour
 
     private void ResetScene()
     {
-        player.transform.position = playerReturnPosition;
-        foreach (var box in FindObjectsOfType<Box>()) box.ResetPosition();
-        foreach (var ball in FindObjectsOfType<Ball>()) ball.ResetPosition();
-    }
+        platformPos.position = StartPlatformPos;
 
-    private List<List<ObjectMovementRecord>> GetAllObjectRecords()
-    {
-        List<List<ObjectMovementRecord>> result = new List<List<ObjectMovementRecord>>();
-        foreach (var obj in FindObjectsOfType<MonoBehaviour>().OfType<IRecordable>())
-        {
-            result.Add(obj.GetMovementRecords());
-        }
-        return result;
+        player.transform.position = playerReturnPosition;
     }
 
     private void ReplayParadoxes()
@@ -136,7 +122,7 @@ public class ParadoxManager : MonoBehaviour
         var queueArray = objectQueue.ToArray();
         for (int i = 0; i < queueArray.Length; i++)
         {
-            var (playerRecords, objectRecords) = queueArray[i];
+            var playerRecords = queueArray[i];
 
             if (playerRecords == null || playerRecords.Count < 2)
             {
@@ -151,14 +137,6 @@ public class ParadoxManager : MonoBehaviour
 
             ghostCounter++;
             StartCoroutine(ReplayGhostMovement(ghost, playerRecords));
-
-            // 실제 오브젝트 위치 재생
-            var recordables = FindObjectsOfType<MonoBehaviour>().OfType<IRecordable>().ToList();
-            for (int j = 0; j < Mathf.Min(objectRecords.Count, recordables.Count); j++)
-            {
-                recordables[j].SetMovementRecords(objectRecords[j]);
-                StartCoroutine(recordables[j].ReplayMovement());
-            }
         }
     }
 
@@ -187,38 +165,27 @@ public class ParadoxManager : MonoBehaviour
             Destroy(ghost);
 
         ghostCounter--;
-        if (ghostCounter == 0)
-            ResetObjectsAfterPlayback();
+        if (ghostCounter == 0) ResetObjectsAfterPlayback();
     }
 
 
     private void ResetObjectsAfterPlayback()
     {
-        foreach (var box in FindObjectsOfType<Box>()) box.ResetPosition();
-        foreach (var ball in FindObjectsOfType<Ball>()) ball.ResetPosition();
-
         isReplaying = false;
     }
 
     public void TrimOngoingReplays(float timePassed)
     {
-        var trimmedQueue = new Queue<(List<PlayerMovementRecord>, List<List<ObjectMovementRecord>>)>();
+        var trimmedQueue = new Queue<List<PlayerMovementRecord>>();
 
-        foreach (var (playerRecords, objectRecords) in objectQueue)
+        foreach (var playerRecords in objectQueue)
         {
             var trimmedPlayer = playerRecords
                 .Where(r => r.time >= timePassed)
                 .Select(r => new PlayerMovementRecord(r.time - timePassed, r.position))
                 .ToList();
 
-            var trimmedObjects = objectRecords
-                .Select(list => list
-                    .Where(r => r.time >= timePassed)
-                    .Select(r => new ObjectMovementRecord(r.time - timePassed, r.position))
-                    .ToList()
-                ).ToList();
-
-            trimmedQueue.Enqueue((trimmedPlayer, trimmedObjects));
+            trimmedQueue.Enqueue(trimmedPlayer);
         }
 
         objectQueue = trimmedQueue;
