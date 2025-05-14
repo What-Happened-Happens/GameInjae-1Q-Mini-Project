@@ -31,7 +31,7 @@ public class UIHitChecker : MonoBehaviour
             return;
         }
 
-        Vector2 screenPos = mainCamera.WorldToScreenPoint(player.position);
+        Vector2 screenPos = mainCamera.WorldToScreenPoint(player.transform.position);
         Debug.Log($"screenPos: {screenPos}, UI 위치: {uiTarget.position}, UI 사이즈: {uiTarget.rect.size}");
 
         bool isInside = RectTransformUtility.RectangleContainsScreenPoint(uiTarget, screenPos, null);  // Canvas가 Overlay일 경우
