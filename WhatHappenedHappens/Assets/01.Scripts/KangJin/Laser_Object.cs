@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-public class Razer_Object : MonoBehaviour
+public class Laser_Object : MonoBehaviour
 {
     // Start is called before the first frame update
     Rigidbody2D rb;
