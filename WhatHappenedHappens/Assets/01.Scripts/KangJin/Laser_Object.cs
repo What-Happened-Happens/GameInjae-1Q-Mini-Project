@@ -8,7 +8,6 @@ public class Laser_Object : MonoBehaviour
 {
     // Start is called before the first frame update
     Rigidbody2D rb;
-    /*RaycastHit2D rayHit2D;*/
     Ray2D ray2d;
     SpriteRenderer sr;
 
@@ -17,7 +16,6 @@ public class Laser_Object : MonoBehaviour
         rb = gameObject.AddComponent<Rigidbody2D>();
         rb.bodyType = RigidbodyType2D.Static;
         sr = GetComponent<SpriteRenderer>();
-        
         //레이캐스트 방향 정함
     }
 
@@ -42,14 +40,6 @@ public class Laser_Object : MonoBehaviour
         {
             // 거리 설정
             float distance = Mathf.Abs(rayHit2D.point.y-transform.position.y);
-            Debug.Log(distance);
-            Debug.Log("point : " + rayHit2D.collider.name);
         }
-        else
-        {
-            Debug.Log("no hit");
-        }
-
-
     }
 }
