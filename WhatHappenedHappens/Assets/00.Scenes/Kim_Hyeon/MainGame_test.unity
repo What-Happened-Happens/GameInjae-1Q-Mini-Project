@@ -359,7 +359,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uiTarget: {fileID: 6318099454242823666, guid: 322f776c33c7b924ba91857f21210d4d, type: 3}
   player: {fileID: 8067398787591243151, guid: efd58db8df053f14180dfb4442f6115a, type: 3}
-  mainCamera: {fileID: 0}
 --- !u!1 &1733426824
 GameObject:
   m_ObjectHideFlags: 0
@@ -422,6 +421,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 4132194578512094811, guid: efd58db8df053f14180dfb4442f6115a, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 8067398787591243151, guid: efd58db8df053f14180dfb4442f6115a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -9.17
@@ -462,6 +465,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8372314755537269445, guid: efd58db8df053f14180dfb4442f6115a, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 8067398787591243151, guid: efd58db8df053f14180dfb4442f6115a, type: 3}
+    - target: {fileID: 8372314755537269445, guid: efd58db8df053f14180dfb4442f6115a, type: 3}
+      propertyPath: uiTarget
+      value: 
+      objectReference: {fileID: 6318099454242823666, guid: 322f776c33c7b924ba91857f21210d4d, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
