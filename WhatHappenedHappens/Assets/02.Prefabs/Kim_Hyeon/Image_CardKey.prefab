@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6318099454242823666}
   - component: {fileID: 3936416145694689663}
+  - component: {fileID: 4921113363184702638}
   - component: {fileID: 4655492449409097819}
   m_Layer: 5
   m_Name: Image_CardKey
@@ -45,6 +46,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7154425036567076413}
   m_CullTransparentMesh: 1
+--- !u!114 &4921113363184702638
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7154425036567076413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ba4b3c0acf3d4f468ff65a74f43fe6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiPrefab: {fileID: 7154425036567076413}
 --- !u!114 &4655492449409097819
 MonoBehaviour:
   m_ObjectHideFlags: 0
