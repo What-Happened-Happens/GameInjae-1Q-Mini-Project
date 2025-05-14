@@ -164,7 +164,7 @@ Rigidbody2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 524288
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -672,7 +672,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!212 &1048965609
 SpriteRenderer:
   m_ObjectHideFlags: 0

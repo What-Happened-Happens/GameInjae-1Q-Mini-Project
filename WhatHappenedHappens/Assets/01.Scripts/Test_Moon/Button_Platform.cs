@@ -6,17 +6,18 @@ public class Button_Platform : MonoBehaviour
 {
     public GameObject platform;
 
+    private MovingPlatform movingPlatform;
+
     private void Start()
     {
-
+        movingPlatform = platform.GetComponent<MovingPlatform>();   
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("Player entered the trigger");
-            platform.SetActive(true);
+            movingPlatform.alwaysOn = true; // 플랫폼을 항상 작동하도록 설정
         }
     }
 
@@ -24,7 +25,7 @@ public class Button_Platform : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            platform.SetActive(false);
+            movingPlatform.alwaysOn = false; // 플랫폼을 항상 작동하도록 설정
         }
     }
 }
