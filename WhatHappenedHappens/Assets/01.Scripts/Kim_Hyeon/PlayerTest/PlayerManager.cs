@@ -30,6 +30,6 @@ public class PlayerManager : MonoBehaviour
         _uiManager.IsGetCardKey = true; 
         bool isGetCardKey = _uiManager.IsGetCardKey;
 
-        _uiManager.CardKeyUISetActive(isGetCardKey); 
+        _uiManager.ShowUIObject(isGetCardKey); 
     }
 }
