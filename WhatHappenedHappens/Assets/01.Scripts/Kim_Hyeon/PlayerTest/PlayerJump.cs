@@ -26,9 +26,9 @@ public class PlayerJump : MonoBehaviour
         currentJumpCount--;
     }
 
-    private void OnCollisionEnter2D(Collision2D col2d)
-    {
-        if (col2d.gameObject.CompareTag($"Ground"))
-            currentJumpCount = maxJumpCount;
-    }
+    //private void OnCollisionEnter2D(Collision2D col2d)
+    //{
+    //    if (col2d.gameObject.CompareTag($"Well"))
+    //        currentJumpCount = maxJumpCount;
+    //}
 }
