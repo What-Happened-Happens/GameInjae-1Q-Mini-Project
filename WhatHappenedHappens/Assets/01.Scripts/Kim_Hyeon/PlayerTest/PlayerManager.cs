@@ -27,9 +27,5 @@ public class PlayerManager : MonoBehaviour
             _jump.Jump(); 
         }
 
-        _uiManager.IsGetCardKey = true; 
-        bool isGetCardKey = _uiManager.IsGetCardKey;
-
-        _uiManager.ShowUIObject(isGetCardKey); 
     }
 }
