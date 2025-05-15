@@ -18,7 +18,7 @@ public class BackGroundLayer : MonoBehaviour
     private Vector3 previousCamPos;    
 
     //배경의 상대 움직임 정도를 조절할 수 있는 수!!
-    //public float bGRelativePos;
+    public float bGRelativePos;
 
     // Start()보다 먼저 호출되며, 참조 설정에 적합한 시점
     void Awake()
@@ -30,6 +30,7 @@ public class BackGroundLayer : MonoBehaviour
     // 초기 설정 (게임 시작 시 호출됨)
     void Start()
     {
+        bGRelativePos = 20f;
         // 이전 프레임의 카메라 위치를 현재 위치로 초기화
         this.previousCamPos = this.cam.position;   
 
@@ -37,8 +38,16 @@ public class BackGroundLayer : MonoBehaviour
         this.parallaxScales = new float[this.backgrounds.Length];
         for (int i = 0; i < backgrounds.Length; i++)
         {
-            // Z값에 따라 움직임 비율 설정 (멀수록 느리게 움직이도록)
-            this.parallaxScales[i] = backgrounds[i].position.z * -20;
+            if (this.backgrounds[i].position.z > 0)
+            {
+                // Z값에 따라 움직임 비율 설정 (멀수록 느리게 움직이도록)
+                this.parallaxScales[i] = backgrounds[i].position.z * -bGRelativePos;
+            }
+            else if(this.backgrounds[i].position.z < 0)
+            {
+                this.parallaxScales[i] = backgrounds[i].position.z * -bGRelativePos * (-1f);
+            }
+            
         }
     }
 
