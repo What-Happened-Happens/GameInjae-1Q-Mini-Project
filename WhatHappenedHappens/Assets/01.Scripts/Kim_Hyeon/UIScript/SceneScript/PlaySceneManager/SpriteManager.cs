@@ -1,60 +1,55 @@
 using UnityEngine.UI;
 using UnityEngine;
-using System.Collections.Generic;
+
+// delegate test 
+public delegate void Imagedelegate(Sprite _uiSprite);
 
 public class SpriteManager : MonoBehaviour
 {
-    // 스프라이트 렌더러. 아이템을 얻었는 지 확인해서 
-    [Header("SpriteRenderer Script")]
-    [SerializeField] private Sprite fullTimer;
-    [SerializeField] private Sprite fourTimer;
-    [SerializeField] private Sprite thirdTimer;
-    [SerializeField] private Sprite secondTimer;
-    [SerializeField] private Sprite emptyTimer;
+    // // delegate test 
+    // void SetSprite(Sprite sprite) => timerPrefab.sprite = sprite;
+    //Sprite GetSprite() =>  timerPrefab.sprite;
 
-    [Header("Image Sprite")]
-    [SerializeField] private Image timerPrefab; 
+    // void delegateTest()
+    // {
+    //     Imagedelegate SetImageop = SetSprite;
+    //     Console.WriteLine(SetImageop);
 
-    [Header("SpriteContaiverTransform")]
-    public Transform timerContainer;
-   
-    private List<Image> timers = new();
-    private float StartTime = Time.time;
-    public void UpdateSprites(bool isCloneCreated, float time)
+    //     SetImageop += SetSprite;
+    //     Console.WriteLine($"SetSprite : {timerPrefab.sprite.name}"); 
+
+    //     SetImageop -= SetSprite;
+    //     Console.WriteLine($"SetSprite : {timerPrefab.sprite.name}");
+
+    // }
+
+    [Header("ImagePrefab")]
+    public Image _CardKeyImagePrefab;
+    private bool _isGetCardKey { get; set; }
+
+    [Header("RecordTimer")]
+    public Image _RecordTiemrPrefab;
+
+    private void Start()
     {
-        Debug.Assert(isCloneCreated , $"클론이 만들어졌습니다! isCloneCreated 값 :  {isCloneCreated}");
+        Debug.Log($"시작하면, CardKeyUI 컬러 톤을 낮추고 시작");
+        _CardKeyImagePrefab = GetComponent<Image>();        
+        SetColor( _CardKeyImagePrefab, Color.gray);
+    }
 
-        if (isCloneCreated && timers.Count == 0) // 클론이 만들어졌다면, 
+    public void SetColor(Image targetImage, Color color) => targetImage.color = color;
+    public void SetImageScale(Vector2 imageScale) => _CardKeyImagePrefab.transform.localScale = imageScale;
+
+    public void ChangedColor()
+    {
+        if (_isGetCardKey == false) return;
+
+        if (_isGetCardKey == true )
         {
-            Image timerSprite = Instantiate(timerPrefab, timerContainer);
-            timers.Add(timerSprite);
+            SetColor(_CardKeyImagePrefab, Color.white); 
         }
-
-        int i = 0; 
-
-            while (i < timers.Count)
-            {
-            if (time > 5f)           // 5초 구간
-                timers[i].sprite = fullTimer;
-            else if (time > 4f)      // 4초 구간
-                timers[i].sprite = thirdTimer;
-            else if (time > 3f)      // 3초 구간
-                timers[i].sprite = thirdTimer;
-            else if (time > 2f)      // 2초 구간
-                timers[i].sprite = secondTimer;
-            else                     // 1초 이하
-                timers[i].sprite = emptyTimer;
-        }    
-               
-    }
-    // duration 에 전달된 값만큼 시간이 지났는 지 확인 
-    public bool IsElapsed(float duration) 
-    {
-        return (Time.time - StartTime) >= duration;
-    }
-    public float GetDeltaTime()
-    {
-        return Time.deltaTime;
     }
 
+   
+  
 }
