@@ -73,11 +73,11 @@ public class GetItemUI : MonoBehaviour
             CardKeyScale(isStageSceneClear, imageScale.x, imageScale.y); // 게임 오브젝트 위치에 UI가 위치했을 때, 크기를 키운다. 
 
         }
-        else if (isStageSceneClear)                             // 스테이지를 넘어갔을 때 와 카드키를 먹었을 때를 어떻게 구분할 지 결정 필요.
+        else if (isStageSceneClear)    // 스테이지를 넘어갔을 때 와 카드키를 먹었을 때를 어떻게 구분할 지 결정 필요.
         {
 
         }
-        else                                                    // 카드키를 먹지 않았고, 스테이지를 넘어가지도 않았을 때 
+        else                          // 카드키를 먹지 않았고, 스테이지를 넘어가지도 않았을 때 
         {
 
         }
