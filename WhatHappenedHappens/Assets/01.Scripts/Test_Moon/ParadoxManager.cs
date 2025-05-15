@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 
 // [ 패러독스 시스템의 핵심 관리 ]
@@ -174,14 +175,21 @@ public class ParadoxManager : MonoBehaviour
             ghost.name = "GhostPlayer_" + i;
             ghost.transform.position = playerRecords[0].position;
 
+            // TimerText 찾아서 넘기기
+            TextMeshPro ghostText = ghost.transform.Find("TimerText")?.GetComponent<TextMeshPro>();
+
             ghostCounter++;
             
-            StartCoroutine(ReplayGhostMovement(ghost, playerRecords));
+            StartCoroutine(ReplayGhostMovement(ghost, playerRecords, ghostText));
         }
     }
 
-    private IEnumerator ReplayGhostMovement(GameObject ghost, List<PlayerMovementRecord> data)
+    private IEnumerator ReplayGhostMovement(GameObject ghost, List<PlayerMovementRecord> data, TextMeshPro timerText)
     {
+        // 전체 고스트 재생 시간 계산
+        float totalDuration = data[data.Count - 1].time - data[0].time;
+        float elapsedTotal = 0f;
+
         for (int i = 1; i < data.Count; i++)
         {
             float waitTime = data[i].time - data[i - 1].time;
@@ -192,8 +200,19 @@ public class ParadoxManager : MonoBehaviour
             while (elapsed < waitTime)
             {
                 if (ghost == null) yield break;
+
                 ghost.transform.position = Vector3.Lerp(start, end, elapsed / waitTime);
+
                 elapsed += Time.deltaTime;
+                elapsedTotal += Time.deltaTime;
+
+                // 남은 시간 출력
+                int remainingTime = (int)Mathf.Max(0f, totalDuration - elapsedTotal);
+                if (timerText != null)
+                {
+                    timerText.text = remainingTime.ToString("D2");
+                }
+
                 yield return null;
             }
 
