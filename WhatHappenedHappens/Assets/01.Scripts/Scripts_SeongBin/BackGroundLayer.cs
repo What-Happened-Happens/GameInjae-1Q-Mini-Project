@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BackGroundLayer : MonoBehaviour
@@ -17,7 +15,7 @@ public class BackGroundLayer : MonoBehaviour
     private Transform cam;
 
     // 이전 프레임의 카메라 위치
-    private Vector3 previousCamPos;
+    private Vector3 previousCamPos;    
 
     //배경의 상대 움직임 정도를 조절할 수 있는 수!!
     //public float bGRelativePos;
@@ -33,7 +31,7 @@ public class BackGroundLayer : MonoBehaviour
     void Start()
     {
         // 이전 프레임의 카메라 위치를 현재 위치로 초기화
-        this.previousCamPos = this.cam.position;
+        this.previousCamPos = this.cam.position;   
 
         // 배경 수만큼 parallaxScales 배열 초기화
         this.parallaxScales = new float[this.backgrounds.Length];
