@@ -153,6 +153,8 @@ public class ParadoxManager : MonoBehaviour
         isReplaying = true;
         replayStartTime = Time.time;
 
+
+        // [ 고스트 관련 ]
         ghostCounter = 0;
 
         var queueArray = objectQueue.ToArray();
@@ -182,6 +184,8 @@ public class ParadoxManager : MonoBehaviour
 
     private IEnumerator ReplayGhostMovement(GameObject ghost, List<PlayerMovementRecord> data, TextMeshPro timerText)
     {
+        SpriteRenderer sr = ghost.GetComponentInChildren<SpriteRenderer>(); // 자식 포함
+
         // 전체 고스트 재생 시간 계산
         float totalDuration = data[data.Count - 1].time - data[0].time;
         float elapsedTotal = 0f;
@@ -191,6 +195,13 @@ public class ParadoxManager : MonoBehaviour
             float waitTime = data[i].time - data[i - 1].time;
             Vector3 start = data[i - 1].position;
             Vector3 end = data[i].position;
+
+            // 좌우 반전 
+            if (sr != null)
+            {
+                if (end.x < start.x)        sr.flipX = true;
+                else if (end.x > start.x)   sr.flipX = false;
+            }
 
             float elapsed = 0f;
             while (elapsed < waitTime)
