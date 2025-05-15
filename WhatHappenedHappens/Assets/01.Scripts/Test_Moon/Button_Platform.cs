@@ -6,24 +6,26 @@ public class Button_Platform : MonoBehaviour
 {
     public GameObject platform;
 
+    private MovingPlatform movingPlatform;
+
     private void Start()
     {
-
+        movingPlatform = platform.GetComponent<MovingPlatform>();   
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
-            platform.SetActive(true);
+            movingPlatform.alwaysOn = true; 
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    private void OnTriggerExit2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
-            platform.SetActive(false);
+            movingPlatform.alwaysOn = false; 
         }
     }
 }

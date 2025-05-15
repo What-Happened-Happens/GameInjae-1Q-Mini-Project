@@ -45,8 +45,7 @@ public class MovingPlatform : MonoBehaviour
             }
             else
             {
-                // 정지
-                isActive = false;
+                isActive = false; // 정지
             }
         }
     }
