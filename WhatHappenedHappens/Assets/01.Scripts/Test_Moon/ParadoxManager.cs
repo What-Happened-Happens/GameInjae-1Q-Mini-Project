@@ -41,11 +41,14 @@ public class ParadoxManager : MonoBehaviour
 
     private void Update()
     {
+        // ★ 현영님! UI에서 ghostCounter 값 가져가서 표시 해주시면 될 거 같아요!! 
+        // Debug.Log($"현재 활성화 중인 고스트 수: {ghostCounter}");
+
         if (Input.GetKeyDown(KeyCode.R))
         {
             StartRecording();
         }
-
+        
         if (isRecording)
         {
             float elapsed = Time.time - recordingStartTime;
@@ -77,6 +80,11 @@ public class ParadoxManager : MonoBehaviour
             Debug.Log($"[Paradox] 기존 재생 중단 및 {timePassed:F2}s 지점부터 잘라냄");
             TrimOngoingReplays(timePassed);
         }
+        else if (!isReplaying && objectQueue.Count > 0)
+        {
+            objectQueue.Clear();
+            Debug.Log("[Paradox] 기존 기록 삭제");
+        }   
 
         Debug.Log("[Paradox] 녹화 시작");
         isRecording = true;
@@ -96,7 +104,6 @@ public class ParadoxManager : MonoBehaviour
         B1_Start_Pos = B1_Pos.position; // 플랫폼 
         B2_Start_Pos = B2_Pos.position; 
 
-        Debug.Log($"[Paradox] 초기 위치 저장: B1({B1_Start_Pos}), B2({B2_Start_Pos})");
     }
 
     public void StopRecording()
@@ -119,8 +126,6 @@ public class ParadoxManager : MonoBehaviour
         B1_Pos.position = B1_Start_Pos;
         B2_Pos.position = B2_Start_Pos;
 
-        Debug.Log($"[Paradox] 초기 위치 복원: B1({B1_Start_Pos}), B2({B2_Start_Pos})");
-
         player.transform.position = playerReturnPosition;
     }
 
@@ -138,7 +143,7 @@ public class ParadoxManager : MonoBehaviour
 
             if (playerRecords == null || playerRecords.Count < 2)
             {
-                Debug.LogWarning($"[Paradox] 고스트 {i} 데이터 부족");
+                // Debug.LogWarning($"[Paradox] 고스트 {i} 데이터 부족");
                 continue;
             }
 
@@ -148,6 +153,7 @@ public class ParadoxManager : MonoBehaviour
             ghost.transform.position = playerRecords[0].position;
 
             ghostCounter++;
+            
             StartCoroutine(ReplayGhostMovement(ghost, playerRecords));
         }
     }
