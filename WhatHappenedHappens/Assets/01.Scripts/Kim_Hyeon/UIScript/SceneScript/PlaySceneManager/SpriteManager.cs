@@ -25,11 +25,8 @@ public class SpriteManager : MonoBehaviour
 
     [Header("ImagePrefab")]
     public Image _CardKeyImagePrefab;
-    private bool _isGetCardKey { get; set; }
-
-    [Header("RecordTimer")]
-    public Image _RecordTiemrPrefab;
-
+    public bool _isGetCardKey { get; set; }
+    
     private void Start()
     {
         Debug.Log($"시작하면, CardKeyUI 컬러 톤을 낮추고 시작");
@@ -40,13 +37,13 @@ public class SpriteManager : MonoBehaviour
     public void SetColor(Image targetImage, Color color) => targetImage.color = color;
     public void SetImageScale(Vector2 imageScale) => _CardKeyImagePrefab.transform.localScale = imageScale;
 
-    public void ChangedColor()
+    public void ChangedColor(Color color)
     {
         if (_isGetCardKey == false) return;
 
         if (_isGetCardKey == true )
         {
-            SetColor(_CardKeyImagePrefab, Color.white); 
+            SetColor(_CardKeyImagePrefab, color); 
         }
     }
 
