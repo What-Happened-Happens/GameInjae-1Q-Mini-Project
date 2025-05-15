@@ -20,11 +20,13 @@ public class Button_KangJin : MonoBehaviour
     {
         if(!ButtonOn)
         { 
-            ButtonOn = true; 
+            ButtonOn = true;
+            Debug.Log("Button On!");
         }
         else
         {
             ButtonOn = false;
+            Debug.Log("Button Off!");
         }
     }
 }
