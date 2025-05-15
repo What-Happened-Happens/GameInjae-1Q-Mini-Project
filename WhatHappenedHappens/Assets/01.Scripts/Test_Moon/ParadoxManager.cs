@@ -48,12 +48,6 @@ public class ParadoxManager : MonoBehaviour
         else Destroy(gameObject);
     }
 
-    private void Start()
-    {
-        // [ 초기 위치 저장 ]
-        SaveObjectPos();
-    }
-
     private void Update()
     {
         // ★ 현영님! UI에서 ghostCounter 값 가져가서 표시 해주시면 될 거 같아요!! 
@@ -87,7 +81,9 @@ public class ParadoxManager : MonoBehaviour
         }
     }
 
+
     // -------------------------------------------------------------------------------
+
 
     public void StartRecording()
     {
@@ -110,7 +106,7 @@ public class ParadoxManager : MonoBehaviour
         recordingStartTime = Time.time;
         lastRecordTime = 0f;
 
-        // SaveObjectPos(); // 각 녹화 때의 위치로 돌아가는건지 ? 
+        SaveObjectPos(); // 각 녹화 때의 위치로 돌아가는건지 ? -> 맞음!
 
         currentPlayerRecording.Clear();
 
