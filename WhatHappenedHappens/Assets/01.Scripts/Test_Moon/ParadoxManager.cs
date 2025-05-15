@@ -22,16 +22,23 @@ public class ParadoxManager : MonoBehaviour
     private bool isReplaying = false;
     private int maxParadox = 3;
 
+    // [ ★ to. 현영님 ★ ]
+
+    // - ghostCounter 랑 recordingTimeRemaining 가져가서 UI 표시 해주시면 될 거 같아요!! 
+    // Debug.Log($"현재 활성화 중인 고스트 수: {ghostCounter}");
+    // Debug.Log($"[Paradox] 녹화 중... 남은 시간: {recordingTimeRemaining:F2}s");
+
     [Header("ParadoxTime")]
     public float recordingStartTime = 0f;
     public float replayStartTime = 0f;
     private float lastRecordTime = 0f;
-    private int ghostCounter = 0;
+    public int ghostCounter = 0;                // ★ 고스트 수 카운트 ★ -> 현영님 
+    public float recordingDuration = 5f;        // [ 녹화 시간 ]
+    public float recordingTimeRemaining = 0f;    // ★ 녹화 남은 시간 ★ -> 현영님 
 
     [Header("PlayerMovement")]
     private List<PlayerMovementRecord> currentPlayerRecording = new List<PlayerMovementRecord>();
     private Queue<List<PlayerMovementRecord>> objectQueue = new Queue<List<PlayerMovementRecord>>();
-
 
     // [ 오브젝트 초기 위치 ]
     [Header("Objects Position")]
@@ -41,6 +48,7 @@ public class ParadoxManager : MonoBehaviour
     private Vector3 B2_Start_Pos;
 
 
+    // ---------------------------------------------------
 
     private void Awake()
     {
@@ -50,9 +58,6 @@ public class ParadoxManager : MonoBehaviour
 
     private void Update()
     {
-        // ★ 현영님! UI에서 ghostCounter 값 가져가서 표시 해주시면 될 거 같아요!! 
-        // Debug.Log($"현재 활성화 중인 고스트 수: {ghostCounter}");
-
         if (Input.GetKeyDown(KeyCode.R))
         {
             StartRecording();
@@ -61,6 +66,8 @@ public class ParadoxManager : MonoBehaviour
         if (isRecording)
         {
             float elapsed = Time.time - recordingStartTime;
+            recordingTimeRemaining = Mathf.Max(0f, recordingDuration - elapsed); // 남은 시간 계산
+           
 
             if (elapsed - lastRecordTime >= 0.1f)
             {
@@ -106,7 +113,7 @@ public class ParadoxManager : MonoBehaviour
         recordingStartTime = Time.time;
         lastRecordTime = 0f;
 
-        SaveObjectPos(); // 각 녹화 때의 위치로 돌아가는건지 ? -> 맞음!
+        SaveObjectPos(); 
 
         currentPlayerRecording.Clear();
 
@@ -116,7 +123,7 @@ public class ParadoxManager : MonoBehaviour
     // [ 초기 위치 저장 ]
     public void SaveObjectPos()
     {
-        B1_Start_Pos = B1_Pos.position; // 플랫폼 
+        B1_Start_Pos = B1_Pos.position; 
         B2_Start_Pos = B2_Pos.position; 
     }
 

@@ -16,12 +16,11 @@ public class player : MonoBehaviour
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
     private float groundCheckRadius = 0.1f;
-    private bool isGrounded = false;
     private bool jumpPressed = false;
 
     [Header("Wall Check")]
     [SerializeField] private Vector2 wallBoxSize = new Vector2(0.1f, 1.0f);
-    [SerializeField] private float wallPushForce = 0.05f;
+
 
     void Start()
     {
