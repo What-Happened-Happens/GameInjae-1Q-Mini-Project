@@ -7,7 +7,7 @@ public class CameraFollowUICanvas : MonoBehaviour
     private Vector3 _localOffset;                       // 카메라에 따라갈 UI canvas 위치 
 
     private void Awake()
-    {        
+    {
         _uiCanvas = GetComponent<Canvas>();
         _uiCanvas.renderMode = RenderMode.ScreenSpaceCamera;
         Debug.Log($"_uiCanvas 렌더 모드 ScreenSpaceCamera로 지정");

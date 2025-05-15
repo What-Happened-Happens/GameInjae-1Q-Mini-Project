@@ -1959,7 +1959,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9648630e1503c0b4aaf2310f9369c935, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _targetimagePrefab: {fileID: 0}
 --- !u!114 &1790795567 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8496037491545620026, guid: 03486c4546a9e6a4784ccb44bf977899, type: 3}
@@ -2139,7 +2138,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 825, y: 450}
+  m_AnchoredPosition: {x: 838, y: 463}
   m_SizeDelta: {x: 147.08002, y: 77.869995}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1809096795
