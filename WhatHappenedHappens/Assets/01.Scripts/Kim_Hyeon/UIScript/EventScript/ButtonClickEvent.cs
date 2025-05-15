@@ -8,7 +8,7 @@ public class ButtonClickEvent : MonoBehaviour
 
     public void OnMouseUpAsButton()
     {
-        
+        Debug.Log($"[{gameObject.name}] 버튼 클릭 종료!");
     }
 }
 

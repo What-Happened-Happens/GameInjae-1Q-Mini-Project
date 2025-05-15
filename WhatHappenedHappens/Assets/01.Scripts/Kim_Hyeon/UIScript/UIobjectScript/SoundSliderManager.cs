@@ -5,9 +5,9 @@ using UnityEngine.EventSystems;
 
 public class SoundSliderManager : MonoBehaviour, IPointerDownHandler
 {
+    [Header("SliderValue_Text")]
     public TMP_Text soundvalueText; 
     private Slider slider;
-
     private void Start()
     {
         slider = GetComponent<Slider>();
