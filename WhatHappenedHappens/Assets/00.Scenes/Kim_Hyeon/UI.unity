@@ -984,11 +984,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6835984513845005014, guid: e9411d6a767e52c43be440bbbc7fd148, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -797
+      value: -790.09875
       objectReference: {fileID: 0}
     - target: {fileID: 6835984513845005014, guid: e9411d6a767e52c43be440bbbc7fd148, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 451
+      value: 468.0496
       objectReference: {fileID: 0}
     - target: {fileID: 6835984513845005014, guid: e9411d6a767e52c43be440bbbc7fd148, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1947,17 +1947,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6318099454242823666, guid: 322f776c33c7b924ba91857f21210d4d, type: 3}
   m_PrefabInstance: {fileID: 602467038632708564}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1682253752 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4655492449409097819, guid: 322f776c33c7b924ba91857f21210d4d, type: 3}
-  m_PrefabInstance: {fileID: 602467038632708564}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 685902908}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1682253754
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1970,7 +1959,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9648630e1503c0b4aaf2310f9369c935, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _CardKeyImage: {fileID: 1682253752}
+  _targetimagePrefab: {fileID: 0}
 --- !u!114 &1790795567 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8496037491545620026, guid: 03486c4546a9e6a4784ccb44bf977899, type: 3}
@@ -2150,7 +2139,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 845, y: 450}
+  m_AnchoredPosition: {x: 825, y: 450}
   m_SizeDelta: {x: 147.08002, y: 77.869995}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1809096795
@@ -2590,11 +2579,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6318099454242823666, guid: 322f776c33c7b924ba91857f21210d4d, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -731.90137
+      value: -725
       objectReference: {fileID: 0}
     - target: {fileID: 6318099454242823666, guid: 322f776c33c7b924ba91857f21210d4d, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 448.95044
+      value: 466
       objectReference: {fileID: 0}
     - target: {fileID: 6318099454242823666, guid: 322f776c33c7b924ba91857f21210d4d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
