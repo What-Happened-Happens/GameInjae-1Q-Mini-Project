@@ -27,8 +27,10 @@ public class ParadoxManager : MonoBehaviour
     private float lastRecordTime = 0f;
     private int ghostCounter = 0;
 
+    [Header("PlayerMovement")]
     private List<PlayerMovementRecord> currentPlayerRecording = new List<PlayerMovementRecord>();
     private Queue<List<PlayerMovementRecord>> objectQueue = new Queue<List<PlayerMovementRecord>>();
+
 
     // [ 오브젝트 초기 위치 ]
     [Header("Objects Position")]
@@ -37,10 +39,18 @@ public class ParadoxManager : MonoBehaviour
     public Transform B2_Pos;
     private Vector3 B2_Start_Pos;
 
+
+
     private void Awake()
     {
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
+    }
+
+    private void Start()
+    {
+        // [ 초기 위치 저장 ]
+        SaveObjectPos();
     }
 
     private void Update()
@@ -76,6 +86,8 @@ public class ParadoxManager : MonoBehaviour
         }
     }
 
+    // -------------------------------------------------------------------------------
+
     public void StartRecording()
     {
         if(!RecordEffect.activeSelf) RecordEffect.SetActive(true); 
@@ -97,7 +109,7 @@ public class ParadoxManager : MonoBehaviour
         recordingStartTime = Time.time;
         lastRecordTime = 0f;
 
-        SaveStartPoint();
+        // SaveObjectPos(); // 각 녹화 때의 위치로 돌아가는건지 ? 
 
         currentPlayerRecording.Clear();
 
@@ -105,7 +117,7 @@ public class ParadoxManager : MonoBehaviour
     }
 
     // [ 초기 위치 저장 ]
-    public void SaveStartPoint()
+    public void SaveObjectPos()
     {
         B1_Start_Pos = B1_Pos.position; // 플랫폼 
         B2_Start_Pos = B2_Pos.position; 
@@ -123,16 +135,20 @@ public class ParadoxManager : MonoBehaviour
 
         Debug.Log("[Paradox] 녹화 종료");
 
-        ResetScene();
+        ResetPlayerPos();
+        ResetObjectPos();
         ReplayParadoxes();
     }
 
-    private void ResetScene()
+    private void ResetPlayerPos()
     {
-        B1_Pos.position = B1_Start_Pos;
-        B2_Pos.position = B2_Start_Pos;
-
         player.transform.position = playerReturnPosition;
+    }
+
+    private void ResetObjectPos()
+    {
+        B1_Pos.position = B1_Start_Pos; // 플랫폼 
+        B2_Pos.position = B2_Start_Pos;
     }
 
     private void ReplayParadoxes()
@@ -189,15 +205,17 @@ public class ParadoxManager : MonoBehaviour
             Destroy(ghost);
 
         ghostCounter--;
-        if (ghostCounter == 0) ResetObjectsAfterPlayback();
+        if (ghostCounter == 0) ResetAfterReplay();
     }
 
 
-    private void ResetObjectsAfterPlayback()
+    private void ResetAfterReplay()
     {
         isReplaying = false;
+        ResetObjectPos();
     }
 
+    // [ 패러독스 자르기 ]
     public void TrimOngoingReplays(float timePassed)
     {
         var trimmedQueue = new Queue<List<PlayerMovementRecord>>();
