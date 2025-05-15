@@ -2,10 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Button_KangJin : MonoBehaviour
+public class Button_KangJin : TrueFalse
 {
     // Start is called before the first frame update
-    public bool ButtonOn = false;
     void Start()
     {
         
@@ -18,14 +17,14 @@ public class Button_KangJin : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(!ButtonOn)
+        if(!isTrue)
         { 
-            ButtonOn = true;
+            isTrue = true;
             Debug.Log("Button On!");
         }
         else
         {
-            ButtonOn = false;
+            isTrue = false;
             Debug.Log("Button Off!");
         }
     }

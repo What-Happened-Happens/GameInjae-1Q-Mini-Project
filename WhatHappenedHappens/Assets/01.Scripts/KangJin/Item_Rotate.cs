@@ -15,8 +15,6 @@ public class Item_Rotate : MonoBehaviour
     Vector3 directionVector;
     void Start()
     {
-        /*rotateSpeed = 10;
-        rotateTime = 1f;*/
         elapsedTime = 0;
         cameraPos = Camera.main.ViewportToWorldPoint(new Vector3(0.1f, 0.9f));
     }

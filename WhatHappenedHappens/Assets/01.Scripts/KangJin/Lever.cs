@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Lever : MonoBehaviour
+public class Lever : TrueFalse
 {
     public bool leverOn = false;
     SpriteRenderer sr;
@@ -16,7 +16,7 @@ public class Lever : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(leverOn)
+        if(isTrue)
         {
             sr.color = Color.green;
         }
@@ -26,7 +26,6 @@ public class Lever : MonoBehaviour
         }
     }
     private void OnCollisionStay2D(Collision2D collision)
-    /*private void OnCollisionEnter2D(Collision2D collision)*/
     {
         GameObject player = GameObject.FindWithTag("Player");
         if (collision.gameObject == player)
@@ -35,40 +34,19 @@ public class Lever : MonoBehaviour
         }
         if (sr.bounds.max.x <= player.GetComponent<SpriteRenderer>().bounds.min.x) // 오른쪽에 있을때,
         {
-            if (leverOn)
+            if (isTrue)
             {
-                leverOn = false;
+                isTrue = false;
                 Debug.Log("Lever Disabled");
             }
         }
         else if (sr.bounds.min.x >= player.GetComponent<SpriteRenderer>().bounds.max.x) // 왼쪽에 있을때,
         {
-            if (!leverOn)
+            if (!isTrue)
             {
-                leverOn = true;
+                isTrue = true;
                 Debug.Log("Lever Abled");
             }
         }
     }
-    /*private void OnTriggerStay2D(Collider2D collision)*/
-    /*private void OnTriggerEnter2D(Collider2D collision)
-    {
-        GameObject player = GameObject.FindWithTag("Player");
-        if (sr.bounds.max.x <= player.GetComponent<SpriteRenderer>().bounds.min.x) // 오른쪽에 있을때,
-        {
-            if (leverOn)
-            {
-                leverOn = false;
-                Debug.Log("Lever Disabled");
-            }
-        }
-        else if (sr.bounds.min.x >= player.GetComponent<SpriteRenderer>().bounds.max.x) // 왼쪽에 있을때,
-        {
-            if (!leverOn)
-            {
-                leverOn = true;
-                Debug.Log("Lever Abled");
-            }
-        }
-    }*/
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ReverseGravity : MonoBehaviour
@@ -9,21 +10,27 @@ public class ReverseGravity : MonoBehaviour
         Normal, Reversed, Weakened, Reinforced
     }
     // Start is called before the first frame update
-    public GameObject lever;
+    // 현재 중력장치 관련
+    public GameObject operatingObject;
     GravityState currState;
+    GravityState nextState;
     Color currentcolor;
     float gravityScale;
+    float originalGravityScale;
 
+    // 작동하는 중력 장치 관련
     public Color poweredColor; // 켰을때 적용 
     public Color unpoweredColor; // 껐을때 적용
+
     public GravityState poweredState;
     public GravityState unpoweredState;
+
     public float reversedGravityScale;
     public float weakenedGravityScale;
     public float reinforcedGravityScale;
     public float normalGravityScale;
 
-    Lever levercomponent;
+    TrueFalse levercomponent;
     bool powerOn = false; // 켰나?
     public bool useGravity = false; // 껐는데 작동 하나?
     void Start()
@@ -33,8 +40,9 @@ public class ReverseGravity : MonoBehaviour
         weakenedGravityScale = 0.5f;
         reinforcedGravityScale = 2;
         currState = GravityState.Normal;
+        nextState = currState;
         gravityScale = normalGravityScale;
-        levercomponent = lever.GetComponent<Lever>();
+        levercomponent = operatingObject.GetComponent<TrueFalse>();
     }
 
     // Update is called once per frame
@@ -47,7 +55,7 @@ public class ReverseGravity : MonoBehaviour
 
     void CheckPower()
     {
-        powerOn = levercomponent.leverOn;
+        powerOn = levercomponent.IsTrue;
         if (powerOn)
         {
             currentcolor = poweredColor;
@@ -87,12 +95,21 @@ public class ReverseGravity : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        originalGravityScale = collision.gameObject.GetComponent<Rigidbody2D>().gravityScale;
         collision.gameObject.GetComponent<Rigidbody2D>().gravityScale *= gravityScale;
         Debug.Log("Gravity Scale : " + collision.gameObject.GetComponent<Rigidbody2D>().gravityScale);
     }
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if(nextState != currState)
+        {
+            collision.gameObject.GetComponent<Rigidbody2D>().gravityScale *= gravityScale;
+        }
+        nextState = currState;
+    }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        collision.gameObject.GetComponent<Rigidbody2D>().gravityScale /= gravityScale;
+        collision.gameObject.GetComponent<Rigidbody2D>().gravityScale = originalGravityScale;
         Debug.Log("Gravity Scale : " + collision.gameObject.GetComponent<Rigidbody2D>().gravityScale);
     }
 }
