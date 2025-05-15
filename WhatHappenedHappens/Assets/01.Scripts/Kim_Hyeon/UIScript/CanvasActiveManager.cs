@@ -1,11 +1,11 @@
 using UnityEngine;
 
-public class UIActiveManager : MonoBehaviour
+public class CanvasActiveManager : MonoBehaviour
 {
     // 추후, 모든 주석은 영어로 변경 
     [SerializeField] GameObject UIObjectPrefab;  // 생성 관리할 UI Prefab
     private RectTransform _cardKeyRect;
-    public bool IsUIActived { get; set; } = false;
+    public bool IsCanvasActived { get; set; } = false;
 
     void Start()
     {

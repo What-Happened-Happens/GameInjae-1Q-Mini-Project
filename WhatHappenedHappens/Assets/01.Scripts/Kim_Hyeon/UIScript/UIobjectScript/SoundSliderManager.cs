@@ -1,31 +1,32 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
+using UnityEngine.EventSystems;
 
-public class SoundSliderManager : MonoBehaviour
+public class SoundSliderManager : MonoBehaviour, IPointerDownHandler
 {
-    [SerializeField] private Slider slider;      
-    [SerializeField] private TMP_Text valueText; 
+    public TMP_Text soundvalueText; 
+    private Slider slider;
 
-    void Start()
+    private void Start()
     {
-        UpdateText(slider.value);
-
-        // 값이 바뀔 때마다 UpdateText 호출
-        slider.onValueChanged.AddListener(UpdateText);
+        slider = GetComponent<Slider>();
+        slider.minValue = 0; 
+        slider.maxValue = 100; 
+        slider.onValueChanged.AddListener(delegate { onValueChanged(); });
     }
 
-    // Update is called once per frame
-    private void UpdateText(float value)
+    public void onValueChanged()
     {
-        if (slider == null) return; 
-
-        Debug.Assert(slider == null, $"Slider 객체가 비어있습니다. {slider}"); 
-        valueText.text = value.ToString("0.##");
+        Debug.Log($"사운드 텍스트 값 변경 {slider.value}");
+        int soundvalue = (int)slider.value; 
+        soundvalueText.text = soundvalue.ToString(); 
     }
-    private void OnSliderDestroy()
+
+    public void OnPointerDown(PointerEventData eventData)
     {
-        Debug.Log($"Slider 값 해제");
-        slider.onValueChanged.RemoveListener(UpdateText);
+        ((IPointerDownHandler)slider).OnPointerDown(eventData);
+        slider = eventData.selectedObject.GetComponent<Slider>(); 
+        onValueChanged(); 
     }
 }
