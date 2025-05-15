@@ -244,6 +244,7 @@ GameObject:
   - component: {fileID: 307053758}
   - component: {fileID: 307053757}
   - component: {fileID: 307053756}
+  - component: {fileID: 307053759}
   m_Layer: 0
   m_Name: GameOption_Btn
   m_TagString: Untagged
@@ -314,7 +315,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 307053757}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 307053759}
+        m_TargetAssemblyTypeName: ButtonClickEvent, Assembly-CSharp
+        m_MethodName: OnButtonClicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &307053757
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -353,6 +366,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 307053754}
   m_CullTransparentMesh: 1
+--- !u!114 &307053759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 307053754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc0b5d1c0ec2aa44496ffe1409186cb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &376580125
 GameObject:
   m_ObjectHideFlags: 0
@@ -485,6 +510,7 @@ GameObject:
   - component: {fileID: 454241751}
   - component: {fileID: 454241750}
   - component: {fileID: 454241749}
+  - component: {fileID: 454241752}
   m_Layer: 0
   m_Name: GameStart_Btn
   m_TagString: Untagged
@@ -556,9 +582,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11500000, guid: dc0b5d1c0ec2aa44496ffe1409186cb4, type: 3}
-        m_TargetAssemblyTypeName: UnityEngine.Object, UnityEngine
-        m_MethodName: 
+      - m_Target: {fileID: 454241752}
+        m_TargetAssemblyTypeName: ButtonClickEvent, Assembly-CSharp
+        m_MethodName: OnButtonClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -567,7 +593,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 0
+        m_CallState: 2
 --- !u!114 &454241750
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -606,6 +632,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 454241747}
   m_CullTransparentMesh: 1
+--- !u!114 &454241752
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 454241747}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc0b5d1c0ec2aa44496ffe1409186cb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &669265120
 GameObject:
   m_ObjectHideFlags: 0
@@ -618,6 +656,7 @@ GameObject:
   - component: {fileID: 669265124}
   - component: {fileID: 669265123}
   - component: {fileID: 669265122}
+  - component: {fileID: 669265125}
   m_Layer: 0
   m_Name: GameCredit _Btn
   m_TagString: Untagged
@@ -688,7 +727,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 669265123}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 669265125}
+        m_TargetAssemblyTypeName: ButtonClickEvent, Assembly-CSharp
+        m_MethodName: OnButtonClicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &669265123
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -727,6 +778,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 669265120}
   m_CullTransparentMesh: 1
+--- !u!114 &669265125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 669265120}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc0b5d1c0ec2aa44496ffe1409186cb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &670411357
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -858,27 +921,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6318099454242823666, guid: 322f776c33c7b924ba91857f21210d4d, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0.117000006
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6318099454242823666, guid: 322f776c33c7b924ba91857f21210d4d, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0.9648204
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6318099454242823666, guid: 322f776c33c7b924ba91857f21210d4d, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0.08317439
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6318099454242823666, guid: 322f776c33c7b924ba91857f21210d4d, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0.8274102
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6318099454242823666, guid: 322f776c33c7b924ba91857f21210d4d, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 17.1536
+      value: 90.153625
       objectReference: {fileID: 0}
     - target: {fileID: 6318099454242823666, guid: 322f776c33c7b924ba91857f21210d4d, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 2.0034008
+      value: 97.0034
       objectReference: {fileID: 0}
     - target: {fileID: 6318099454242823666, guid: 322f776c33c7b924ba91857f21210d4d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -910,11 +973,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6318099454242823666, guid: 322f776c33c7b924ba91857f21210d4d, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -0.34985352
+      value: -867.84985
       objectReference: {fileID: 0}
     - target: {fileID: 6318099454242823666, guid: 322f776c33c7b924ba91857f21210d4d, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -1.3807068
+      value: 273.1193
       objectReference: {fileID: 0}
     - target: {fileID: 6318099454242823666, guid: 322f776c33c7b924ba91857f21210d4d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1991,27 +2054,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6318099454242823666, guid: 322f776c33c7b924ba91857f21210d4d, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0.117000006
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6318099454242823666, guid: 322f776c33c7b924ba91857f21210d4d, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0.9648204
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6318099454242823666, guid: 322f776c33c7b924ba91857f21210d4d, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0.08317439
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6318099454242823666, guid: 322f776c33c7b924ba91857f21210d4d, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0.8485899
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6318099454242823666, guid: 322f776c33c7b924ba91857f21210d4d, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 18.6507
+      value: 92.650696
       objectReference: {fileID: 0}
     - target: {fileID: 6318099454242823666, guid: 322f776c33c7b924ba91857f21210d4d, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 18.501
+      value: 99.50101
       objectReference: {fileID: 0}
     - target: {fileID: 6318099454242823666, guid: 322f776c33c7b924ba91857f21210d4d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2043,11 +2106,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6318099454242823666, guid: 322f776c33c7b924ba91857f21210d4d, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0.39868164
+      value: -867.6013
       objectReference: {fileID: 0}
     - target: {fileID: 6318099454242823666, guid: 322f776c33c7b924ba91857f21210d4d, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -9.629517
+      value: 271.87048
       objectReference: {fileID: 0}
     - target: {fileID: 6318099454242823666, guid: 322f776c33c7b924ba91857f21210d4d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
