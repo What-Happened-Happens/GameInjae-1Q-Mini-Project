@@ -12,12 +12,16 @@ public class ParadoxManager : MonoBehaviour
     public GameObject player;
     public GameObject ghostPlayerPrefab;
 
+    [Header("UI Effect")]
+    public GameObject RecordEffect; // 기록 중일 때, 배경 색상 필터
+
     private Vector3 playerReturnPosition;
 
     private bool isRecording = false;
     private bool isReplaying = false;
     private int maxParadox = 3;
 
+    [Header("ParadoxTime")]
     public float recordingStartTime = 0f;
     public float replayStartTime = 0f;
     private float lastRecordTime = 0f;
@@ -74,6 +78,8 @@ public class ParadoxManager : MonoBehaviour
 
     public void StartRecording()
     {
+        if(!RecordEffect.activeSelf) RecordEffect.SetActive(true); 
+
         if (isReplaying && objectQueue.Count > 0)
         {
             float timePassed = Time.time - replayStartTime;
@@ -103,12 +109,12 @@ public class ParadoxManager : MonoBehaviour
     {
         B1_Start_Pos = B1_Pos.position; // 플랫폼 
         B2_Start_Pos = B2_Pos.position; 
-
     }
 
     public void StopRecording()
     {
         isRecording = false;
+        if (RecordEffect.activeSelf) RecordEffect.SetActive(false);
 
         if (objectQueue.Count >= maxParadox)
             objectQueue.Dequeue();
