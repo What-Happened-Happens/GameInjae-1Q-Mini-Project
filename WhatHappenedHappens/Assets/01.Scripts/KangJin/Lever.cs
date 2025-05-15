@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class Lever : TrueFalse
 {
-    public bool leverOn = false;
     SpriteRenderer sr;
     // Start is called before the first frame update
     void Start()
@@ -28,10 +27,6 @@ public class Lever : TrueFalse
     private void OnCollisionStay2D(Collision2D collision)
     {
         GameObject player = GameObject.FindWithTag("Player");
-        if (collision.gameObject == player)
-        {
-            Debug.Log("Collided With" + collision.gameObject.name + "!");
-        }
         if (sr.bounds.max.x <= player.GetComponent<SpriteRenderer>().bounds.min.x) // 오른쪽에 있을때,
         {
             if (isTrue)

@@ -18,18 +18,6 @@ public class CircuitBreaker : TrueFalse
     // Update is called once per frame
     void Update()
     {
-        if(isColliding)
-        {
-            if (!isTrue)
-            {
-                if (Input.GetKey(KeyCode.B))
-                {
-                    Debug.Log("CircuitBreaker on!");
-                    isTrue = true;
-                    elapsedTime = 0f;
-                }
-            }
-        }
         if (isTrue)
         {
             elapsedTime += Time.deltaTime;
@@ -37,6 +25,15 @@ public class CircuitBreaker : TrueFalse
             {
                 Debug.Log("CircuitBreaker off!");
                 isTrue = false;
+                elapsedTime = 0f;
+            }
+        }
+        else
+        {
+            if (isColliding && Input.GetKey(KeyCode.B))
+            {
+                Debug.Log("CircuitBreaker on!");
+                isTrue = true;
                 elapsedTime = 0f;
             }
         }
