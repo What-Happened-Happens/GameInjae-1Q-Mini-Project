@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Lever : MonoBehaviour
 {
-    bool leverOn = false;
+    public bool leverOn = false;
     SpriteRenderer sr;
     // Start is called before the first frame update
     void Start()
@@ -25,30 +25,50 @@ public class Lever : MonoBehaviour
             sr.color = Color.red;
         }
     }
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionStay2D(Collision2D collision)
+    /*private void OnCollisionEnter2D(Collision2D collision)*/
     {
         GameObject player = GameObject.FindWithTag("Player");
-        /*if (collision.gameObject == player)
+        if (collision.gameObject == player)
         {
             Debug.Log("Collided With" + collision.gameObject.name + "!");
-        }   */ 
-        if(sr.bounds.max.x <= player.GetComponent<SpriteRenderer>().bounds.min.x) // 오른쪽에 있을때,
+        }
+        if (sr.bounds.max.x <= player.GetComponent<SpriteRenderer>().bounds.min.x) // 오른쪽에 있을때,
         {
-            Debug.Log("Collided With" + collision.gameObject.name + "!");
-
             if (leverOn)
             {
                 leverOn = false;
+                Debug.Log("Lever Disabled");
             }
         }
         else if (sr.bounds.min.x >= player.GetComponent<SpriteRenderer>().bounds.max.x) // 왼쪽에 있을때,
         {
-            Debug.Log("Collided With" + collision.gameObject.name + "!");
-
             if (!leverOn)
             {
                 leverOn = true;
+                Debug.Log("Lever Abled");
             }
         }
     }
+    /*private void OnTriggerStay2D(Collider2D collision)*/
+    /*private void OnTriggerEnter2D(Collider2D collision)
+    {
+        GameObject player = GameObject.FindWithTag("Player");
+        if (sr.bounds.max.x <= player.GetComponent<SpriteRenderer>().bounds.min.x) // 오른쪽에 있을때,
+        {
+            if (leverOn)
+            {
+                leverOn = false;
+                Debug.Log("Lever Disabled");
+            }
+        }
+        else if (sr.bounds.min.x >= player.GetComponent<SpriteRenderer>().bounds.max.x) // 왼쪽에 있을때,
+        {
+            if (!leverOn)
+            {
+                leverOn = true;
+                Debug.Log("Lever Abled");
+            }
+        }
+    }*/
 }
