@@ -4,6 +4,8 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 
+
+
 // [ 패러독스 시스템의 핵심 관리 ]
 public class ParadoxManager : MonoBehaviour
 {
@@ -41,8 +43,8 @@ public class ParadoxManager : MonoBehaviour
     private Queue<List<PlayerMovementRecord>> objectQueue = new Queue<List<PlayerMovementRecord>>();
 
     [Header("PlayerAnimation")]
-    // 리스트
-    // 큐
+    private List<PlayerAnimationRecord> currentAnimationRecording = new List<PlayerAnimationRecord>();
+    private Queue<List<PlayerAnimationRecord>> animationQueue = new Queue<List<PlayerAnimationRecord>>();
 
 
     // [ 패러독스 관려 오브젝트 위치 ]
@@ -56,7 +58,9 @@ public class ParadoxManager : MonoBehaviour
     public Transform A_Pos;
     private Vector3 A_Start_Pos;
 
+
     // ---------------------------------------------------
+
 
     private void Awake()
     {
@@ -87,6 +91,15 @@ public class ParadoxManager : MonoBehaviour
                     obj.RecordPosition(elapsed);
                 }
 
+                // 플레이어 애니메이션 상태 기록
+                /*
+                Animator animator = player.GetComponentInChildren<Animator>();
+                if (animator != null)
+                {
+                    string currentState = GetCurrentAnimatorState(animator);
+                    currentAnimationRecording.Add(new PlayerAnimationRecord(elapsed, currentState));
+                }
+                */
                 lastRecordTime = elapsed;
             }
 
@@ -97,7 +110,20 @@ public class ParadoxManager : MonoBehaviour
         }
     }
 
-
+    /*
+    private string GetCurrentAnimatorState(Animator animator)
+    {
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+            return "Idle";
+        else if (animator.GetCurrentAnimatorStateInfo(0).IsName("Walk"))
+            return "Walk";
+        else if (animator.GetCurrentAnimatorStateInfo(0).IsName("Jump"))
+            return "Jump";
+        else if (animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
+            return "Attack";
+        return "Unknown";
+    }
+    */
     // -------------------------------------------------------------------------------
 
 

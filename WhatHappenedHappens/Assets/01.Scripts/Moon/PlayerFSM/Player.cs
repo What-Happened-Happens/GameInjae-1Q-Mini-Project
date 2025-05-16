@@ -6,11 +6,11 @@ public class Player : MonoBehaviour
 {
     // State
     private IState_Player currentState;
-    public enum PlayerState { Idle, Walking, Jumping, Hurt }
-
+    public enum PlayerState { Idle, Walking /*, Jumping, Hurt */ }
 
     [Header("Components")]
     private Rigidbody2D rb;
+    private Animator animator;
 
     [Header("Movement")]
     private float moveX = 0f;
@@ -32,6 +32,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
 
         // 기본 : Idle 상태 
         ChangeState(new IdleState_Player(this));
@@ -80,11 +81,12 @@ public class Player : MonoBehaviour
     }
 
     // [ 상태에 따라 애니메이션 파라미터 설정 ]
+    // PlayerState : Idle, Walking, Jumping, Hurt 문자열이 같아야 함 
     public void SetActiveState(PlayerState activeParam)
     {
         foreach (var param in System.Enum.GetValues(typeof(PlayerState)))
         {
-            // animator.SetBool(param.ToString(), param.Equals(activeParam));
+            animator.SetBool(param.ToString(), param.Equals(activeParam));
         }
     }
 
