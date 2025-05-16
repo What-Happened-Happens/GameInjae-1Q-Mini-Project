@@ -33,12 +33,11 @@ public class GhostUI : UIHelper
         RefreshGhostUI(count);
     }
 
-    // 고스트 UI 를 보여준다. 
+    // 고스트 UI Color Change 
     private void RefreshGhostUI(int ghostCount)
     {
         if (ghosts == null || ghosts.Count == 0) return;
         Debug.LogWarning($"UI 이미지가 비어있습니다.");
-
 
         // 생성된 고스트의 개수만큼 리스트 안에 있는 고스트 이미지의 색을 white로 변경 
         for (int i = 0; i < ghosts.Count; i++)
