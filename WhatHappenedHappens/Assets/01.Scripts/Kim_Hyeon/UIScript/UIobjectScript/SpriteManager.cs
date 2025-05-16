@@ -31,7 +31,7 @@ public class SpriteManager : UIHelper
     }
     private void Update()
     {
-        int count = _paradoxManager.ghostCounter;
+        int count = 3;
         RefreshGhostUI(count);
     }
 
@@ -40,14 +40,22 @@ public class SpriteManager : UIHelper
     {
         Debug.Log($"개수 변환에 따라서 색깔 변경 ");
         // 생성된 고스트의 개수만큼 리스트 안에 있는 고스트 이미지의 색을 White로 변경 
-        for (int i = 0; i < ghostCount; i++)
+        for (int i = 0; i < ghosts.Count; i++)
         {
             if (ghosts[i] == null) continue;
 
             if (i < ghostCount)
+            {
+                Debug.Log($"색 변경 : white");
                 SetImageColor(ghosts[i], Color.white);
+            }
+                
             else
+            {
+                Debug.Log($"색 변경 : gray");
                 SetImageColor(ghosts[i], Color.gray);
+            }
+                
         }
 
     }
