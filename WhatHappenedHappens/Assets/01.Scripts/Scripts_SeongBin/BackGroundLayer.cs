@@ -43,7 +43,7 @@ public class BackGroundLayer : MonoBehaviour
                 // Z값에 따라 움직임 비율 설정 (멀수록 느리게 움직이도록)
                 this.parallaxScales[i] = backgrounds[i].position.z * -bGRelativePos;
             }
-            else if(this.backgrounds[i].position.z < 0)
+            else if(this.backgrounds[i].position.z < 0)  // 이거는 실험 필요!!
             {
                 this.parallaxScales[i] = backgrounds[i].position.z * -bGRelativePos * (-1f);
             }
