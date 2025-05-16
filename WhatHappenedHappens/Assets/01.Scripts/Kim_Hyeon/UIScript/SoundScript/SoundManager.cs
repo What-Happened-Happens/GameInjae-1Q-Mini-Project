@@ -2,6 +2,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+// 효과음 관리용 
+enum eSound
+{
+    click, 
+    shoot, 
+    hit 
+}
 public class SoundManager : MonoBehaviour
 {
     
@@ -42,6 +49,15 @@ public class SoundManager : MonoBehaviour
 
         audiosource.volume = soundSlider.value;
         Debug.Log($"Slider 값에 따라 오디오 볼륨 변경");
+    }
+
+    public void SetSoundClip(string clipName)
+    {
+         
+    }
+    public void ResetSoundClip()
+    {
+      
     }
 
 }
