@@ -13,7 +13,7 @@ public class WalkState_Player : IState_Player
 
     public void Enter()
     {
-        Debug.Log("Walk State");
+        // Debug.Log("Walk State");
         player.SetActiveState(Player.PlayerState.Walking);
     }
 

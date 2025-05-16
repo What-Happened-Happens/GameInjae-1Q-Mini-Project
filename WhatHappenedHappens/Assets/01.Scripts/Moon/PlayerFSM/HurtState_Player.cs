@@ -13,7 +13,7 @@ public class HurtState_Player : IState_Player
 
     public void Enter()
     {
-        Debug.Log("Hurt State");
+        // Debug.Log("Hurt State");
         // player.SetActiveState(Player.PlayerState.Hurt);
     }
 

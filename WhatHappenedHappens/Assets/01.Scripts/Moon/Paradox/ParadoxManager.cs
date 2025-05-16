@@ -45,6 +45,7 @@ public class ParadoxManager : MonoBehaviour
     [Header("PlayerAnimation")]
     private List<PlayerAnimationRecord> currentAnimationRecording = new List<PlayerAnimationRecord>();
     private Queue<List<PlayerAnimationRecord>> animationQueue = new Queue<List<PlayerAnimationRecord>>();
+   
 
 
     // [ 패러독스 관려 오브젝트 위치 ]
@@ -92,14 +93,13 @@ public class ParadoxManager : MonoBehaviour
                 }
 
                 // 플레이어 애니메이션 상태 기록
-                /*
                 Animator animator = player.GetComponentInChildren<Animator>();
                 if (animator != null)
                 {
                     string currentState = GetCurrentAnimatorState(animator);
                     currentAnimationRecording.Add(new PlayerAnimationRecord(elapsed, currentState));
                 }
-                */
+                
                 lastRecordTime = elapsed;
             }
 
@@ -110,20 +110,22 @@ public class ParadoxManager : MonoBehaviour
         }
     }
 
-    /*
+    
     private string GetCurrentAnimatorState(Animator animator)
     {
         if (animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
             return "Idle";
-        else if (animator.GetCurrentAnimatorStateInfo(0).IsName("Walk"))
-            return "Walk";
+        else if (animator.GetCurrentAnimatorStateInfo(0).IsName("Walking"))
+            return "Walking";
+        /*
         else if (animator.GetCurrentAnimatorStateInfo(0).IsName("Jump"))
             return "Jump";
         else if (animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
             return "Attack";
+        */
         return "Unknown";
     }
-    */
+    
     // -------------------------------------------------------------------------------
 
 
@@ -151,6 +153,7 @@ public class ParadoxManager : MonoBehaviour
         SaveObjectPos(); 
 
         currentPlayerRecording.Clear();
+        currentAnimationRecording.Clear();
 
         playerReturnPosition = player.transform.position;
     }
@@ -172,6 +175,12 @@ public class ParadoxManager : MonoBehaviour
             objectQueue.Dequeue();
 
         objectQueue.Enqueue(new List<PlayerMovementRecord>(currentPlayerRecording));
+
+        // 애니메이션 큐 기록 
+        if (animationQueue.Count >= maxParadox)
+            animationQueue.Dequeue();
+
+        animationQueue.Enqueue(new List<PlayerAnimationRecord>(currentAnimationRecording));
 
         Debug.Log("[Paradox] 녹화 종료");
 
@@ -204,8 +213,9 @@ public class ParadoxManager : MonoBehaviour
         var queueArray = objectQueue.ToArray();
         for (int i = 0; i < queueArray.Length; i++)
         {
-            var playerRecords = queueArray[i];      //여개;;;;;;;
-            
+            var playerRecords = queueArray[i];
+            var animationRecords = animationQueue.ToArray()[i];
+
             if (playerRecords == null || playerRecords.Count < 2)
             {
                 // Debug.LogWarning($"[Paradox] 고스트 {i} 데이터 부족");
@@ -222,17 +232,21 @@ public class ParadoxManager : MonoBehaviour
 
             ghostCounter++;
             
-            StartCoroutine(ReplayGhostMovement(ghost, playerRecords, ghostText));
+            StartCoroutine(ReplayGhostMovement(ghost, playerRecords, ghostText, animationRecords));
         }
     }
 
-    private IEnumerator ReplayGhostMovement(GameObject ghost, List<PlayerMovementRecord> data, TextMeshPro timerText)
+    // [ 코드 왕 더러워서 수정 필요함 ] 
+    private IEnumerator ReplayGhostMovement(GameObject ghost, List<PlayerMovementRecord> data, TextMeshPro timerText, List<PlayerAnimationRecord> animData)
     {
-        SpriteRenderer sr = ghost.GetComponentInChildren<SpriteRenderer>(); // 자식 포함
+        SpriteRenderer sr = ghost.GetComponentInChildren<SpriteRenderer>(); 
+        Animator animator = ghost.GetComponentInChildren<Animator>();
 
-        // 전체 고스트 재생 시간 계산
+        string lastPlayedAnimation = ""; 
+
         float totalDuration = data[data.Count - 1].time - data[0].time;
         float elapsedTotal = 0f;
+        int animIndex = 0;
 
         for (int i = 1; i < data.Count; i++)
         {
@@ -240,12 +254,8 @@ public class ParadoxManager : MonoBehaviour
             Vector3 start = data[i - 1].position;
             Vector3 end = data[i].position;
 
-            // 좌우 반전 
             if (sr != null)
-            {
-                if (end.x < start.x)        sr.flipX = true;
-                else if (end.x > start.x)   sr.flipX = false;
-            }
+                sr.flipX = end.x < start.x;
 
             float elapsed = 0f;
             while (elapsed < waitTime)
@@ -257,7 +267,22 @@ public class ParadoxManager : MonoBehaviour
                 elapsed += Time.deltaTime;
                 elapsedTotal += Time.deltaTime;
 
-                // 남은 시간 출력
+                // 애니메이션 상태 적용
+                if (animIndex < animData.Count && animData[animIndex].time <= elapsedTotal)
+                {
+                    if (animator != null)
+                    {
+                        string nextAnim = animData[animIndex].animationState;
+                        if (lastPlayedAnimation != nextAnim)
+                        {
+                            animator.Play(nextAnim);
+                            lastPlayedAnimation = nextAnim;
+                        }
+                    }
+                    animIndex++;
+                }
+
+                // 타이머 갱신
                 int remainingTime = (int)Mathf.Max(0f, totalDuration - elapsedTotal);
                 if (timerText != null)
                 {
