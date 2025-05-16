@@ -1,9 +1,8 @@
 using UnityEngine.UI;
 using UnityEngine;
-
 using Assets._01.Scripts.Kim_Hyeon.UIScript.SceneScript;
 
-public class GetItemUI : UIHelper
+public class CardKeyUIcontroller : UIHelper
 {
     [Header("ImagePrefab")]
     public Image _targetimagePrefab;
@@ -65,7 +64,7 @@ public class GetItemUI : UIHelper
             // gameObject -> WorldSpace 의 게임 오브젝트 위치에 UI 위치를 띄우기 위함.
             CardKeyShow(isStageSceneClear, worldObj);
             CardKeyScale(isStageSceneClear, 5, 5); // 게임 오브젝트 위치에 UI가 위치했을 때, 크기를 키운다. 
-           
+
             Vector3 imageScale = new Vector3(_targetimagePrefab.rectTransform.localScale.x, _targetimagePrefab.rectTransform.localScale.y, 0f);
             CardKeyScale(isStageSceneClear, imageScale.x, imageScale.y); // 게임 오브젝트 위치에 UI가 위치했을 때, 크기를 키운다. 
 
@@ -74,9 +73,6 @@ public class GetItemUI : UIHelper
         {
 
         }
-        else                          // 카드키를 먹지 않았고, 스테이지를 넘어가지도 않았을 때 
-        {
-
-        }
+        else return; 
     }
 }

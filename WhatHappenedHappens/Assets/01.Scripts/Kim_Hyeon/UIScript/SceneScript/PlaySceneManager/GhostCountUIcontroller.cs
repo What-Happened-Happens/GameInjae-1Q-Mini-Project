@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GhostUI : UIHelper
+public class GhostCountUIcontroller : UIHelper
 {
     // - ghostCounter 랑 recordingTimeRemaining 가져가서 UI 표시 해주시면 될 거 같아요!! 
     // [SerializeField] private GetItemUI _getItemUI;
@@ -38,7 +38,6 @@ public class GhostUI : UIHelper
     {
         if (ghosts == null || ghosts.Count == 0) return;
         Debug.LogWarning($"UI 이미지가 비어있습니다.");
-
 
         // 생성된 고스트의 개수만큼 리스트 안에 있는 고스트 이미지의 색을 white로 변경 
         for (int i = 0; i < ghosts.Count; i++)
