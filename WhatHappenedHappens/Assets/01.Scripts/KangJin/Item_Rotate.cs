@@ -6,49 +6,53 @@ using UnityEngine;
 
 public class Item_Rotate : MonoBehaviour
 {
-    // Start is called before the first frame update
-    public float rotateSpeed;
-    public float rotateTime;
-    bool isEntered = false;
-    float elapsedTime;
-    Vector3 cameraPos;
-    Vector3 directionVector;
+    [Header("Card Setting")]
+    public float rotateSpeed = 10;
+    public float rotateTime = 2;
+    private bool isEntered = false;
+    private float elapsedTime = 0f;
+
+    private Vector3 targetPos;
+    private Vector3 directionVector;
+    private bool isMoving = false;
 
     void Start()
     {
-        elapsedTime = 0;
-        cameraPos = Camera.main.ViewportToWorldPoint(new Vector3(0.1f, 0.9f));
+        // 회전 후 이동할 목표 UI의 월드 위치
+        targetPos = Camera.main.ViewportToWorldPoint(new Vector3(0.1f, 0.9f, Camera.main.nearClipPlane));
+        targetPos.z = 0; // Z값 고정
     }
 
-    // Update is called once per frame
     void Update()
     {
-        /*transform.position = cameraPos;*/
-        if (isEntered)
-        {
-            elapsedTime += Time.deltaTime;
-            if (elapsedTime <= rotateTime)
-            {
-                transform.rotation *= Quaternion.Euler(0, rotateSpeed * (rotateTime - elapsedTime), 0);
-                Debug.Log("pitch");
-            }
-            else if (elapsedTime > rotateTime)
-            {
-                transform.rotation = Quaternion.Euler(0, 0, 0);
-                directionVector = (cameraPos - gameObject.transform.position).normalized;
-                Debug.Log("cameraPos : " + cameraPos);
-                Debug.Log("directionVector : " + directionVector);
-                /*Debug.Log("position : " + gameObject.transform.position);*/
-                gameObject.transform.position += new Vector3(directionVector.x * Time.deltaTime * 10, directionVector.y * Time.deltaTime * 10);
-                Debug.Log("position : " + gameObject.transform.position);
+        if (!isEntered) return;
 
-                if (elapsedTime > rotateTime * 2)
-                {
-                    if (directionVector.x<0.01f && directionVector.y <0.01f)
-                    {
-                        Destroy(gameObject);
-                    }
-                }
+        elapsedTime += Time.deltaTime;
+
+        if (elapsedTime <= rotateTime)
+        {
+            // 제자리 회전
+            transform.rotation *= Quaternion.Euler(0, rotateSpeed * Time.deltaTime * 100f, 0);
+        }
+        else
+        {
+            // 회전 멈추기
+            transform.rotation = Quaternion.identity;
+
+            // 이동 시작 (한 번만 방향 계산)
+            if (!isMoving)
+            {
+                directionVector = (targetPos - transform.position).normalized;
+                isMoving = true;
+            }
+
+            // 목표 방향으로 이동
+            transform.position += directionVector * Time.deltaTime * 10f;
+
+            // 거리 가까워지면 제거
+            if (Vector3.Distance(transform.position, targetPos) < 0.1f)
+            {
+                Destroy(gameObject);
             }
         }
     }
@@ -58,6 +62,15 @@ public class Item_Rotate : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             isEntered = true;
+
+            // 이 오브젝트에 붙은 모든 Collider2D를 비활성화
+            foreach (var col in GetComponents<Collider2D>())
+            {
+                col.enabled = false;
+            }
+
+            // 필요하다면 Rigidbody2D도 비활성화해서 물리 반응 제거 가능
+            GetComponent<Rigidbody2D>().simulated = false;
         }
     }
 }
