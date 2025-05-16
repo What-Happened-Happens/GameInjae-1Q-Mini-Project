@@ -1,19 +1,16 @@
 using UnityEngine.UI;
 using UnityEngine;
 
-public class GetItemUI : MonoBehaviour
+using Assets._01.Scripts.Kim_Hyeon.UIScript.SceneScript;
+
+public class GetItemUI : UIHelper
 {
     [Header("ImagePrefab")]
     public Image _targetimagePrefab;
-  
+
     public bool _isGetCardKey { get; set; }          // 카드키를 먹었을 때 받을 bool 타입 신호 
     public bool _isGamePlaying { get; set; } = true; // 게임 플레이 중. 임시로 테스트를 위해 true 로 지정. 
-
-    public void SetImageColor(Image targetImage, Color color) => targetImage.color = color;
-    public void SetImagePosition(Image targetImage, Vector3 position) => targetImage.transform.position = position;
-    public void SetImageSprite(Image targetImage, Sprite newSprite) => targetImage.sprite = newSprite;
-    public void SetImageScale(Image targetImage, Vector3 imageScale) => targetImage.rectTransform.localScale = imageScale;
-
+  
     private void Start()
     {
         _targetimagePrefab = GetComponent<Image>();
