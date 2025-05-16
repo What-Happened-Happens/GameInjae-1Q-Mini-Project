@@ -1,10 +1,12 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
 
-// [ ÆĞ·¯µ¶½º ½Ã½ºÅÛÀÇ ÇÙ½É °ü¸® ]
+
+
+// [ íŒ¨ëŸ¬ë…ìŠ¤ ì‹œìŠ¤í…œì˜ í•µì‹¬ ê´€ë¦¬ ]
 public class ParadoxManager : MonoBehaviour
 {
     public static ParadoxManager Instance;
@@ -14,7 +16,7 @@ public class ParadoxManager : MonoBehaviour
     public GameObject ghostPlayerPrefab;
 
     [Header("UI Effect")]
-    public GameObject RecordEffect; // ±â·Ï ÁßÀÏ ¶§, ¹è°æ »ö»ó ÇÊÅÍ
+    public GameObject RecordEffect; // ê¸°ë¡ ì¤‘ì¼ ë•Œ, ë°°ê²½ ìƒ‰ìƒ í•„í„°
 
     private Vector3 playerReturnPosition;
 
@@ -22,38 +24,50 @@ public class ParadoxManager : MonoBehaviour
     private bool isReplaying = false;
     private int maxParadox = 3;
 
-    // [ ¡Ú to. Çö¿µ´Ô ¡Ú ]
+    // [ â˜… to. í˜„ì˜ë‹˜ â˜… ]
 
-    // - ghostCounter ¶û recordingTimeRemaining °¡Á®°¡¼­ UI Ç¥½Ã ÇØÁÖ½Ã¸é µÉ °Å °°¾Æ¿ä!! 
-    // Debug.Log($"ÇöÀç È°¼ºÈ­ ÁßÀÎ °í½ºÆ® ¼ö: {ghostCounter}");
-    // Debug.Log($"[Paradox] ³ìÈ­ Áß... ³²Àº ½Ã°£: {recordingTimeRemaining:F2}s");
+    // - ghostCounter ë‘ recordingTimeRemaining ê°€ì ¸ê°€ì„œ UI í‘œì‹œ í•´ì£¼ì‹œë©´ ë  ê±° ê°™ì•„ìš”!! 
+    // Debug.Log($"í˜„ì¬ í™œì„±í™” ì¤‘ì¸ ê³ ìŠ¤íŠ¸ ìˆ˜: {ghostCounter}");
+    // Debug.Log($"[Paradox] ë…¹í™” ì¤‘... ë‚¨ì€ ì‹œê°„: {recordingTimeRemaining:F2}s");
 
     [Header("ParadoxTime")]
     public float recordingStartTime = 0f;
     public float replayStartTime = 0f;
     private float lastRecordTime = 0f;
-    public int ghostCounter = 0;                // ¡Ú °í½ºÆ® ¼ö Ä«¿îÆ® ¡Ú -> Çö¿µ´Ô 
-    public float recordingDuration = 5f;        // [ ³ìÈ­ ½Ã°£ ]
-    public float recordingTimeRemaining = 0f;    // ¡Ú ³ìÈ­ ³²Àº ½Ã°£ ¡Ú -> Çö¿µ´Ô 
+    public int ghostCounter = 0;                // â˜… ê³ ìŠ¤íŠ¸ ìˆ˜ ì¹´ìš´íŠ¸ â˜… -> í˜„ì˜ë‹˜ 
+    public float recordingDuration = 5f;        // [ ë…¹í™” ì‹œê°„ ]
+    public float recordingTimeRemaining = 0f;    // â˜… ë…¹í™” ë‚¨ì€ ì‹œê°„ â˜… -> í˜„ì˜ë‹˜ 
 
     [Header("PlayerMovement")]
     private List<PlayerMovementRecord> currentPlayerRecording = new List<PlayerMovementRecord>();
     private Queue<List<PlayerMovementRecord>> objectQueue = new Queue<List<PlayerMovementRecord>>();
 
-    // [ ¿ÀºêÁ§Æ® ÃÊ±â À§Ä¡ ]
+    [Header("PlayerAnimation")]
+    private List<PlayerAnimationRecord> currentAnimationRecording = new List<PlayerAnimationRecord>();
+    private Queue<List<PlayerAnimationRecord>> animationQueue = new Queue<List<PlayerAnimationRecord>>();
+   
+
+
+    // [ íŒ¨ëŸ¬ë…ìŠ¤ ê´€ë ¤ ì˜¤ë¸Œì íŠ¸ ìœ„ì¹˜ ]
+    // SaveObjectPos()ì—ì„œ ì €ì¥ëœ ìœ„ì¹˜ë¡œ ëŒì•„ê°
+    // ResetObjectPos()ì—ì„œ ì´ˆê¸°í™”
     [Header("Objects Position")]
     public Transform B1_Pos;
     private Vector3 B1_Start_Pos;
     public Transform B2_Pos;
     private Vector3 B2_Start_Pos;
+    public Transform A_Pos;
+    private Vector3 A_Start_Pos;
 
 
     // ---------------------------------------------------
 
+
     private void Awake()
     {
-        if (Instance == null) Instance = this;
-        else Destroy(gameObject);
+        // if (Instance == null) Instance = this;
+        // else Destroy(gameObject);
+
     }
 
     private void Update()
@@ -66,7 +80,7 @@ public class ParadoxManager : MonoBehaviour
         if (isRecording)
         {
             float elapsed = Time.time - recordingStartTime;
-            recordingTimeRemaining = Mathf.Max(0f, recordingDuration - elapsed); // ³²Àº ½Ã°£ °è»ê
+            recordingTimeRemaining = Mathf.Max(0f, recordingDuration - elapsed); // ë‚¨ì€ ì‹œê°„ ê³„ì‚°
            
 
             if (elapsed - lastRecordTime >= 0.1f)
@@ -78,6 +92,14 @@ public class ParadoxManager : MonoBehaviour
                     obj.RecordPosition(elapsed);
                 }
 
+                // í”Œë ˆì´ì–´ ì• ë‹ˆë©”ì´ì…˜ ìƒíƒœ ê¸°ë¡
+                Animator animator = player.GetComponentInChildren<Animator>();
+                if (animator != null)
+                {
+                    string currentState = GetCurrentAnimatorState(animator);
+                    currentAnimationRecording.Add(new PlayerAnimationRecord(elapsed, currentState));
+                }
+                
                 lastRecordTime = elapsed;
             }
 
@@ -88,7 +110,22 @@ public class ParadoxManager : MonoBehaviour
         }
     }
 
-
+    
+    private string GetCurrentAnimatorState(Animator animator)
+    {
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+            return "Idle";
+        else if (animator.GetCurrentAnimatorStateInfo(0).IsName("Walking"))
+            return "Walking";
+        /*
+        else if (animator.GetCurrentAnimatorStateInfo(0).IsName("Jump"))
+            return "Jump";
+        else if (animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
+            return "Attack";
+        */
+        return "Unknown";
+    }
+    
     // -------------------------------------------------------------------------------
 
 
@@ -99,16 +136,16 @@ public class ParadoxManager : MonoBehaviour
         if (isReplaying && objectQueue.Count > 0)
         {
             float timePassed = Time.time - replayStartTime;
-            Debug.Log($"[Paradox] ±âÁ¸ Àç»ı Áß´Ü ¹× {timePassed:F2}s ÁöÁ¡ºÎÅÍ Àß¶ó³¿");
+            Debug.Log($"[Paradox] ê¸°ì¡´ ì¬ìƒ ì¤‘ë‹¨ ë° {timePassed:F2}s ì§€ì ë¶€í„° ì˜ë¼ëƒ„");
             TrimOngoingReplays(timePassed);
         }
         else if (!isReplaying && objectQueue.Count > 0)
         {
             objectQueue.Clear();
-            Debug.Log("[Paradox] ±âÁ¸ ±â·Ï »èÁ¦");
+            Debug.Log("[Paradox] ê¸°ì¡´ ê¸°ë¡ ì‚­ì œ");
         }   
 
-        Debug.Log("[Paradox] ³ìÈ­ ½ÃÀÛ");
+        Debug.Log("[Paradox] ë…¹í™” ì‹œì‘");
         isRecording = true;
         recordingStartTime = Time.time;
         lastRecordTime = 0f;
@@ -116,15 +153,17 @@ public class ParadoxManager : MonoBehaviour
         SaveObjectPos(); 
 
         currentPlayerRecording.Clear();
+        currentAnimationRecording.Clear();
 
         playerReturnPosition = player.transform.position;
     }
 
-    // [ ÃÊ±â À§Ä¡ ÀúÀå ]
+    // [ ì´ˆê¸° ìœ„ì¹˜ ì €ì¥ ]
     public void SaveObjectPos()
     {
         B1_Start_Pos = B1_Pos.position; 
-        B2_Start_Pos = B2_Pos.position; 
+        B2_Start_Pos = B2_Pos.position;
+        A_Start_Pos = A_Pos.position; 
     }
 
     public void StopRecording()
@@ -137,7 +176,13 @@ public class ParadoxManager : MonoBehaviour
 
         objectQueue.Enqueue(new List<PlayerMovementRecord>(currentPlayerRecording));
 
-        Debug.Log("[Paradox] ³ìÈ­ Á¾·á");
+        // ì• ë‹ˆë©”ì´ì…˜ í ê¸°ë¡ 
+        if (animationQueue.Count >= maxParadox)
+            animationQueue.Dequeue();
+
+        animationQueue.Enqueue(new List<PlayerAnimationRecord>(currentAnimationRecording));
+
+        Debug.Log("[Paradox] ë…¹í™” ì¢…ë£Œ");
 
         ResetPlayerPos();
         ResetObjectPos();
@@ -151,8 +196,9 @@ public class ParadoxManager : MonoBehaviour
 
     private void ResetObjectPos()
     {
-        B1_Pos.position = B1_Start_Pos; // ÇÃ·§Æû 
+        B1_Pos.position = B1_Start_Pos; // í”Œë«í¼ 
         B2_Pos.position = B2_Start_Pos;
+        A_Pos.position = A_Start_Pos; 
     }
 
     private void ReplayParadoxes()
@@ -161,41 +207,46 @@ public class ParadoxManager : MonoBehaviour
         replayStartTime = Time.time;
 
 
-        // [ °í½ºÆ® °ü·Ã ]
+        // [ ê³ ìŠ¤íŠ¸ ê´€ë ¨ ]
         ghostCounter = 0;
 
         var queueArray = objectQueue.ToArray();
         for (int i = 0; i < queueArray.Length; i++)
         {
             var playerRecords = queueArray[i];
+            var animationRecords = animationQueue.ToArray()[i];
 
             if (playerRecords == null || playerRecords.Count < 2)
             {
-                // Debug.LogWarning($"[Paradox] °í½ºÆ® {i} µ¥ÀÌÅÍ ºÎÁ·");
+                // Debug.LogWarning($"[Paradox] ê³ ìŠ¤íŠ¸ {i} ë°ì´í„° ë¶€ì¡±");
                 continue;
             }
 
-            // °í½ºÆ® »ı¼º ¹× Àç»ı
+            // ê³ ìŠ¤íŠ¸ ìƒì„± ë° ì¬ìƒ
             GameObject ghost = Instantiate(ghostPlayerPrefab);
             ghost.name = "GhostPlayer_" + i;
             ghost.transform.position = playerRecords[0].position;
 
-            // TimerText Ã£¾Æ¼­ ³Ñ±â±â
+            // TimerText ì°¾ì•„ì„œ ë„˜ê¸°ê¸°
             TextMeshPro ghostText = ghost.transform.Find("TimerText")?.GetComponent<TextMeshPro>();
 
             ghostCounter++;
             
-            StartCoroutine(ReplayGhostMovement(ghost, playerRecords, ghostText));
+            StartCoroutine(ReplayGhostMovement(ghost, playerRecords, ghostText, animationRecords));
         }
     }
 
-    private IEnumerator ReplayGhostMovement(GameObject ghost, List<PlayerMovementRecord> data, TextMeshPro timerText)
+    // [ ì½”ë“œ ì™• ë”ëŸ¬ì›Œì„œ ìˆ˜ì • í•„ìš”í•¨ ] 
+    private IEnumerator ReplayGhostMovement(GameObject ghost, List<PlayerMovementRecord> data, TextMeshPro timerText, List<PlayerAnimationRecord> animData)
     {
-        SpriteRenderer sr = ghost.GetComponentInChildren<SpriteRenderer>(); // ÀÚ½Ä Æ÷ÇÔ
+        SpriteRenderer sr = ghost.GetComponentInChildren<SpriteRenderer>(); 
+        Animator animator = ghost.GetComponentInChildren<Animator>();
 
-        // ÀüÃ¼ °í½ºÆ® Àç»ı ½Ã°£ °è»ê
+        string lastPlayedAnimation = ""; 
+
         float totalDuration = data[data.Count - 1].time - data[0].time;
         float elapsedTotal = 0f;
+        int animIndex = 0;
 
         for (int i = 1; i < data.Count; i++)
         {
@@ -203,12 +254,8 @@ public class ParadoxManager : MonoBehaviour
             Vector3 start = data[i - 1].position;
             Vector3 end = data[i].position;
 
-            // ÁÂ¿ì ¹İÀü 
             if (sr != null)
-            {
-                if (end.x < start.x)        sr.flipX = true;
-                else if (end.x > start.x)   sr.flipX = false;
-            }
+                sr.flipX = end.x < start.x;
 
             float elapsed = 0f;
             while (elapsed < waitTime)
@@ -220,7 +267,22 @@ public class ParadoxManager : MonoBehaviour
                 elapsed += Time.deltaTime;
                 elapsedTotal += Time.deltaTime;
 
-                // ³²Àº ½Ã°£ Ãâ·Â
+                // ì• ë‹ˆë©”ì´ì…˜ ìƒíƒœ ì ìš©
+                if (animIndex < animData.Count && animData[animIndex].time <= elapsedTotal)
+                {
+                    if (animator != null)
+                    {
+                        string nextAnim = animData[animIndex].animationState;
+                        if (lastPlayedAnimation != nextAnim)
+                        {
+                            animator.Play(nextAnim);
+                            lastPlayedAnimation = nextAnim;
+                        }
+                    }
+                    animIndex++;
+                }
+
+                // íƒ€ì´ë¨¸ ê°±ì‹ 
                 int remainingTime = (int)Mathf.Max(0f, totalDuration - elapsedTotal);
                 if (timerText != null)
                 {
@@ -248,7 +310,7 @@ public class ParadoxManager : MonoBehaviour
         ResetObjectPos();
     }
 
-    // [ ÆĞ·¯µ¶½º ÀÚ¸£±â ]
+    // [ íŒ¨ëŸ¬ë…ìŠ¤ ìë¥´ê¸° ]
     public void TrimOngoingReplays(float timePassed)
     {
         var trimmedQueue = new Queue<List<PlayerMovementRecord>>();

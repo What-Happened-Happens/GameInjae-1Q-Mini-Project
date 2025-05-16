@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3085759818577511487}
   - component: {fileID: 1672694709063677960}
   - component: {fileID: 652436262261493195}
+  - component: {fileID: 1681803035320313836}
   m_Layer: 19
   m_Name: GhostPlayer
   m_TagString: Player
@@ -29,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
+  m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 192065517574561536}
@@ -76,7 +77,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 181b475525737854c8df7e5ac64273c7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 914ee79c8b16e3a4597bf66606c55ef7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0.39215687}
   m_FlipX: 0
   m_FlipY: 0
@@ -119,8 +120,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.15}
-  m_Size: {x: 0.99999994, y: 1.9999999}
+  m_Offset: {x: 0, y: 0}
+  m_Size: {x: 1.2, y: 2.5}
   m_Direction: 0
 --- !u!50 &652436262261493195
 Rigidbody2D:
@@ -149,6 +150,27 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!95 &1681803035320313836
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 207015000211300158}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 4bb8a4c0bfadb9f4ba1fa492f2c31833, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &3833196705969103289
 GameObject:
   m_ObjectHideFlags: 0
