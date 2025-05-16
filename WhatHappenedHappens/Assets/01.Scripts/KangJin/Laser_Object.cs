@@ -10,13 +10,16 @@ public class Laser_Object : MonoBehaviour
     Rigidbody2D rb;
     Ray2D ray2d;
     SpriteRenderer sr;
-
+    Vector3 startPos;
+    RaycastHit2D rayHit2D;
     void Start()
     {
         rb = gameObject.AddComponent<Rigidbody2D>();
         rb.bodyType = RigidbodyType2D.Static;
         sr = GetComponent<SpriteRenderer>();
+        sr.spriteSortPoint = SpriteSortPoint.Pivot;
         //레이캐스트 방향 정함
+        startPos = transform.position;
     }
 
     // Update is called once per frame
@@ -28,18 +31,10 @@ public class Laser_Object : MonoBehaviour
     private void FixedUpdate()
     {
         //레이캐스트 방향 정함
-        RaycastHit2D rayHit2D = Physics2D.Raycast(transform.position, Vector2.down*100);
-        Debug.DrawLine(transform.position, rayHit2D.point, Color.magenta);
+        rayHit2D = Physics2D.Raycast(startPos, Vector2.down*100);
+        Debug.DrawLine(startPos, rayHit2D.point, Color.magenta);
+        float posToPointY = startPos.y - rayHit2D.point.y;
+        float fixedPosY = startPos.y - (posToPointY/2);
         gameObject.transform.localScale = new Vector3(gameObject.transform.localScale.x, rayHit2D.distance, gameObject.transform.localScale.z);
-        float halfRay = rayHit2D.distance/2;
-        float rayMiddleYPos = gameObject.transform.position.y - halfRay;
-        
-        /*gameObject.transform.position = new Vector3(transform.position.x, raymiddle);*/
-
-        if (rayHit2D)
-        {
-            // 거리 설정
-            float distance = Mathf.Abs(rayHit2D.point.y-transform.position.y);
-        }
     }
 }
