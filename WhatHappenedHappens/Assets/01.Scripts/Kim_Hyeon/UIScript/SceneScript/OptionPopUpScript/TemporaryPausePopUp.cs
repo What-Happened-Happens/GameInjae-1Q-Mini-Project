@@ -11,15 +11,21 @@ public class TemporaryPausePopUp : MonoBehaviour
     private void Start()
     {
         _targetCanvas =  GetComponent<Canvas>(); 
-
-        Debug.Log($"테스트를 위해서 일시적으로 활성화 상태로 지정. TemporaryPausePopUp ");
+       
         gameObject.SetActive(true);
-        Debug.Log($"테스트를 위해서 일시적으로 활성화 상태로 지정. TemporaryPausePopUp : {isPopUpActived} ");
+        Debug.Log($"테스트를 위해서 일시적으로 활성화 상태로 지정. TemporaryPausePopUp ");
         isPopUpActived = true;
-        Debug.Log($"테스트를 위해서 일시적으로 비활성화 상태로 지정. TemporaryPausePopUp : {isEscPressed} ");
-        isEscPressed = false; 
+        Debug.Log($"테스트를 위해서 일시적으로 활성화 상태로 지정. TemporaryPausePopUp isPopUpActived : {isPopUpActived} ");
+        isEscPressed = false;
+        Debug.Log($"테스트를 위해서 일시적으로 활성화 상태로 지정. TemporaryPausePopUp isEscPressed : {isEscPressed} ");
+
+        
     }
-   
+    private void Update()
+    {
+        TemporaryPausePopUpControl(isEscPressed);
+    }
+
     // ESC 키 입력 상태에 따라서 팝업 창 Show 
     public void TemporaryPausePopUpControl (bool isEscPressed)
     {
@@ -36,6 +42,10 @@ public class TemporaryPausePopUp : MonoBehaviour
             Debug.Log($"ESC 키를 눌렀습니다! > {isEscPressed}");
             Debug.Log($"현재 팝업 상태  > {isPopUpActived}");
             _targetCanvas.gameObject.SetActive(false);
+        }
+        else
+        {
+            Debug.Log($"더 뭔가 있을 줄 아셨나요? 그렇다면 안타깝군요.");
         }
     
     }

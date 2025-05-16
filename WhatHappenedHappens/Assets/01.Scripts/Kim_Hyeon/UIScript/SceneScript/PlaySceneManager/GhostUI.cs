@@ -29,7 +29,7 @@ public class GhostUI : UIHelper
     }
     private void Update()
     {
-        int count = 3;
+        int count = 1;
         RefreshGhostUI(count);
     }
 
@@ -39,23 +39,21 @@ public class GhostUI : UIHelper
         if (ghosts == null || ghosts.Count == 0) return;
         Debug.LogWarning($"UI 이미지가 비어있습니다.");
 
+
         // 생성된 고스트의 개수만큼 리스트 안에 있는 고스트 이미지의 색을 white로 변경 
         for (int i = 0; i < ghosts.Count; i++)
         {
             if (ghosts[i] == null) continue;
 
             if (i < ghostCount)
-            {
-                Debug.Log($"색 변경 : white");
+            {              
                 SetImageColor(ghosts[i], Color.white);
             }
-
             else
             {
-                Debug.Log($"색 변경 : gray");
-                SetImageColor(ghosts[i], Color.gray);
+              SetImageColor(ghosts[i], Color.gray);
             }
-
+            Debug.Log($"색 변경 : {ghosts[i].color}");
         }
 
     }

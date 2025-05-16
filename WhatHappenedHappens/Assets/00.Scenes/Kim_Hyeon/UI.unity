@@ -1089,6 +1089,7 @@ GameObject:
   - component: {fileID: 1036070675}
   - component: {fileID: 1036070674}
   - component: {fileID: 1036070673}
+  - component: {fileID: 1036070677}
   - component: {fileID: 1036070676}
   - component: {fileID: 1036070672}
   m_Layer: 5
@@ -1198,6 +1199,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 816296001821bea459e5159c36b48d6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _targetCanvas: {fileID: 1036070674}
+--- !u!114 &1036070677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1036070671}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7804637d5ddf8ee41a3147354bd9ec35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _targetCamera: {fileID: 1627851240}
+  _uiCanvas: {fileID: 1036070674}
 --- !u!1 &1115433918
 GameObject:
   m_ObjectHideFlags: 0
