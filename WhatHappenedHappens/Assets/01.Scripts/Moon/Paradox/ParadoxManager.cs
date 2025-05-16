@@ -40,20 +40,23 @@ public class ParadoxManager : MonoBehaviour
     private List<PlayerMovementRecord> currentPlayerRecording = new List<PlayerMovementRecord>();
     private Queue<List<PlayerMovementRecord>> objectQueue = new Queue<List<PlayerMovementRecord>>();
 
-    // [ 오브젝트 초기 위치 ]
+    // [ 패러독스 관려 오브젝트 위치 ]
+    // SaveObjectPos()에서 저장된 위치로 돌아감
+    // ResetObjectPos()에서 초기화
     [Header("Objects Position")]
     public Transform B1_Pos;
     private Vector3 B1_Start_Pos;
     public Transform B2_Pos;
     private Vector3 B2_Start_Pos;
-
+    public Transform A_Pos;
+    private Vector3 A_Start_Pos;
 
     // ---------------------------------------------------
 
     private void Awake()
     {
-        if (Instance == null) Instance = this;
-        else Destroy(gameObject);
+        // if (Instance == null) Instance = this;
+        // else Destroy(gameObject);
     }
 
     private void Update()
@@ -124,7 +127,8 @@ public class ParadoxManager : MonoBehaviour
     public void SaveObjectPos()
     {
         B1_Start_Pos = B1_Pos.position; 
-        B2_Start_Pos = B2_Pos.position; 
+        B2_Start_Pos = B2_Pos.position;
+        A_Start_Pos = A_Pos.position; 
     }
 
     public void StopRecording()
@@ -153,6 +157,7 @@ public class ParadoxManager : MonoBehaviour
     {
         B1_Pos.position = B1_Start_Pos; // 플랫폼 
         B2_Pos.position = B2_Start_Pos;
+        A_Pos.position = A_Start_Pos; 
     }
 
     private void ReplayParadoxes()

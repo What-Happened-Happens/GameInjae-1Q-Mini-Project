@@ -13,6 +13,7 @@ public class Item_Rotate : MonoBehaviour
     float elapsedTime;
     Vector3 cameraPos;
     Vector3 directionVector;
+
     void Start()
     {
         elapsedTime = 0;
@@ -54,6 +55,9 @@ public class Item_Rotate : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        isEntered = true;
+        if (collision.CompareTag("Player"))
+        {
+            isEntered = true;
+        }
     }
 }

@@ -20,11 +20,11 @@ public class Player : MonoBehaviour
     [Header("Ground Check")]
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
-    private float groundCheckRadius = 0.1f;
     // private bool jumpPressed = false;
 
-    [Header("Wall Check")]
+    [Header("Collision Size")]
     [SerializeField] private Vector2 wallBoxSize = new Vector2(0.1f, 1.0f);
+    [SerializeField] private Vector2 groundBoxSize = new Vector2(0.5f, 0.07f);
 
 
     // -------------------------------------------------
@@ -79,6 +79,7 @@ public class Player : MonoBehaviour
         currentState.Enter();
     }
 
+    // [ 상태에 따라 애니메이션 파라미터 설정 ]
     public void SetActiveState(PlayerState activeParam)
     {
         foreach (var param in System.Enum.GetValues(typeof(PlayerState)))
@@ -126,7 +127,7 @@ public class Player : MonoBehaviour
     // [ 땅 감지 ]
     public bool IsGrounded()
     {
-        return Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+        return Physics2D.OverlapBox(groundCheck.position, groundBoxSize, 0f, groundLayer);
     }
 
     // [ physics2d 충돌 시각화 ]
@@ -134,7 +135,7 @@ public class Player : MonoBehaviour
     {
         // 바닥 체크 시각화
         Gizmos.color = IsGrounded() ? Color.green : Color.red;
-        Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
+        Gizmos.DrawWireCube(groundCheck.position, groundBoxSize);
 
         // 벽 체크 시각화
         Gizmos.color = IsTouchWall() ? Color.yellow : Color.blue;
