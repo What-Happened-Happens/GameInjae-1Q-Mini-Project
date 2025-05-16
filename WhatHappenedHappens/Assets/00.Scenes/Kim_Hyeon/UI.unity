@@ -2378,7 +2378,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1809096793}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3b79c49a9cdf544997e50c158f9404f, type: 3}
+  m_Script: {fileID: 11500000, guid: 210db2604e792054799f5add249d8038, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ghostTimerSprites:
@@ -2386,6 +2386,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 022027c8572e59e4380de3b6ef857699, type: 3}
   - {fileID: 21300000, guid: e68cce0acf5eba143a8fff7678facdee, type: 3}
   - {fileID: 21300000, guid: bba9d772b9472164483ed2e06011826a, type: 3}
+  - {fileID: 21300000, guid: f24dd614e8545f14a8a3f6c970e9451e, type: 3}
   timerImage: {fileID: 1809096795}
 --- !u!1 &1826935677
 GameObject:
