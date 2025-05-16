@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3085759818577511487}
   - component: {fileID: 1672694709063677960}
   - component: {fileID: 652436262261493195}
+  - component: {fileID: 1681803035320313836}
   m_Layer: 19
   m_Name: GhostPlayer
   m_TagString: Player
@@ -149,6 +150,27 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!95 &1681803035320313836
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 207015000211300158}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 4bb8a4c0bfadb9f4ba1fa492f2c31833, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &3833196705969103289
 GameObject:
   m_ObjectHideFlags: 0
