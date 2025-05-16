@@ -21,7 +21,7 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
     private float groundCheckRadius = 0.1f;
-    private bool jumpPressed = false;
+    // private bool jumpPressed = false;
 
     [Header("Wall Check")]
     [SerializeField] private Vector2 wallBoxSize = new Vector2(0.1f, 1.0f);
