@@ -2,8 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class player : MonoBehaviour
+public class Player : MonoBehaviour
 {
+    // State
+    private IState_Player currentState;
+    public enum PlayerState { Idle, Walking, Jumping, Hurt }
+
+
     [Header("Components")]
     private Rigidbody2D rb;
 
@@ -22,14 +27,71 @@ public class player : MonoBehaviour
     [SerializeField] private Vector2 wallBoxSize = new Vector2(0.1f, 1.0f);
 
 
+    // -------------------------------------------------
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+
+        // 기본 : Idle 상태 
+        ChangeState(new IdleState_Player(this));
     }
 
-    void Update()
+
+    void Update() // 키 입력 
     {
-        moveX = Input.GetAxisRaw("Horizontal");
+        currentState?.Update();
+
+        // 점프 입력 감지
+        // if (Input.GetKeyDown(KeyCode.UpArrow) && IsGrounded()) jumpPressed = true;
+    }
+
+
+    void FixedUpdate() // 물리 연산 
+    {
+        // [ 공중에서 벽 충돌 ]
+        if (IsTouchWall() && !IsGrounded()) 
+        { 
+            rb.velocity = new Vector2(0, rb.velocity.y); 
+        }  
+        else // [ 좌우 이동 ]
+        {
+            Walk();
+        } 
+
+        // [ 점프 처리 ]
+        /*
+        if (jumpPressed)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            jumpPressed = false;
+        }
+        */
+    }
+
+
+    // ----------------------[ FSM ]---------------------------
+
+    public void ChangeState(IState_Player newState)
+    {
+        currentState?.Exit();
+        currentState = newState;
+        currentState.Enter();
+    }
+
+    public void SetActiveState(PlayerState activeParam)
+    {
+        foreach (var param in System.Enum.GetValues(typeof(PlayerState)))
+        {
+            // animator.SetBool(param.ToString(), param.Equals(activeParam));
+        }
+    }
+
+    public void Walk()
+    {
+        moveX = Input.GetAxisRaw("Horizontal"); // -1.0 ~ 1.0
+
+        rb.velocity = new Vector2(moveX * moveSpeed, rb.velocity.y);
 
         // 좌우 반전
         if (moveX != 0)
@@ -38,37 +100,19 @@ public class player : MonoBehaviour
             scale.x = Mathf.Abs(scale.x) * Mathf.Sign(moveX);
             transform.localScale = scale;
         }
-
-        // 점프 입력 감지
-        if (Input.GetKeyDown(KeyCode.UpArrow) && IsGrounded())
-        {
-            jumpPressed = true;
-        }
     }
 
-    void FixedUpdate()
+    public void Jump()
     {
-        // [ 공중에서 벽 충돌 ]
-        if (IsTouchWall() && !IsGrounded()) 
-        { 
-            rb.velocity = new Vector2(0, rb.velocity.y); 
-        }   
-        else // [ 좌우 이동 ]
-        { 
-            rb.velocity = new Vector2(moveX * moveSpeed, rb.velocity.y); 
-        } 
-
-        // [ 점프 처리 ]
-        if (jumpPressed)
-        {
-            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-            jumpPressed = false;
-        }
-
+        rb.velocity = new Vector2(rb.velocity.x, jumpForce);
     }
+
+
+    // -----------------------[ 충돌 관련 ]-------------------------
+
 
     // [ 벽 (=옆에 붙은 땅) 감지 ]
-    bool IsTouchWall()
+    public bool IsTouchWall()
     {
         Vector2 position = transform.position;
         Vector2 leftBoxCenter = position + Vector2.left * (wallBoxSize.x + 0.18f);
@@ -80,7 +124,7 @@ public class player : MonoBehaviour
     }
 
     // [ 땅 감지 ]
-    bool IsGrounded()
+    public bool IsGrounded()
     {
         return Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
     }
@@ -103,4 +147,8 @@ public class player : MonoBehaviour
         Gizmos.DrawWireCube(rightBoxCenter, wallBoxSize);
     }
 
+
+    // ---------------------[ Getter ]---------------------
+    public Vector2 GetVelocity() { return rb.velocity; }
+    public Rigidbody2D GetRigidbody() { return rb; }
 }
