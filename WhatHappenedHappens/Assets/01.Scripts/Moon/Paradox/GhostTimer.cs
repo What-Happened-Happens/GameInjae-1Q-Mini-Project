@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class GhostTimer : MonoBehaviour
+public class ghosttimer : MonoBehaviour
 {
     public float TotalTime;
     public float ElapsedTime;
