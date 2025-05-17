@@ -6,7 +6,7 @@ public class Player : MonoBehaviour
 {
     // State
     private IState_Player currentState;
-    public enum PlayerState { Idle, Walking /*, Jumping, Hurt */ }
+    public enum PlayerState { Idle, Walking , Jumping, Hurt }
 
     [Header("Components")]
     private Rigidbody2D rb;
