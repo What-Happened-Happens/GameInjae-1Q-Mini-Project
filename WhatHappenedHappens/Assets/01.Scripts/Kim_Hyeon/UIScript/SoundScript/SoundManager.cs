@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 using System;
 using System.Threading.Tasks;
 
-public class SoundManager : MonoBehaviour, IPointerDownHandler
+public class SoundManager : MonoBehaviour //, IPointerDownHandler
 {
     public static SoundManager Instance;
 
@@ -17,9 +17,10 @@ public class SoundManager : MonoBehaviour, IPointerDownHandler
     private bool _isPlaying = false;    // 사운드 플레이 중인지 확인하기 위한 변수 
     private bool _isSave = false;       // 저장된 데이터가 있는 지 확인하기 위한 변수
 
-    private float _currentSliderValue;
-    private float _currentSourceValue;
-    private Task<float> _currentSourceValueTask; 
+    private float _currentSliderValue; // 현재 슬라이더 값 
+    private float _currentSourceVolume; // 현재 오디오 소스 볼륨 
+
+    private Task<float> _currentSourceVolumeTask; 
     private Task<float> _CurrentSoundValueTask;   // 슬라이더를 연결할 현재 사운드 값    
     private Task<float> _PrevSoundValueTask;      // 이전 사운드 값 
 
@@ -41,13 +42,13 @@ public class SoundManager : MonoBehaviour, IPointerDownHandler
             if (!_isSave)
             {
                 _currentSliderValue = AudioSlider.value;    // 현재 사운드 슬라이더 값 
-                _currentSourceValue = AudioSource.volume;   // 현재 사운드 값
+                _currentSourceVolume = AudioSource.volume;   // 현재 사운드 값
             }
             else
             {
                 Debug.Log($"저장되어 있는 데이터가 있습니다.");
                 _CurrentSoundValueTask = SoundValueLoad("save_CurrentSoundValue");
-                _currentSourceValueTask = SoundValueLoad("save_CurrentSourceValue");
+                _currentSourceVolumeTask = SoundValueLoad("save_CurrentSourceVolume");
                 _PrevSoundValueTask = null; 
             }
 
@@ -59,7 +60,7 @@ public class SoundManager : MonoBehaviour, IPointerDownHandler
             // Error 출력
         }
 
-        AudioSlider.onValueChanged.AddListener(delegate { onValueChanged(); });
+        //AudioSlider.onValueChanged.AddListener(delegate { onValueChanged(); });
     }
 
     public void OnClickeMuteButton() // 음소거 버튼을 눌렀을 때 
@@ -78,10 +79,16 @@ public class SoundManager : MonoBehaviour, IPointerDownHandler
         // 현재 슬라이더 값을 저장
         var SaveCurrentSound = SoundValueSave("save_CurrentSoundValue", _currentSliderValue);     
         // 현재 오디오 소스 값을 저장 
-        var SaveCurrentSoundSlider = SoundValueSave("save_CurrentSliderValue", _currentSourceValue);
+        var SaveCurrentSoundSlider = SoundValueSave("save_CurrentSliderValue", _currentSourceVolume);
 
-        _isPlaying = false;     // 논 플레이 
-        _currentSourceValue = 0f; 
+        _isPlaying = false;         // 플레이 할 수 없게 지정 
+        _currentSourceVolume = 0f;  //현재 오디오 소스 볼륨을 음소거.
+
+    }
+
+   
+    public void OnClearMuteButton()
+    {
 
     }
 
@@ -131,18 +138,18 @@ public class SoundManager : MonoBehaviour, IPointerDownHandler
         return soundState;
     }
 
-    public void onValueChanged()
-    {
-        Debug.Log($"사운드 텍스트 값 변경 {AudioSlider.value}");
-        int soundvalue = (int)AudioSlider.value;
-        soundvalueText.text = soundvalue.ToString();
-    }
+    //public void onValueChanged()
+    //{
+    //    Debug.Log($"사운드 텍스트 값 변경 {AudioSlider.value}");
+    //    int soundvalue = (int)AudioSlider.value;
+    //    soundvalueText.text = soundvalue.ToString();
+    //}
 
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        ((IPointerDownHandler)AudioSlider).OnPointerDown(eventData);
-        AudioSlider = eventData.selectedObject.GetComponent<Slider>();
-        onValueChanged();
-    }
+    //public void OnPointerDown(PointerEventData eventData)
+    //{
+    //    ((IPointerDownHandler)AudioSlider).OnPointerDown(eventData);
+    //    AudioSlider = eventData.selectedObject.GetComponent<Slider>();
+    //    onValueChanged();
+    //}
 
 }
