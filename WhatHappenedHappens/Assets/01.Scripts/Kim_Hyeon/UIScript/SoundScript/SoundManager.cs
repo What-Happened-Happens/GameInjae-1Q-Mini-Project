@@ -80,7 +80,7 @@ public class SoundManager : MonoBehaviour, IPointerDownHandler
         // 현재 오디오 소스 값을 저장 
         var SaveCurrentSoundSlider = SoundValueSave("save_CurrentSliderValue", _currentSourceValue);
 
-        _isPlaying = false;     
+        _isPlaying = false;     // 논 플레이 
         _currentSourceValue = 0f; 
 
     }
@@ -92,6 +92,7 @@ public class SoundManager : MonoBehaviour, IPointerDownHandler
             // saved_SoundValue 라는 Key 값으로 SaveData 를 저장 
             // 여기서 SaveData 는 음소거 버튼을 눌렀을 때,
             // 현재 음량을 뜻하는 슬라이더 값의 키값 
+
             PlayerPrefs.SetFloat(prefKey, SaveData);
             return SaveData;
         });
