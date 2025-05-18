@@ -2,34 +2,40 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ParadoxPositionManager
+public class ParadoxPositionManager : MonoBehaviour
 {
-    public Transform B1_Pos;
-    public Transform B2_Pos;
-    public Transform A_Pos;
+    [Header("Track Objects")]
+    public List<Transform> trackedObjects = new List<Transform>();
 
-    private Vector3 B1_Start_Pos;
-    private Vector3 B2_Start_Pos;
-    private Vector3 A_Start_Pos;
+    private List<Vector3> startPositions = new List<Vector3>();
     private Vector3 playerStartPos;
 
     public void Save()
     {
-        if (B1_Pos != null) B1_Start_Pos = B1_Pos.position;
-        if (B2_Pos != null) B2_Start_Pos = B2_Pos.position;
-        if (A_Pos != null) A_Start_Pos = A_Pos.position;
-    }
-
-    public void ResetPlayer(GameObject player)
-    {
-        playerStartPos = player.transform.position;
-        player.transform.position = playerStartPos;
+        startPositions.Clear();
+        foreach (var obj in trackedObjects)
+        {
+            if (obj != null)
+                startPositions.Add(obj.position);
+        }
     }
 
     public void ResetAll()
     {
-        if (B1_Pos != null) B1_Pos.position = B1_Start_Pos;
-        if (B2_Pos != null) B2_Pos.position = B2_Start_Pos;
-        if (A_Pos != null) A_Pos.position = A_Start_Pos;
+        for (int i = 0; i < trackedObjects.Count; i++)
+        {
+            if (trackedObjects[i] != null)
+                trackedObjects[i].position = startPositions[i];
+        }
+    }
+
+    public void SavePlayer(GameObject player)
+    {
+        playerStartPos = player.transform.position;
+    }
+
+    public void ResetPlayer(GameObject player)
+    {
+        player.transform.position = playerStartPos;
     }
 }

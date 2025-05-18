@@ -33,17 +33,22 @@ public class ParadoxGhostPlayer
                 elapsed += Time.deltaTime;
                 elapsedTotal += Time.deltaTime;
 
+                // 애니메이션 상태 적용
                 if (animIndex < animData.Count && animData[animIndex].time <= elapsedTotal)
                 {
-                    string nextAnim = animData[animIndex].animationState;
-                    if (lastPlayedAnim != nextAnim)
+                    if (animator != null)
                     {
-                        animator?.Play(nextAnim);
-                        lastPlayedAnim = nextAnim;
+                        string nextAnim = animData[animIndex].animationState;
+                        if (lastPlayedAnim != nextAnim)
+                        {
+                            animator.Play(nextAnim);
+                            lastPlayedAnim = nextAnim;
+                        }
                     }
                     animIndex++;
                 }
 
+                // 타이머 갱신 
                 if (timerText != null)
                     timerText.text = ((int)Mathf.Max(0, totalDuration - elapsedTotal)).ToString("D2");
 

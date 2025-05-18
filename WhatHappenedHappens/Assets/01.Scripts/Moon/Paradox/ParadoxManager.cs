@@ -32,7 +32,7 @@ public class ParadoxManager : MonoBehaviour
 
     private ParadoxRecorder recorder;
     private ParadoxGhostPlayer ghostPlayer;
-    private ParadoxPositionManager positionManager;
+    public ParadoxPositionManager positionManager;
 
     private void Awake()
     {
@@ -41,7 +41,7 @@ public class ParadoxManager : MonoBehaviour
 
         recorder = new ParadoxRecorder();
         ghostPlayer = new ParadoxGhostPlayer();
-        positionManager = new ParadoxPositionManager();
+        // positionManager = new ParadoxPositionManager();
     }
 
     private void Update()
@@ -80,7 +80,8 @@ public class ParadoxManager : MonoBehaviour
         isRecording = true;
         recordingStartTime = Time.time;
 
-        positionManager.Save();
+        positionManager.Save(); // 오브젝트 위치 저장
+        positionManager.SavePlayer(player); // 플레이어 위치 저장
         recorder.Start();
     }
 
