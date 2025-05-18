@@ -30,8 +30,10 @@ public class SpikeWheel : MonoBehaviour
         {
             foreach (Transform t in wayPoint.transform)
                 chilWayPoints.Add(t);
+            startPoint = chilWayPoints[0].position;
             endPoint = chilWayPoints[1].position;
         }
+        transform.position = startPoint;
     }
 
     void Update()
