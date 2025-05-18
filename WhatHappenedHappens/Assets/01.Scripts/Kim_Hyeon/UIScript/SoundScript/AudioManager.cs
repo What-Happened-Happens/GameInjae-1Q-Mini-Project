@@ -17,9 +17,6 @@ public class AudioManager : MonoBehaviour //, IPointerDownHandler
 
     private float _currentSliderValue; // 현재 슬라이더 값 
     private float _currentSourceVolume; // 현재 오디오 소스 볼륨 
-
-    private float _currentSourceVolumeTask;
-    private float _CurrentSoundValueTask;   // 슬라이더를 연결할 현재 사운드 값    
     private float _PrevSoundValueTask;      // 이전 사운드 값 
 
     private async void Start()
@@ -38,14 +35,14 @@ public class AudioManager : MonoBehaviour //, IPointerDownHandler
             {
                 // _currentSliderValue = AudioSlider.value;    // 현재 사운드 슬라이더 값 
                 // _currentSourceVolume = AudioSource.volume;   // 현재 사운드 값
-                _CurrentSoundValueTask = 0f; 
-                _currentSourceVolumeTask = 0f;
+                _currentSliderValue = 0f;
+                _currentSourceVolume = 0f;
             }
             else
             {
                 Debug.Log($"저장되어 있는 데이터가 있습니다.");
-                _CurrentSoundValueTask = PlayerPrefs.GetFloat("save_CurrentSoundValue");
-                _currentSourceVolumeTask = PlayerPrefs.GetFloat("save_CurrentSourceVolume");
+                _currentSliderValue = PlayerPrefs.GetFloat("save_CurrentSoundValue");
+                _currentSourceVolume = PlayerPrefs.GetFloat("save_CurrentSourceVolume");
                 _PrevSoundValueTask = 0f;
             }
 
@@ -85,9 +82,7 @@ public class AudioManager : MonoBehaviour //, IPointerDownHandler
         Debug.Assert(_isPlaying, $"플레이 중에 있습니다. _isPlaying : {_isPlaying}");
 
         // 현재 슬라이더 값을 저장
-        var SaveCurrentSound = SoundValueSave("save_CurrentSoundValue", _currentSliderValue);
-        //// 현재 오디오 소스 값을 저장 
-        var SaveCurrentSoundVolume = SoundValueSave("save_CurrentSliderValue", _currentSourceVolume);
+        var SaveCurrentSound = SoundValueSave("save_CurrentSoundValue", _currentSliderValue);      
 
         _isPlaying = false;         // 플레이 할 수 없게 지정 
         _currentSourceVolume = 0f;  // 현재 오디오 소스 볼륨을 음소거.
@@ -102,6 +97,9 @@ public class AudioManager : MonoBehaviour //, IPointerDownHandler
     {
         // 음소거 버튼이 눌린 상태에서, 만약 현제 슬라이더 값이 이전 슬라디어 값과 달라지게 된다면,
         if (_isPlaying) return;
+
+        var prevSoundvalue = OnClickeMuteButton();
+        if (_Current)
 
         // 다시 저장했던 현재 슬라이더 값을 불러와서 슬라이더 값에 할당함. 
         // 그리고 그 값에서부터 슬라이더 변경에 따라서 오디오 볼륨이 조절되어야 한다.
