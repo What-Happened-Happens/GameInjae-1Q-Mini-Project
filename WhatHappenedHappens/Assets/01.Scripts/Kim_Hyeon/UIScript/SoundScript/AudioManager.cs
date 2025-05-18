@@ -31,10 +31,10 @@ public class AudioManager : MonoBehaviour //, IPointerDownHandler
         _isSave = PlayerPrefs.HasKey("save_CurrentSoundValue");
 
         try
-        {     
+        {
             if (!_isSave)
             {
-                _currentSliderValue = AudioSlider.value; 
+                _currentSliderValue = AudioSlider.value;
                 _currentSourceVolume = AudioSource.volume;
             }
             else
@@ -55,7 +55,7 @@ public class AudioManager : MonoBehaviour //, IPointerDownHandler
         finally
         {
             // 오류가 발생하건 아니건 , 실행.
-           
+
             Debug.Log("프로그램 종료");
         }
         //AudioSlider.onValueChanged.AddListener(delegate { onValueChanged(); });
@@ -63,13 +63,9 @@ public class AudioManager : MonoBehaviour //, IPointerDownHandler
 
     private void Update()
     {
-       // soundvalueText.text = AudioSlider.ToString();
+        // soundvalueText.text = AudioSlider.ToString();
     }
 
-    public void OnMute()
-    {
-        OnClickeMuteButton();
-    }
     public void OnClickeMuteButton() // 음소거 버튼을 눌렀을 때 
     {
         // 음소거 버튼을 눌렀을 때, 
@@ -79,6 +75,7 @@ public class AudioManager : MonoBehaviour //, IPointerDownHandler
         // 현재 슬라이더 값을 이전 슬라이더값 변수로 저장
 
         Debug.Assert(_isPlaying, $"플레이 중에 있습니다. _isPlaying : {_isPlaying}");
+        Debug.Assert(AudioSource.volume == 0f, $"음향 현재 볼륨 : {AudioSource.volume}");
 
         // 현재 슬라이더 값을 저장
         SaveCurrentSoundTask = SoundValueSave("save_CurrentSoundValue", _currentSliderValue);
@@ -89,25 +86,25 @@ public class AudioManager : MonoBehaviour //, IPointerDownHandler
         // 현재 사운드 값을 초기화 
         //_CurrentSoundValueTask = null;
         var currentSound = SoundValueLoad("save_CurrentSoundValue"); // 현재 사운드 값을 이전 사운드 값으로 저장 
-        SavePrevSoundTask = currentSound;        
+        SavePrevSoundTask = currentSound;
     }
 
-    public void OnClearMuteSlider()
+    public void OnClearMuteButton()
     {
         // 만약 현재 슬라이더 값이 이전 슬라디어 값과 달라지게 된다면,
-        if (_isPlaying) return;
+        if (!_isPlaying && AudioSource.volume == 0f) return;
 
         if (SaveCurrentSoundTask == SavePrevSoundTask) return; // 현재 사운드 값이 이전 값과 다를 때 
 
         // 다시 저장했던 현재 슬라이더 값을 불러와서 슬라이더 값에 할당함. 
-        // 그리고 그 값에서부터 슬라이더 변경에 따라서 오디오 볼륨이 조절되어야 한다.
-        AudioSource.volume = AudioSlider.value;
+        // 그리고 그 값에서부터 슬라이더 변경에 따라서 오디오 볼륨이 조절되어야 한다.      
         AudioSlider.value = AudioSource.volume;
-
-
+        AudioSource.volume = AudioSlider.value;
+        _isPlaying = true;
+        soundvalueText.text = AudioSource.volume.ToString();
     }
 
- 
+
 
     public async Task<float> SoundValueSave(string prefKey, float SaveData) // 슬라이더 변경점에 따라서 그 당시의 값을 저장 
     {
@@ -134,7 +131,8 @@ public class AudioManager : MonoBehaviour //, IPointerDownHandler
             //    PlayerPrefs.GetFloat(prefKey, LoadData);
             //    return LoadData; // 키가 없을 때 반환할 기본 음량
             //});
-            await Task.Run(() => {
+            await Task.Run(() =>
+            {
                 PlayerPrefs.GetFloat(prefKey, LoadData);
                 return LoadData; // 키가 없을 때 반환할 기본 음량
             });
@@ -149,7 +147,7 @@ public class AudioManager : MonoBehaviour //, IPointerDownHandler
         {
 
         }
-        
+
         return PlayerPrefs.GetFloat(prefKey, LoadData);
     }
 
