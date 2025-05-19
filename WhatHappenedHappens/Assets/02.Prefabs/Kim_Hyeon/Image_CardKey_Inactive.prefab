@@ -88,4 +88,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9648630e1503c0b4aaf2310f9369c935, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _CardKeyImage: {fileID: 0}

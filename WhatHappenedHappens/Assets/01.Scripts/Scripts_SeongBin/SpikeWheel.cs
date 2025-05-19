@@ -6,6 +6,10 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+
+// 사용법 : 움직이지 않는 톱니를 생각하면 그냥 배치
+//          움직이는 톱니를 생각하면, WayPoint의 자식 오브젝트를 넣으면 , 그 자식오브젝트의  Position을 순서대로 따라가고
+//          끝까지 갔을 경우 돌아온다.
 public class SpikeWheel : MonoBehaviour
 {
     public GameObject wayPoint; // 부모 오브젝트의 경로를 받을 오브젝트
@@ -15,6 +19,7 @@ public class SpikeWheel : MonoBehaviour
     Vector3 endPoint;   //                  ''          마지막에 들어있는 포인트                 
     int curWayPoint;    // 현재 오브젝트가 갈려는 포인트의 인덱스
     float elapsedTime;  //  구간을 진행할
+    Transform initPos;
     float moveTime;     
     float moveDisPer;
     bool isReturning;  //end waypoint에서 돌아갈때 사용
@@ -26,6 +31,7 @@ public class SpikeWheel : MonoBehaviour
         elapsedTime = 0f;
         curWayPoint = 1;
         wheelTurnSpeed = 360f;
+        initPos = GetComponent<Transform>();
         if (wayPoint != null )
         {
             foreach (Transform t in wayPoint.transform)
@@ -33,14 +39,18 @@ public class SpikeWheel : MonoBehaviour
             startPoint = chilWayPoints[0].position;
             endPoint = chilWayPoints[1].position;
         }
-        transform.position = startPoint;
+        else
+        {
+            startPoint = initPos.position;
+        }
+            transform.position = startPoint;
     }
 
     void Update()
     {
-        SpinWheel();
-        SetNextTarget();
-        MoveWayPoint();
+        SpinWheel();     // 바퀴를 돌게하는 함수
+        SetNextTarget(); // 위치을 선택하는 함수 
+        MoveWayPoint();  // 톱니를 움직이게하는 함수
     }
     private void FixedUpdate()
     {
@@ -58,7 +68,7 @@ public class SpikeWheel : MonoBehaviour
     {
         if (wayPoint == null) { return; }
         elapsedTime += Time.deltaTime;
-        moveDisPer = Mathf.Clamp01(elapsedTime / moveTime);
+        moveDisPer = Mathf.Clamp01(Mathf.Cos(elapsedTime * 360 * Mathf.Deg2Rad));
         transform.position = Vector3.Lerp(startPoint, endPoint, moveDisPer);
     }
 
