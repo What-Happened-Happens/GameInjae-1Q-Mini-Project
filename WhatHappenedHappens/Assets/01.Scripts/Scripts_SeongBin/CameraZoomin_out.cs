@@ -45,7 +45,7 @@ public class PixelPerfectZoomCinemachine : MonoBehaviour
         ApplyZoomImmediate();
         QClickCount = 0;
         defaultScreenSize = Camera.main.orthographicSize * 2f / 5f;  // 기본 사이즈가 5f로 설정했음으로 /5, 카메라 수직길이 / 2임으로 *2를 해줌!!! 
-        Debug.Log("디폴트 사이즈 :" + defaultScreenSize);
+        // Debug.Log("디폴트 사이즈 :" + defaultScreenSize);
     }
 
     void Update()
@@ -86,7 +86,7 @@ public class PixelPerfectZoomCinemachine : MonoBehaviour
             ApplyZoomImmediate();
         }
 
-        Debug.Log($"[외부 호출] targetZoom = {targetZoom}, isDiscrete = {isDiscrete}");
+        // Debug.Log($"[외부 호출] targetZoom = {targetZoom}, isDiscrete = {isDiscrete}");
     }
 
     void ApplyZoom()
