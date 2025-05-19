@@ -21,11 +21,14 @@ public class AudioManager : MonoBehaviour
 
     protected async void Start()
     {
+        if (AudioSource == null)    Debug.LogError("AudioSource 할당 안 됨!");
+        if (AudioSlider == null)    Debug.LogError("AudioSlider 할당 안 됨!");
+        if (AudioValueText == null) Debug.LogError("VolumeText 할당 안 됨!");
 
-        float saved = await SoundValueLoad("save_CurrentSoundValue", 10f);
-        AudioSource.volume = saved;
-        AudioSlider.value = saved;
-        _PrevSoundValue = saved;
+        float saveCurrentAudio = await SoundValueLoad("save_CurrentSoundValue", 10f);
+        AudioSource.volume = saveCurrentAudio;
+        AudioSlider.value = saveCurrentAudio;
+        _PrevSoundValue = saveCurrentAudio;
     }
 
     public async void OnClickMuteButton()  // 음소거 버튼을 눌렀을 때
@@ -39,8 +42,7 @@ public class AudioManager : MonoBehaviour
         await SoundValueSave("save_CurrentSoundValue", _currentSourceVolume);
 
         isMute(false);
-        // 텍스트 반영 
-        AudioValueText.text = "X";
+       
         // 실제 음소거
         AudioSource.volume = 0f;
         AudioSlider.value = 0f;
