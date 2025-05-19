@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    // State
+    [Header("State")]
     private IState_Player currentState;
     public enum PlayerState { Idle, Walking , Jumping, Hurt }
+
+    public bool isDead = false;
 
     [Header("Components")]
     private Rigidbody2D rb;
@@ -42,6 +44,8 @@ public class Player : MonoBehaviour
     void Update() // 키 입력 
     {
         currentState?.Update();
+
+        if(isDead) ChangeState(new HurtState_Player(this));
 
         // 점프 입력 감지
         // if (Input.GetKeyDown(KeyCode.UpArrow) && IsGrounded()) jumpPressed = true;

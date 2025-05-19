@@ -113,7 +113,7 @@ public class SpikeWheel : MonoBehaviour
         // 플레이어와 상호작용 넣을 곳
         if (collision.tag=="Player")
         {
-
+            collision.gameObject.GetComponent<Player>().isDead = true;
         }
     }
 }
