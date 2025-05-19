@@ -14,7 +14,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] protected Slider AudioSlider;
     [SerializeField] protected TMP_Text soundvalueText;
 
-    protected bool _isPlaying = false;          // 사운드 플레이 중인지 확인하기 위한 변수 
+    protected bool _isMute = false;          // 사운드 플레이 중인지 확인하기 위한 변수 
     private bool _isSave = false;               // 저장된 데이터가 있는 지 확인하기 위한 변수
 
     protected float _currentSliderValue;        // 현재 슬라이더 값 
@@ -26,8 +26,6 @@ public class AudioManager : MonoBehaviour
 
     protected async void Start()
     {
-        //AudioTarget = GetComponent<GameObject>();
-        //AudioSource = AudioTarget.GetComponent<AudioSource>();
 
         float saved = await SoundValueLoad("save_CurrentSoundValue", 0f);
         AudioSource.volume = saved;
@@ -38,7 +36,7 @@ public class AudioManager : MonoBehaviour
 
     public async void OnClickMuteButton()  // 음소거 버튼을 눌렀을 때
     {
-        if (_isPlaying) return; 
+        if (_isMute) return; 
 
         // 현재 볼륨을 저장해두고
         _currentSourceVolume = AudioSource.volume;
@@ -52,7 +50,7 @@ public class AudioManager : MonoBehaviour
         // 실제 음소거
         AudioSource.volume = 0f;
         AudioSlider.value = 0f;
-        Debug.Log($"음향을 음소거 시킵니다. 현 상태 : {_isPlaying}");
+        Debug.Log($"음향을 음소거 시킵니다. 현 상태 : {_isMute}");
     } 
 
     public async Task<float> SoundValueSave(string prefKey, float SaveData) // 슬라이더 변경점에 따라서 그 당시의 값을 저장 
@@ -87,14 +85,14 @@ public class AudioManager : MonoBehaviour
     {
         if (soundState) {
             Debug.Log($"현재 음소거 상태 일 때 : {soundState}");
-            _isPlaying = false; 
-            return _isPlaying; 
+            _isMute = false; 
+            return _isMute; 
         }
         else
         {
             Debug.Log($"현재 음소거 상태가 아닐 때 : {soundState}");
-            _isPlaying = true;
-            return _isPlaying;
+            _isMute = true;
+            return _isMute;
         }
 
     }

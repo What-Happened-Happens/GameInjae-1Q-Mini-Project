@@ -5,36 +5,44 @@ using UnityEngine.UI;
 
 public class AudioSliderUI : AudioManager, IPointerDownHandler
 {
-    private bool isPlaying = false;
-
-    private void Start()
+    private void OnEnable()
     {
-        AudioSlider.onValueChanged.AddListener(AudioValueChanged); 
+        AudioSlider.onValueChanged.AddListener(onAudioValueChanged);
+        onAudioValueChanged(AudioSlider.value);
     }
     private void OnDisable()
     {
-        AudioSlider.onValueChanged.RemoveListener(AudioValueChanged);
+        AudioSlider.onValueChanged.RemoveListener(onAudioValueChanged);
     }
-    public async void AudioValueChanged(float value)
+    public async void onAudioValueChanged(float value)
     {
-        if (!_isPlaying) return;
-
-        var sound = SoundValueLoad("save_CurrentSoundValue");
-
-        if (sound != null)
+        if (_isMute) return;
+                
+        if (value >= 0f && value <= 100f)
         {
-            if(_currentSliderValue != _PrevSoundValue) // 현재 값이 지금 값과 다를 떄 
+            _currentSliderValue = value / AudioSlider.maxValue;
+
+            AudioSource.volume = _currentSliderValue;
+            soundvalueText.text = AudioSource.volume <= 0f ? "X" : $"{Mathf.RoundToInt(value * 100)}%";
+
+            //  이전 값에 현재 값을 로드 
+            _PrevSoundValue = await SoundValueLoad("save_CurrentSoundValue", 0f);
+            Debug.Log($"현재 음향 값을 다시 로드했습니다. ");
+
+            if (!_isMute && _currentSliderValue > 0f)
             {
                 isMute(true);
-                Debug.Log($"음향을 다시 플레이 합니다. 현 상태 : {_isPlaying}");
-                float AudioVolume = await SoundValueLoad("save_CurrentSoundValue");
-                _PrevSoundValue = AudioVolume; // 현재 볼륨값을 이전 볼륨값으로 저장 
-                               
-                AudioSource.volume = _PrevSoundValue;
-                AudioSlider.value = AudioSource.volume;
-                soundvalueText.text = AudioSlider.value.ToString();
+                Debug.Log($"음향을 다시 플레이 합니다.");
             }
         }
+        else if (value == 0f)
+        {
+            isMute(false);
+            AudioSource.volume = 0f;
+            AudioSlider.value = 0f; 
+        }
+       
+
     }
 
     public void OnPointerDown(PointerEventData eventData)
