@@ -24,7 +24,7 @@ public class AudioSliderUI : AudioManager, IPointerDownHandler
             AudioValueText.text = AudioSource.volume <= 0f ? "X" : $"{Mathf.RoundToInt(value)}%";
 
             //  이전 값에 현재 값을 로드 
-            _PrevSoundValue = await SoundValueLoad("save_CurrentSoundValue", 0f);
+            _PrevSoundValue = await AudioLoad("save_CurrentSoundValue", 0f);
             Debug.Log($"현재 음향 값을 다시 로드했습니다. ");
             Debug.Log($"음향을 다시 플레이 합니다.");
 

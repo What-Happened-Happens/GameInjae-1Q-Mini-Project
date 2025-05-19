@@ -25,7 +25,7 @@ public class AudioManager : MonoBehaviour
         if (AudioSlider == null)    Debug.LogError("AudioSlider 할당 안 됨!");
         if (AudioValueText == null) Debug.LogError("VolumeText 할당 안 됨!");
 
-        float saveCurrentAudio = await SoundValueLoad("save_CurrentSoundValue", 10f);
+        float saveCurrentAudio = await AudioLoad("save_CurrentSoundValue", 10f);
         AudioSource.volume = saveCurrentAudio;
         AudioSlider.value = saveCurrentAudio;
         _PrevSoundValue = saveCurrentAudio;
@@ -39,7 +39,7 @@ public class AudioManager : MonoBehaviour
         _currentSourceVolume = AudioSource.volume;
 
         // 비동기 저장
-        await SoundValueSave("save_CurrentSoundValue", _currentSourceVolume);
+        await AudioSave("save_CurrentSoundValue", _currentSourceVolume);
 
         isMute(false);
        
@@ -49,23 +49,24 @@ public class AudioManager : MonoBehaviour
         Debug.Log($"음향을 음소거 시킵니다. 현 상태 : {_isMute}");
     } 
 
-    public async Task<float> SoundValueSave(string prefKey, float SaveData) // 슬라이더 변경점에 따라서 그 당시의 값을 저장 
+    public async Task<float> AudioSave(string prefKey, float SaveData) // 슬라이더 변경점에 따라서 그 당시의 값을 저장 
     {
         await Task.Yield();
 
         PlayerPrefs.SetFloat(prefKey, SaveData);
         PlayerPrefs.Save();
 
-        Debug.Log($"레지포토리에 저장했습니다. KeyName : {prefKey}, KeyValue : {SaveData}");
+        Debug.Log($"레포지토리에 저장했습니다. KeyName : {prefKey}, KeyValue : {SaveData}");
         return SaveData;
     }
 
-    public async Task<float> SoundValueLoad(string prefKey, float LoadData = 0f) // 그리고, 저장된 값을 불러와서 읽는다. 
-    { // 값을 다시 사용하기 위해서 파라메터를 사용       
+    public async Task<float> AudioLoad(string prefKey, float LoadData = 0f) // 그리고, 저장된 값을 불러와서 읽는다. 
+    { 
+        // 값을 다시 사용하기 위해서 파라메터를 사용       
         try
         {
             await Task.Yield();
-            Debug.Log($"레지포토리에 불러옵니다. KeyName : {prefKey}, KeyValue : {LoadData}");
+            Debug.Log($"레포지토리에 불러옵니다. KeyName : {prefKey}, KeyValue : {LoadData}");
         }
         catch (Exception e)
         {
