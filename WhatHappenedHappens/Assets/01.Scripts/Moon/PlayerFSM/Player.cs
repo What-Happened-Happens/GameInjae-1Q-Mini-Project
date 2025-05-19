@@ -16,7 +16,7 @@ public class Player : MonoBehaviour
 
     [Header("Movement")]
     private float moveX = 0f;
-    private float moveSpeed = 5f;
+    [HideInInspector] public float moveSpeed = 5f;
     private float jumpForce = 10f;
 
     [Header("Ground Check")]

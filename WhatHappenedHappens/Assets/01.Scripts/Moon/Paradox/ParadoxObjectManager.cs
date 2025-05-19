@@ -2,30 +2,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ParadoxPositionManager : MonoBehaviour
+public class ParadoxObjectManager : MonoBehaviour
 {
-    [Header("Track Objects")]
-    public List<Transform> trackedObjects = new List<Transform>();
-
+    [Header("Moving Objects")]
+    public List<Transform> movingObjects = new List<Transform>();
     private List<Vector3> startPositions = new List<Vector3>();
+
+    [Header("Trigger Objects")] // 트리거 오브젝트들의 기존 상태 저장 
+
+    [Header("Player Start Position")]
     private Vector3 playerStartPos;
 
     public void Save()
     {
         startPositions.Clear();
-        foreach (var obj in trackedObjects)
+        foreach (var obj in movingObjects)
         {
-            if (obj != null)
-                startPositions.Add(obj.position);
+            if (obj != null) startPositions.Add(obj.position);
         }
     }
 
     public void ResetAll()
     {
-        for (int i = 0; i < trackedObjects.Count; i++)
+        for (int i = 0; i < movingObjects.Count; i++)
         {
-            if (trackedObjects[i] != null)
-                trackedObjects[i].position = startPositions[i];
+            if (movingObjects[i] != null)
+                movingObjects[i].position = startPositions[i];
         }
     }
 

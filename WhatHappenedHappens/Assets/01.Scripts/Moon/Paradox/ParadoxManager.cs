@@ -32,7 +32,7 @@ public class ParadoxManager : MonoBehaviour
 
     private ParadoxRecorder recorder;
     private ParadoxGhostPlayer ghostPlayer;
-    public ParadoxPositionManager positionManager;
+    public ParadoxObjectManager objectManager;
 
     private void Awake()
     {
@@ -80,8 +80,8 @@ public class ParadoxManager : MonoBehaviour
         isRecording = true;
         recordingStartTime = Time.time;
 
-        positionManager.Save(); // 오브젝트 위치 저장
-        positionManager.SavePlayer(player); // 플레이어 위치 저장
+        objectManager.Save(); // 오브젝트 위치 저장
+        objectManager.SavePlayer(player); // 플레이어 위치 저장
         recorder.Start();
     }
 
@@ -91,8 +91,8 @@ public class ParadoxManager : MonoBehaviour
         RecordEffect.SetActive(false);
 
         recorder.Enqueue(maxParadox);
-        positionManager.ResetPlayer(player);
-        positionManager.ResetAll();
+        objectManager.ResetPlayer(player);
+        objectManager.ResetAll();
 
         StartReplay();
     }
@@ -126,6 +126,6 @@ public class ParadoxManager : MonoBehaviour
     private void EndReplay()
     {
         isReplaying = false;
-        positionManager.ResetAll();
+        objectManager.ResetAll();
     }
 }
