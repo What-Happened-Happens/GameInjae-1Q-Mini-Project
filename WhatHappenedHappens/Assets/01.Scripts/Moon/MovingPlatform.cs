@@ -29,7 +29,7 @@ public class MovingPlatform : MonoBehaviour
 
         transform.position += direction * speed * Time.deltaTime;
 
-        if (Vector3.Distance(transform.position, target) < 0.05f)
+        if (Vector3.Distance(transform.position, target) < 0.1f)
         {
             if (reverseAtEnd)
             {
