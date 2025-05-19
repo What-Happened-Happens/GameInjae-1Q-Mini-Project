@@ -34,7 +34,8 @@ public class AudioSliderUI : AudioManager, IPointerDownHandler
             Debug.Log($"음향을 다시 플레이 합니다.");
 
             //SFX 
-            _SFXaudioSource.volume = _currentSliderValue;
+            _currentSFXSliderValue = value / 100f; 
+            _SFXaudioSource.volume = _currentSFXSliderValue;
             _SFXaudioText.text = _SFXaudioSource.volume <= 0f ? "X" : $"{Mathf.RoundToInt(value)}%";
 
             //  이전 값에 현재 값을 로드 
