@@ -34,6 +34,7 @@ public class FSXAudioManager : MonoBehaviour
         }
         _audioSource.volume = 0f; 
     }
+
     private async void Update()
     {
         if (Input.GetMouseButtonDown(0))

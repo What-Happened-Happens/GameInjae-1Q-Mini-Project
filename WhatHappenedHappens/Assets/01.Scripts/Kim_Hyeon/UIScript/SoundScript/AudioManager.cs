@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using UnityEngine;
 using System;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 public class AudioManager : MonoBehaviour
 {
@@ -11,18 +12,19 @@ public class AudioManager : MonoBehaviour
     [SerializeField] protected GameObject AudioTarget;
     [SerializeField] protected Slider AudioSlider;
     [SerializeField] protected TMP_Text AudioValueText;
+        
     public static AudioManager Instance { get; private set; }
     protected bool _isMute = false;             // 사운드 플레이 중인지 확인하기 위한 변수 
 
     protected float _currentSliderValue;        // 현재 슬라이더 값 
     protected float _currentSourceVolume;       // 현재 오디오 소스 볼륨 
     protected float _PrevSoundValue;            // 이전 사운드 값 
-
+    public List<AudioSource> SFXsources { get; set; }
     protected async void Start()
     {
-        if (AudioSource == null)    Debug.LogError("AudioSource 할당 안 됨!");
-        if (AudioSlider == null)    Debug.LogError("AudioSlider 할당 안 됨!");
-        if (AudioValueText == null) Debug.LogError("VolumeText 할당 안 됨!");
+        if (AudioSource == null)    Debug.LogError("AudioSource 할당되지 않았습니다.");
+        if (AudioSlider == null)    Debug.LogError("AudioSlider 할당되지 않았습니다.");
+        if (AudioValueText == null) Debug.LogError("VolumeText  할당되지 않았습니다.");
 
         float saveCurrentAudio = await AudioLoad("save_CurrentSoundValue", 10f);
         AudioSource.volume = saveCurrentAudio;
@@ -46,6 +48,13 @@ public class AudioManager : MonoBehaviour
         AudioSource.volume = 0f;
         AudioSlider.value = 0f;
         Debug.Log($"음향을 음소거 시킵니다. 현 상태 : {_isMute}");
+
+
+        //test code 
+        foreach (var audioSource in SFXsources)
+        {
+            audioSource.volume = 0f;
+        }
     } 
 
     public async Task<float> AudioSave(string prefKey, float SaveData) // 슬라이더 변경점에 따라서 그 당시의 값을 저장 
