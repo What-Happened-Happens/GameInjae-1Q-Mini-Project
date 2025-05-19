@@ -23,8 +23,8 @@ public class Player : MonoBehaviour
     // private bool jumpPressed = false;
 
     [Header("Collision Size")]
-    [SerializeField] private Vector2 wallBoxSize = new Vector2(0.1f, 1.0f);
-    [SerializeField] private Vector2 groundBoxSize = new Vector2(0.5f, 0.07f);
+    private Vector2 wallBoxSize = new Vector2(0.1f, 1.7f);
+    private Vector2 groundBoxSize = new Vector2(0.9f, 0.07f);
 
 
     // -------------------------------------------------
@@ -143,8 +143,8 @@ public class Player : MonoBehaviour
         Gizmos.color = IsTouchWall() ? Color.yellow : Color.blue;
         Vector2 position = transform.position;
 
-        Vector2 leftBoxCenter = position + Vector2.left * (wallBoxSize.x + 0.18f);
-        Vector2 rightBoxCenter = position + Vector2.right * (wallBoxSize.x + 0.18f);
+        Vector2 leftBoxCenter = position + Vector2.left * (wallBoxSize.x + 0.38f);
+        Vector2 rightBoxCenter = position + Vector2.right * (wallBoxSize.x + 0.38f);
 
         Gizmos.DrawWireCube(leftBoxCenter, wallBoxSize);
         Gizmos.DrawWireCube(rightBoxCenter, wallBoxSize);
