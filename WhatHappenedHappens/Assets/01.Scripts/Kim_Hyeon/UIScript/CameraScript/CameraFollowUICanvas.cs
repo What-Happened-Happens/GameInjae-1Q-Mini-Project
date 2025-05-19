@@ -13,7 +13,7 @@ public class CameraFollowUICanvas : MonoBehaviour
         Debug.Log($"_uiCanvas 렌더 모드 ScreenSpaceCamera로 지정");
 
         _localOffset = Camera.main.ViewportToWorldPoint(new Vector3(0f, 0f));
-        Debug.Log($"_uiCanvas 가 카메라를 따라갈 Canvas 위치");
+        Debug.Log($"_uiCanvas 가 카메라를 따라갈 Canvas 위치 : [X] : {_localOffset.x}, [Y] : {_localOffset.y}");
 
         if (_targetCamera == null)
             _targetCamera = GetComponent<Camera>();
