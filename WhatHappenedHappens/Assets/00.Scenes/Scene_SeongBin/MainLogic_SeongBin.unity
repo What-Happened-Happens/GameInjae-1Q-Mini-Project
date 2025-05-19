@@ -389,7 +389,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2239443977f1edf48868872e2f84ad8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ZoomCamera: {fileID: 1950112373}
+  isScreenWide: 0
 --- !u!4 &333313873
 Transform:
   m_ObjectHideFlags: 0
@@ -493,7 +493,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 11.942911, y: 0.5629, z: -10}
+  m_LocalPosition: {x: 13.37, y: -0.62, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -513,10 +513,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShowDebugText: 0
-  m_ShowCameraFrustum: 1
-  m_IgnoreTimeScale: 0
+  m_ShowCameraFrustum: 0
+  m_IgnoreTimeScale: 1
   m_WorldUpOverride: {fileID: 0}
-  m_UpdateMethod: 0
+  m_UpdateMethod: 2
   m_BlendUpdateMethod: 1
   m_DefaultBlend:
     m_Style: 1
@@ -1502,7 +1502,7 @@ MonoBehaviour:
   m_Priority: 10
   m_StandbyUpdate: 2
   m_LookAt: {fileID: 0}
-  m_Follow: {fileID: 1785558809}
+  m_Follow: {fileID: 994443697}
   m_Lens:
     FieldOfView: 34
     OrthographicSize: 5
@@ -1531,7 +1531,7 @@ Transform:
   m_GameObject: {fileID: 1950112369}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 11.942911, y: 0.5629, z: -10}
+  m_LocalPosition: {x: 13.37, y: -0.62, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1571,6 +1571,7 @@ MonoBehaviour:
   zoomSpeed: 5
   screenMoveSpeed: 15
   isScreenWide: 1
+  pauseScreen: {fileID: 333313872}
   CameraLimit: {fileID: 173903183}
   WideCameraPos: {fileID: 1785558809}
   NowPlayerPos: {fileID: 994443697}

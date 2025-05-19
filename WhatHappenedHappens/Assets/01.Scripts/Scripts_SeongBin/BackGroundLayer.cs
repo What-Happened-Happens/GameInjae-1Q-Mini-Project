@@ -67,7 +67,7 @@ public class BackGroundLayer : MonoBehaviour
             Vector3 backgroundTargetPos = new Vector3(backgroundTargetPosX, backgroundTargetPosY, this.backgrounds[i].position.z);
 
             // 현재 위치와 목표 위치 사이를 부드럽게 이동 (Lerp 사용)
-            this.backgrounds[i].position = Vector3.Lerp(this.backgrounds[i].position, backgroundTargetPos, this.smoothing * Time.deltaTime);
+            this.backgrounds[i].position = Vector3.Lerp(this.backgrounds[i].position, backgroundTargetPos, this.smoothing * Time.unscaledDeltaTime);
         }
 
         // 다음 프레임을 위해 현재 카메라 위치 저장
