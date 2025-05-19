@@ -15,7 +15,7 @@ public class SpikeWheel : MonoBehaviour
     Vector3 endPoint;   //                  ''          마지막에 들어있는 포인트                 
     int curWayPoint;    // 현재 오브젝트가 갈려는 포인트의 인덱스
     float elapsedTime;  //  구간을 진행할
-    float moveTime;
+    float moveTime;     
     float moveDisPer;
     bool isReturning;  //end waypoint에서 돌아갈때 사용
     void Start()
@@ -24,7 +24,7 @@ public class SpikeWheel : MonoBehaviour
         moveDisPer = 0f;
         isReturning = false;
         elapsedTime = 0f;
-        curWayPoint = 0;
+        curWayPoint = 1;
         wheelTurnSpeed = 360f;
         if (wayPoint != null )
         {
@@ -64,8 +64,9 @@ public class SpikeWheel : MonoBehaviour
 
     void SetNextTarget()
     {
+        Debug.Log("Time : "+ elapsedTime);
         if (wayPoint == null) { return; }
-        if (moveDisPer >= 0.95f)
+        if (moveDisPer >= 1f)
         {
             transform.position = endPoint;
             if (isReturning == false)
@@ -82,7 +83,6 @@ public class SpikeWheel : MonoBehaviour
         }
         else if (curWayPoint > chilWayPoints.Count - 1)
         {
-            Debug.Log("카운트 : " + chilWayPoints.Count);
             isReturning = true;
             curWayPoint = chilWayPoints.Count - 2;
             Debug.Log("0 보다 큼!");
@@ -90,7 +90,7 @@ public class SpikeWheel : MonoBehaviour
         else
             Debug.Log("웨이포인트 범위 안!!");
 
-        if (moveDisPer >= 0.95f)
+        if (moveDisPer >= 1f)
         {
             startPoint = transform.position;
             endPoint = chilWayPoints[curWayPoint].position;
