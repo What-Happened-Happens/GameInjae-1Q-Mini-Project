@@ -46,6 +46,8 @@ public class AudioManager : MonoBehaviour
         _PrevSoundValue = saveCurrentAudio;
 
         // SFX 
+        _SFXAudioSlider.value = 0f;
+        _SFXaudioSource.volume = 0f;
         for (int i = 0; i < SFXsources.Count; ++i)
         {
             var src = SFXsources[i];
@@ -75,6 +77,7 @@ public class AudioManager : MonoBehaviour
         }
 
     }
+
     public async Task ApplyMuteAsync()
     {
         if (_isMute) return;
