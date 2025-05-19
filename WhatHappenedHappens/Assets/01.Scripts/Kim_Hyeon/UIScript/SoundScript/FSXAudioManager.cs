@@ -36,16 +36,16 @@ public class FSXAudioManager : AudioManager
     }
 
     private async void Update()
-    {
-        
+    {        
         if (Input.GetMouseButtonDown(0))
         {
             Debug.Log($"효과음 테스트 클릭!");
-     
-           await PlayAssignedClipAsync(duration, volumeScale);
-                       
-        }
-     
+            if (_isMute)
+            {
+                await PlayAssignedClipAsync(0f, 0f);
+            }
+           await PlayAssignedClipAsync(duration, volumeScale);        
+        }     
     }
 
     public async Task PlayAssignedClipAsync(float duration, float volumeScale)
