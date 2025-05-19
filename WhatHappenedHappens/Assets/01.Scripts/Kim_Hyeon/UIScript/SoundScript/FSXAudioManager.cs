@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class FSXAudioManager : MonoBehaviour
+public class FSXAudioManager : AudioManager
 {
     public static FSXAudioManager Instance { get; private set; }
 
@@ -37,12 +37,15 @@ public class FSXAudioManager : MonoBehaviour
 
     private async void Update()
     {
+        
         if (Input.GetMouseButtonDown(0))
         {
             Debug.Log($"효과음 테스트 클릭!");
      
            await PlayAssignedClipAsync(duration, volumeScale);
-        }        
+                       
+        }
+     
     }
 
     public async Task PlayAssignedClipAsync(float duration, float volumeScale)

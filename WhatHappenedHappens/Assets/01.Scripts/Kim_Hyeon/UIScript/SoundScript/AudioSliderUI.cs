@@ -52,7 +52,11 @@ public class AudioSliderUI : AudioManager, IPointerDownHandler
         {
             isMute(false);
             _BGMaudioSource.volume = 0f;
-            _BGMAudioSlider.value = 0f; 
+            _BGMAudioSlider.value = 0f;
+
+            // SFX 
+            _SFXAudioSlider.value = 0f;
+            _SFXaudioSource.volume = 0f;
         }      
 
     }
