@@ -978,7 +978,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 618812062}
         m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
-        m_MethodName: OnMute
+        m_MethodName: OnClickMuteButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1039,8 +1039,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AudioSource: {fileID: 874222832}
-  AudioSlider: {fileID: 99880156448393375, guid: 6d970e8bcf2712e4ca26e624b3110bbe, type: 3}
-  soundvalueText: {fileID: 8496037491545620026, guid: 03486c4546a9e6a4784ccb44bf977899, type: 3}
+  AudioTarget: {fileID: 874222830}
+  AudioSlider: {fileID: 2020489720}
+  soundvalueText: {fileID: 1275692217}
 --- !u!1 &669265120
 GameObject:
   m_ObjectHideFlags: 0
@@ -3166,6 +3167,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2556817910399880651, guid: 6d970e8bcf2712e4ca26e624b3110bbe, type: 3}
   m_PrefabInstance: {fileID: 2020489718}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2020489720 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 99880156448393375, guid: 6d970e8bcf2712e4ca26e624b3110bbe, type: 3}
+  m_PrefabInstance: {fileID: 2020489718}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2141723997
 GameObject:
   m_ObjectHideFlags: 0

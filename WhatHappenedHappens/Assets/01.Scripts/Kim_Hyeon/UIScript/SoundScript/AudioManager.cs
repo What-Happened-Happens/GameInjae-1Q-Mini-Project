@@ -10,8 +10,9 @@ public class AudioManager : MonoBehaviour //, IPointerDownHandler
 
     [Header("Audio Mixer & Sliders")]
     [SerializeField] private AudioSource AudioSource;
+    [SerializeField] private GameObject AudioTarget;
     [SerializeField] private Slider AudioSlider;
-    public TMP_Text soundvalueText;
+    [SerializeField] private TMP_Text soundvalueText;
 
     private bool _isPlaying = false;    // 사운드 플레이 중인지 확인하기 위한 변수 
     private bool _isSave = false;       // 저장된 데이터가 있는 지 확인하기 위한 변수
@@ -25,11 +26,9 @@ public class AudioManager : MonoBehaviour //, IPointerDownHandler
 
     private async void Start()
     {
-        AudioSource = GetComponent<AudioSource>(); // 이 스크립트를 가진 게임 오브젝트의 AudioSource 를 가져온다. 
-        soundvalueText = GetComponent<TMP_Text>();
-        AudioSlider = GetComponent<Slider>();
+   
 
-        float saved = await SoundValueLoad("save_CurrentSoundValue", 1f);
+        float saved = await SoundValueLoad("save_CurrentSoundValue", 0f);
         AudioSource.volume = saved;
         AudioSlider.value = saved;
         _PrevSoundValueTask = saved;
@@ -76,18 +75,33 @@ public class AudioManager : MonoBehaviour //, IPointerDownHandler
     private void Update()
     {
     }
-    public async void OnClickMuteButton()
+    public async void OnClickMuteButton()  // 음소거 버튼을 눌렀을 때
     {
         // 현재 볼륨을 저장해두고
-        _PrevSoundValueTask = AudioSource.volume;
+        _currentSourceVolume = AudioSource.volume;
 
         // 비동기 저장
-        await SoundValueSave("save_CurrentSoundValue", 0f);
+        await SoundValueSave("save_CurrentSoundValue", _currentSourceVolume);
 
+        _isPlaying = false;
+        // 텍스트 반영 
+        soundvalueText.text = "X";
         // 실제 음소거
         AudioSource.volume = 0f;
-        AudioSlider.value = 0f;
-       
+        AudioSlider.value = 0f;     
+    }
+
+    public async void OnClearMuteButton()
+    {
+        if (!_isPlaying ) return;
+
+        // 비동기로 현재 값으로 불러온다.
+        var curr_volume = await SoundValueLoad("save_CurrentSoundValue", _currentSourceVolume);       
+
+        _isPlaying = true;
+        AudioSource.volume = curr_volume;
+        AudioSlider.value = curr_volume;
+        soundvalueText.text = curr_volume.ToString();
     }
     //public void OnClickeMuteButton() // 음소거 버튼을 눌렀을 때 
     //{
