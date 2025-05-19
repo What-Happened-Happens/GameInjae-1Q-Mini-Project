@@ -1046,7 +1046,7 @@ MonoBehaviour:
   AudioSource: {fileID: 874222832}
   AudioTarget: {fileID: 874222830}
   AudioSlider: {fileID: 2020489720}
-  soundvalueText: {fileID: 1275692217}
+  AudioValueText: {fileID: 1790795567}
 --- !u!1 &669265120
 GameObject:
   m_ObjectHideFlags: 0
@@ -1495,9 +1495,9 @@ RectTransform:
   - {fileID: 1650921312}
   - {fileID: 1972332777}
   - {fileID: 2020489719}
+  - {fileID: 118124279}
   - {fileID: 1275692218}
   - {fileID: 1230628721}
-  - {fileID: 118124279}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -3186,7 +3186,7 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
-    - {fileID: 7138432399576499278, guid: 6d970e8bcf2712e4ca26e624b3110bbe, type: 3}
+    - {fileID: 0}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -3225,7 +3225,7 @@ MonoBehaviour:
   AudioSource: {fileID: 874222832}
   AudioTarget: {fileID: 874222830}
   AudioSlider: {fileID: 2020489720}
-  soundvalueText: {fileID: 1275692217}
+  AudioValueText: {fileID: 1790795567}
 --- !u!1 &2141723997
 GameObject:
   m_ObjectHideFlags: 0

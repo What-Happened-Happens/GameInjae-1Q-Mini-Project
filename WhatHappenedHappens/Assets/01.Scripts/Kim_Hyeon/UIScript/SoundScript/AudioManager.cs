@@ -4,7 +4,6 @@ using UnityEngine;
 using System;
 using System.Threading.Tasks;
 
-
 public class AudioManager : MonoBehaviour
 {
 
@@ -12,26 +11,21 @@ public class AudioManager : MonoBehaviour
     [SerializeField] protected AudioSource AudioSource;
     [SerializeField] protected GameObject AudioTarget;
     [SerializeField] protected Slider AudioSlider;
-    [SerializeField] protected TMP_Text soundvalueText;
+    [SerializeField] protected TMP_Text AudioValueText;
 
-    protected bool _isMute = false;          // 사운드 플레이 중인지 확인하기 위한 변수 
-    private bool _isSave = false;               // 저장된 데이터가 있는 지 확인하기 위한 변수
+    protected bool _isMute = false;             // 사운드 플레이 중인지 확인하기 위한 변수 
 
     protected float _currentSliderValue;        // 현재 슬라이더 값 
     protected float _currentSourceVolume;       // 현재 오디오 소스 볼륨 
-    protected float _PrevSoundValue;        // 이전 사운드 값 
-
-    private Task<float> SaveCurrentSoundTask;   // 현재 슬라이더 값을 레지포트리에 저장할 변수 
-    private Task<float> SavePrevSoundTask;      // 이전 슬라이더 값을 레지포트리에 저장할 변수 
+    protected float _PrevSoundValue;            // 이전 사운드 값 
 
     protected async void Start()
     {
 
-        float saved = await SoundValueLoad("save_CurrentSoundValue", 0f);
+        float saved = await SoundValueLoad("save_CurrentSoundValue", 10f);
         AudioSource.volume = saved;
         AudioSlider.value = saved;
         _PrevSoundValue = saved;
-        
     }
 
     public async void OnClickMuteButton()  // 음소거 버튼을 눌렀을 때
@@ -46,7 +40,7 @@ public class AudioManager : MonoBehaviour
 
         isMute(false);
         // 텍스트 반영 
-        soundvalueText.text = "X";
+        AudioValueText.text = "X";
         // 실제 음소거
         AudioSource.volume = 0f;
         AudioSlider.value = 0f;
@@ -96,7 +90,5 @@ public class AudioManager : MonoBehaviour
         }
 
     }
-
-
 
 }

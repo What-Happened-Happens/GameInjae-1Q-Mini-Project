@@ -1,7 +1,5 @@
-using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 public class AudioSliderUI : AudioManager, IPointerDownHandler
 {
@@ -20,10 +18,10 @@ public class AudioSliderUI : AudioManager, IPointerDownHandler
                 
         if (value >= 0f && value <= 100f)
         {
-            _currentSliderValue = value / AudioSlider.maxValue;
+            _currentSliderValue = value ;
 
             AudioSource.volume = _currentSliderValue;
-            soundvalueText.text = AudioSource.volume <= 0f ? "X" : $"{Mathf.RoundToInt(value * 100)}%";
+            AudioValueText.text = AudioSource.volume <= 0f ? "X" : $"{Mathf.RoundToInt(value)}%";
 
             //  이전 값에 현재 값을 로드 
             _PrevSoundValue = await SoundValueLoad("save_CurrentSoundValue", 0f);
