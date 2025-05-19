@@ -24,7 +24,7 @@ public class Player : MonoBehaviour
 
     [Header("Collision Size")]
     private Vector2 wallBoxSize = new Vector2(0.1f, 1.7f);
-    private Vector2 groundBoxSize = new Vector2(0.9f, 0.07f);
+    private Vector2 groundBoxSize = new Vector2(0.8f, 0.07f);
 
 
     // -------------------------------------------------

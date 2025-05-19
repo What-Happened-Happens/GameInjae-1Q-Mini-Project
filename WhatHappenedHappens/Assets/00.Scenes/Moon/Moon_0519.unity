@@ -223,13 +223,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 3356483377578284254, guid: 0792c1f7925defd4aa28a7a06578deee, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.334
+      objectReference: {fileID: 0}
     - target: {fileID: 4431936122387101988, guid: 0792c1f7925defd4aa28a7a06578deee, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 13.16
+      value: 31.91
       objectReference: {fileID: 0}
     - target: {fileID: 4431936122387101988, guid: 0792c1f7925defd4aa28a7a06578deee, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -8.61
+      value: -2.27
       objectReference: {fileID: 0}
     - target: {fileID: 4431936122387101988, guid: 0792c1f7925defd4aa28a7a06578deee, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1245,7 +1249,7 @@ Transform:
   m_GameObject: {fileID: 507162098}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.468049, y: -5.3905306, z: 0.04092598}
+  m_LocalPosition: {x: 10.390173, y: -0.89410084, z: 0.04092598}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1672,7 +1676,8 @@ GameObject:
   - component: {fileID: 702373019}
   - component: {fileID: 702373018}
   - component: {fileID: 702373017}
-  m_Layer: 0
+  - component: {fileID: 702373022}
+  m_Layer: 20
   m_Name: ConveyorTile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1810,7 +1815,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 7
 --- !u!19719996 &702373019
 TilemapCollider2D:
   m_ObjectHideFlags: 0
@@ -2002,6 +2007,20 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!114 &702373022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 702373015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e75e11c9ff848fe4395b354f3a391e9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 3
+  moveX: -1
 --- !u!1 &739596484
 GameObject:
   m_ObjectHideFlags: 0
@@ -6148,7 +6167,7 @@ Transform:
   m_GameObject: {fileID: 1530672297}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.4680405, y: -7.234091, z: 0.04092598}
+  m_LocalPosition: {x: 16.28196, y: -0.8940909, z: 0.04092598}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -7041,6 +7060,10 @@ PrefabInstance:
       propertyPath: Target_wormholeObject
       value: 
       objectReference: {fileID: 101103791}
+    - target: {fileID: 5874148171372733471, guid: 0081b164b459c3540a635eaf33e9e673, type: 3}
+      propertyPath: m_SortingOrder
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
