@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using UnityEngine;
 using System;
 using System.Threading.Tasks;
+using static UnityEngine.Rendering.DebugUI;
 
 public class AudioManager : MonoBehaviour //, IPointerDownHandler
 {
@@ -28,7 +29,18 @@ public class AudioManager : MonoBehaviour //, IPointerDownHandler
         soundvalueText = GetComponent<TMP_Text>();
         AudioSlider = GetComponent<Slider>();
 
-        _isSave = PlayerPrefs.HasKey("save_CurrentSoundValue");
+        float saved = await SoundValueLoad("save_CurrentSoundValue", 1f);
+        AudioSource.volume = saved;
+        AudioSlider.value = saved;
+        _PrevSoundValueTask = saved;
+
+        AudioSlider.onValueChanged.AddListener(async val =>
+        {
+            AudioSource.volume = val;
+
+            await SoundValueSave("save_CurrentSoundValue", val);
+            _PrevSoundValueTask = val;
+        });
 
         try
         {
@@ -48,7 +60,7 @@ public class AudioManager : MonoBehaviour //, IPointerDownHandler
         }
         catch (Exception e)
         {
-            Debug.LogError($"SoundValueInitialize 중 예외 발생 : {e}");
+            Debug.LogError($"SoundValueInitialize 중 예외 발생 : {e}");  
             throw e;
             // Error 출력
         }
@@ -63,79 +75,73 @@ public class AudioManager : MonoBehaviour //, IPointerDownHandler
 
     private void Update()
     {
-        // soundvalueText.text = AudioSlider.ToString();
     }
-
-    public void OnClickeMuteButton() // 음소거 버튼을 눌렀을 때 
+    public async void OnClickMuteButton()
     {
-        // 음소거 버튼을 눌렀을 때, 
-        // 슬라이더 현재 슬라이더 값을 받아서, 저장 하고,  
+        // 현재 볼륨을 저장해두고
+        _PrevSoundValueTask = AudioSource.volume;
 
-        // 만약에 음소거 버튼을 눌렀다면, 현재 슬라이더 값과 AudioSource의 값을 0으로 변환. 
-        // 현재 슬라이더 값을 이전 슬라이더값 변수로 저장
+        // 비동기 저장
+        await SoundValueSave("save_CurrentSoundValue", 0f);
 
-        Debug.Assert(_isPlaying, $"플레이 중에 있습니다. _isPlaying : {_isPlaying}");
-        Debug.Assert(AudioSource.volume == 0f, $"음향 현재 볼륨 : {AudioSource.volume}");
-
-        // 현재 슬라이더 값을 저장
-        SaveCurrentSoundTask = SoundValueSave("save_CurrentSoundValue", _currentSliderValue);
-        _isPlaying = false;         // 플레이 할 수 없게 지정 
-        _currentSourceVolume = 0f;  // 현재 오디오 소스 볼륨을 음소거.
-        soundvalueText.text = "X";
-
-        // 현재 사운드 값을 초기화 
-        //_CurrentSoundValueTask = null;
-        var currentSound = SoundValueLoad("save_CurrentSoundValue"); // 현재 사운드 값을 이전 사운드 값으로 저장 
-        SavePrevSoundTask = currentSound;
+        // 실제 음소거
+        AudioSource.volume = 0f;
+        AudioSlider.value = 0f;
+       
     }
+    //public void OnClickeMuteButton() // 음소거 버튼을 눌렀을 때 
+    //{
+    //    // 음소거 버튼을 눌렀을 때, 
+    //    // 슬라이더 현재 슬라이더 값을 받아서, 저장 하고,  
 
-    public void OnClearMuteButton()
-    {
-        // 만약 현재 슬라이더 값이 이전 슬라디어 값과 달라지게 된다면,
-        if (!_isPlaying && AudioSource.volume == 0f) return;
+    //    // 만약에 음소거 버튼을 눌렀다면, 현재 슬라이더 값과 AudioSource의 값을 0으로 변환. 
+    //    // 현재 슬라이더 값을 이전 슬라이더값 변수로 저장
 
-        if (SaveCurrentSoundTask == SavePrevSoundTask) return; // 현재 사운드 값이 이전 값과 다를 때 
+    //    Debug.Assert(_isPlaying, $"플레이 중에 있습니다. _isPlaying : {_isPlaying}");
+    //    Debug.Assert(AudioSource.volume == 0f, $"음향 현재 볼륨 : {AudioSource.volume}");
 
-        // 다시 저장했던 현재 슬라이더 값을 불러와서 슬라이더 값에 할당함. 
-        // 그리고 그 값에서부터 슬라이더 변경에 따라서 오디오 볼륨이 조절되어야 한다.      
-        AudioSlider.value = AudioSource.volume;
-        AudioSource.volume = AudioSlider.value;
-        _isPlaying = true;
-        soundvalueText.text = AudioSource.volume.ToString();
-    }
+    //    // 현재 슬라이더 값을 저장
+    //    SaveCurrentSoundTask = SoundValueSave("save_CurrentSoundValue", _currentSliderValue);
+    //    _isPlaying = false;         // 플레이 할 수 없게 지정 
+    //    _currentSourceVolume = 0f;  // 현재 오디오 소스 볼륨을 음소거.
+    //    soundvalueText.text = "X";
 
+    //    // 현재 사운드 값을 초기화 
+    //    //_CurrentSoundValueTask = null;
+    //    var currentSound = SoundValueLoad("save_CurrentSoundValue"); // 현재 사운드 값을 이전 사운드 값으로 저장 
+    //    SavePrevSoundTask = currentSound;
+    //}
 
+    //public void OnClearMuteButton()
+    //{
+    //    // 만약 현재 슬라이더 값이 이전 슬라디어 값과 달라지게 된다면,
+    //    if (!_isPlaying && AudioSource.volume == 0f) return;
+
+    //    if (SaveCurrentSoundTask == SavePrevSoundTask) return; // 현재 사운드 값이 이전 값과 다를 때 
+
+    //    // 다시 저장했던 현재 슬라이더 값을 불러와서 슬라이더 값에 할당함. 
+    //    // 그리고 그 값에서부터 슬라이더 변경에 따라서 오디오 볼륨이 조절되어야 한다.      
+    //    AudioSlider.value = AudioSource.volume;
+    //    AudioSource.volume = AudioSlider.value;
+    //    _isPlaying = true;
+    //    soundvalueText.text = AudioSource.volume.ToString();
+    //}
 
     public async Task<float> SoundValueSave(string prefKey, float SaveData) // 슬라이더 변경점에 따라서 그 당시의 값을 저장 
     {
-        float result = await Task.Run(() =>
-        {
-            // saved_SoundValue 라는 Key 값으로 SaveData 를 저장 
-            // 여기서 SaveData 는 음소거 버튼을 눌렀을 때,
-            // 현재 음량을 뜻하는 슬라이더 값의 키값 
+        await Task.Yield();
 
-            PlayerPrefs.SetFloat(prefKey, SaveData);
-            return SaveData;
-        });
+        PlayerPrefs.SetFloat(prefKey, SaveData);
+        PlayerPrefs.Save();
 
-        return result;
+        return SaveData;
     }
 
     public async Task<float> SoundValueLoad(string prefKey, float LoadData = 0f) // 그리고, 저장된 값을 불러와서 읽는다. 
     { // 값을 다시 사용하기 위해서 파라메터를 사용       
         try
         {
-            //// 기본적 실행 
-            //float result = await Task.Run(() =>
-            //{
-            //    PlayerPrefs.GetFloat(prefKey, LoadData);
-            //    return LoadData; // 키가 없을 때 반환할 기본 음량
-            //});
-            await Task.Run(() =>
-            {
-                PlayerPrefs.GetFloat(prefKey, LoadData);
-                return LoadData; // 키가 없을 때 반환할 기본 음량
-            });
+            await Task.Yield();
         }
         catch (Exception e)
         {
