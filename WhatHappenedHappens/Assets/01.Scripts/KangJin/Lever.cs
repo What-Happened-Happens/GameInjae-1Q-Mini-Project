@@ -27,7 +27,8 @@ public class Lever : TrueFalse
     private void OnCollisionStay2D(Collision2D collision)
     {
         GameObject player = GameObject.FindWithTag("Player");
-        if (sr.bounds.max.x <= player.GetComponent<SpriteRenderer>().bounds.min.x) // 오른쪽에 있을때,
+        SpriteRenderer playersr = player.GetComponent<SpriteRenderer>();
+        if (sr.bounds.max.x <= playersr.bounds.min.x) // 오른쪽에 있을때,
         {
             if (isTrue)
             {
@@ -35,7 +36,7 @@ public class Lever : TrueFalse
                 Debug.Log("Lever Disabled");
             }
         }
-        else if (sr.bounds.min.x >= player.GetComponent<SpriteRenderer>().bounds.max.x) // 왼쪽에 있을때,
+        else if (sr.bounds.min.x >= playersr.bounds.max.x) // 왼쪽에 있을때,
         {
             if (!isTrue)
             {
