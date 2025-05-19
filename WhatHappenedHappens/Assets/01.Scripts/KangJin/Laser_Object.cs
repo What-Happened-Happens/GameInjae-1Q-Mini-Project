@@ -30,6 +30,7 @@ public class Laser_Object : MonoBehaviour
 
     private void FixedUpdate()
     {
+        
         //레이캐스트 방향 정함
         rayHit2D = Physics2D.Raycast(startPos, Vector2.down*100);
         Debug.DrawLine(startPos, rayHit2D.point, Color.magenta);

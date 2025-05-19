@@ -19,6 +19,6 @@ public class PoisonPool : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        
+        // 닿았을 때, Hurt 로직 추가 필요
     }
 }
