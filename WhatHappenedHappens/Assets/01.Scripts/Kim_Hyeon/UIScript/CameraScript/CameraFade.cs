@@ -25,6 +25,8 @@ public class CameraFade : MonoBehaviour
         if (PlayerPrefab == null)
             PlayerPrefab = GameObject.FindWithTag("Player");
 
+        FadeImage.gameObject.SetActive(false); 
+
         isClear = false;
         Debug.Log($"임시로 false 처리 : isClear : {isClear}"); 
         StartCoroutine(SequenceBegin()); 
@@ -32,18 +34,21 @@ public class CameraFade : MonoBehaviour
 
     private IEnumerator SequenceBegin()
     {
-        FadeImage.color = new Color(0, 0, 0, 1);
-        CameraPrefab.orthographicSize = zoomOutSize;       
+        FadeImage.color = new Color(0, 0, 0, 0);
+        CameraPrefab.orthographicSize = zoomOutSize;
 
         if (isClear)
         {
+            FadeImage.gameObject.SetActive(true);
             yield return StartCoroutine(Fade(1f, 0f, fadeTime));
-            yield return StartCoroutine(ZoomCamera(zoomOutSize, zoomInSize, zoomTime));
-        }
-        else if (!isClear)
-        {
-            yield return StartCoroutine(Fade(0f, 1f, fadeTime));
             yield return StartCoroutine(ZoomCamera(zoomInSize, zoomOutSize, zoomTime));
+
+        }
+        else if (isClear == false)
+        {
+            FadeImage.gameObject.SetActive(true);
+            yield return StartCoroutine(Fade(0f, 1f, fadeTime));
+            yield return StartCoroutine(ZoomCamera(zoomOutSize, zoomInSize, zoomTime));
         }
     }
     private IEnumerator WaitForClear()
@@ -102,15 +107,14 @@ public class CameraFade : MonoBehaviour
                 //CameraPrefab.transform.position = Vector3.Lerp(startPos, playerPos, t);
                 //Debug.Log($"카메라 최종 위치 [x] : {CameraPrefab.transform.position.x}. [y] : {CameraPrefab.transform.position.y}");
                 //yield return null;
-           
-           
+                    
 
         }
 
         try
         {
             CameraPrefab.orthographicSize = toSize;
-            Vector3 finalPos = PlayerPrefab.transform.position;
+            Vector3 finalPos = targetPos;
             finalPos.z = cameraZpos;
             CameraPrefab.transform.position = finalPos;
         }
