@@ -9,101 +9,51 @@ public class AudioManager : MonoBehaviour
 {
 
     [Header("Audio Mixer & Sliders")]
-    [SerializeField] private AudioSource AudioSource;
-    [SerializeField] private GameObject AudioTarget;
-    [SerializeField] private Slider AudioSlider;
-    [SerializeField] private TMP_Text soundvalueText;
+    [SerializeField] protected AudioSource AudioSource;
+    [SerializeField] protected GameObject AudioTarget;
+    [SerializeField] protected Slider AudioSlider;
+    [SerializeField] protected TMP_Text soundvalueText;
 
     protected bool _isPlaying = false;          // 사운드 플레이 중인지 확인하기 위한 변수 
     private bool _isSave = false;               // 저장된 데이터가 있는 지 확인하기 위한 변수
 
     protected float _currentSliderValue;        // 현재 슬라이더 값 
     protected float _currentSourceVolume;       // 현재 오디오 소스 볼륨 
-    protected float _PrevSoundValueTask;        // 이전 사운드 값 
+    protected float _PrevSoundValue;        // 이전 사운드 값 
 
     private Task<float> SaveCurrentSoundTask;   // 현재 슬라이더 값을 레지포트리에 저장할 변수 
     private Task<float> SavePrevSoundTask;      // 이전 슬라이더 값을 레지포트리에 저장할 변수 
 
-    private async void Start()
+    protected async void Start()
     {
-        AudioTarget = GetComponent<GameObject>();
-        AudioSource = AudioTarget.GetComponent<AudioSource>();
+        //AudioTarget = GetComponent<GameObject>();
+        //AudioSource = AudioTarget.GetComponent<AudioSource>();
 
         float saved = await SoundValueLoad("save_CurrentSoundValue", 0f);
         AudioSource.volume = saved;
         AudioSlider.value = saved;
-        _PrevSoundValueTask = saved;
-
-        AudioSlider.onValueChanged.AddListener(async val =>
-        {
-            AudioSource.volume = val;
-
-            await SoundValueSave("save_CurrentSoundValue", val);
-            _PrevSoundValueTask = val;
-        });
-
-        try
-        {
-            if (!_isSave)
-            {
-                _currentSliderValue = AudioSlider.value;
-                _currentSourceVolume = AudioSource.volume;
-            }
-            else
-            {
-                Debug.Log($"저장되어 있는 데이터가 있습니다.");
-                _currentSliderValue = PlayerPrefs.GetFloat("save_CurrentSoundValue");
-                _currentSourceVolume = PlayerPrefs.GetFloat("save_CurrentSourceVolume");
-                _PrevSoundValueTask = 0f;
-            }
-
-        }
-        catch (Exception e)
-        {
-            Debug.LogError($"SoundValueInitialize 중 예외 발생 : {e}");
-            throw e;
-            // Error 출력
-        }
-        finally
-        {
-            // 오류가 발생하건 아니건 , 실행.
-
-            Debug.Log("프로그램 종료");
-        }
-        //AudioSlider.onValueChanged.AddListener(delegate { onValueChanged(); });
+        _PrevSoundValue = saved;
+        
     }
 
-    private void Update()
-    {
-    }
     public async void OnClickMuteButton()  // 음소거 버튼을 눌렀을 때
     {
+        if (_isPlaying) return; 
+
         // 현재 볼륨을 저장해두고
         _currentSourceVolume = AudioSource.volume;
 
         // 비동기 저장
         await SoundValueSave("save_CurrentSoundValue", _currentSourceVolume);
 
-        _isPlaying = false;
+        isMute(false);
         // 텍스트 반영 
         soundvalueText.text = "X";
         // 실제 음소거
         AudioSource.volume = 0f;
         AudioSlider.value = 0f;
-    }
-
-    public async void OnClearMuteButton()
-    {
-        if (!_isPlaying) return;
-
-        // 비동기로 현재 값으로 불러온다.
-        var curr_volume = await SoundValueLoad("save_CurrentSoundValue", _currentSourceVolume);
-
-        _isPlaying = true;
-        AudioSource.volume = curr_volume;
-        AudioSlider.value = curr_volume;
-        soundvalueText.text = curr_volume.ToString();
-    }
+        Debug.Log($"음향을 음소거 시킵니다. 현 상태 : {_isPlaying}");
+    } 
 
     public async Task<float> SoundValueSave(string prefKey, float SaveData) // 슬라이더 변경점에 따라서 그 당시의 값을 저장 
     {
@@ -112,6 +62,7 @@ public class AudioManager : MonoBehaviour
         PlayerPrefs.SetFloat(prefKey, SaveData);
         PlayerPrefs.Save();
 
+        Debug.Log($"레지포토리에 저장했습니다. KeyName : {prefKey}, KeyValue : {SaveData}");
         return SaveData;
     }
 
@@ -120,6 +71,7 @@ public class AudioManager : MonoBehaviour
         try
         {
             await Task.Yield();
+            Debug.Log($"레지포토리에 불러옵니다. KeyName : {prefKey}, KeyValue : {LoadData}");
         }
         catch (Exception e)
         {
@@ -128,13 +80,23 @@ public class AudioManager : MonoBehaviour
             // Error 출력
         }
 
-
         return PlayerPrefs.GetFloat(prefKey, LoadData);
     }
 
     public bool isMute(bool soundState) // 음소거 가 풀리면, 저장된 값을 다시 불러와서 그 순간 부터 재생. 
     {
-        return soundState;
+        if (soundState) {
+            Debug.Log($"현재 음소거 상태 일 때 : {soundState}");
+            _isPlaying = false; 
+            return _isPlaying; 
+        }
+        else
+        {
+            Debug.Log($"현재 음소거 상태가 아닐 때 : {soundState}");
+            _isPlaying = true;
+            return _isPlaying;
+        }
+
     }
 
 
