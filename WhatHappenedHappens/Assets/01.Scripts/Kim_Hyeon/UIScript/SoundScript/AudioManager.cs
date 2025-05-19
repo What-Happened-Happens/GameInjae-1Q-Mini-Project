@@ -6,13 +6,12 @@ using System.Threading.Tasks;
 
 public class AudioManager : MonoBehaviour
 {
-
     [Header("Audio Mixer & Sliders")]
     [SerializeField] protected AudioSource AudioSource;
     [SerializeField] protected GameObject AudioTarget;
     [SerializeField] protected Slider AudioSlider;
     [SerializeField] protected TMP_Text AudioValueText;
-
+    public static AudioManager Instance { get; private set; }
     protected bool _isMute = false;             // 사운드 플레이 중인지 확인하기 위한 변수 
 
     protected float _currentSliderValue;        // 현재 슬라이더 값 

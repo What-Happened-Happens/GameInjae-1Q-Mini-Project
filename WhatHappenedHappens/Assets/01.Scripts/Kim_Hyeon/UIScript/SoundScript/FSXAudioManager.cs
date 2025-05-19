@@ -41,8 +41,7 @@ public class FSXAudioManager : MonoBehaviour
             Debug.Log($"효과음 테스트 클릭!");
      
            await PlayAssignedClipAsync(duration, volumeScale);
-        }
-        
+        }        
     }
 
     public async Task PlayAssignedClipAsync(float duration, float volumeScale)
