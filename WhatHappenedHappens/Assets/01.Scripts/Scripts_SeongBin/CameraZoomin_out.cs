@@ -13,9 +13,9 @@ public class PixelPerfectZoomCinemachine : MonoBehaviour
     private float currentZoom;                  // 현재 화면의 크기
     private float previousZoom;                 // 퍼블릭 변경 감지를 위한 이전값 저장
     private float defaultScreenSize;              // 크기가 1일때 카메라의 y 값
-    private int QClickCount;                      // q를 클릭한 횟수 -> 나중에 나누어 서 짝수면 q : off, 홀수면 q : on 
     private CinemachineVirtualCamera virtualCam;  // 버츄얼 카메라 컴포넌트 받을 변수
-    private bool isScreenWide;                    // q 눌러서 스크린 키웠니? t/f     <- q 눌렀는지 안눌렀는지도 사용함 외부에서도 사용가능할것같아요?
+    public bool isScreenWide = false;
+    int qCount;
     public Transform CameraLimit;                 // 전체 카메라의 움직임을 제한하는 오브젝트
    public Transform WideCameraPos;                // 카메라가 커졌을 때의 위치 
     public Transform NowPlayerPos;                // 현재 플레이어의 위치 
@@ -38,20 +38,20 @@ public class PixelPerfectZoomCinemachine : MonoBehaviour
 
     void Start()
     {
-        isScreenWide = false;
+        qCount = 0;
         virtualCam.Follow = NowPlayerPos;                      // 현제 카메라가 갈 곳을 플레이어로 정해놓음!!
         currentZoom = targetZoom;                            //현재 카메라의 크기
         previousZoom = targetZoom;                           // 과거 카메라의 크기
         ApplyZoomImmediate();
-        QClickCount = 0;
+        
         defaultScreenSize = Camera.main.orthographicSize * 2f / 5f;  // 기본 사이즈가 5f로 설정했음으로 /5, 카메라 수직길이 / 2임으로 *2를 해줌!!! 
         // Debug.Log("디폴트 사이즈 :" + defaultScreenSize);
     }
 
     void Update()
     {
-        DeciedWideMap();
-        WideCameraLimit(); // 카메라 위치 이동!!!
+        ToggleWideScreen();
+        WideCameraLimit();
         ApplyZoom();       // 확대 적용!!
     }
 
@@ -107,7 +107,7 @@ public class PixelPerfectZoomCinemachine : MonoBehaviour
 
         if (!isDiscrete && !Mathf.Approximately(currentZoom, targetZoom))
         {
-            currentZoom = Mathf.MoveTowards(currentZoom, targetZoom, zoomSpeed * Time.deltaTime);
+            currentZoom = Mathf.MoveTowards(currentZoom, targetZoom, zoomSpeed * Time.unscaledDeltaTime);
             virtualCam.m_Lens.OrthographicSize = currentZoom;
         }
     }
@@ -119,20 +119,12 @@ public class PixelPerfectZoomCinemachine : MonoBehaviour
     }
 
 
-    void DeciedWideMap() // q의 클릭횟수가 양이면 F, 음이면T
+    void ToggleWideScreen()
     {
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            QClickCount++;
-            //Debug.Log(QClickCount);
-       }
-        if (QClickCount % 2 == 0)
-        {
-            isScreenWide = false;
-        }
-        else
-        {
-            isScreenWide = true;
+            isScreenWide = !isScreenWide;
+            Debug.Log("Q 눌림: isScreenWide = " + isScreenWide);
         }
     }
 
@@ -141,34 +133,36 @@ public class PixelPerfectZoomCinemachine : MonoBehaviour
     // 카메라 가동범위X = 전체 카메라 경계의 크기 - 카메라 y 축 최대길이일때, x길이
     // 만약 :  전체 카메라의 중심 - (카메라 가동범위/2) > main 카메라의 중심점  =라면>  카메라가 갈수 있는 최대치로 돌리기
     // 범위 안에 있다면 방향키로 움직이기 가능!!!
-    void WideCameraLimit()
+    public void WideCameraLimit()
     {
-        if (isScreenWide == true)
-        {
-            float LimitMaxX = CameraLimit.localScale.x - CameraLimit.localScale.y * 16 / 9; //  가동범위
-            if (CameraLimit.position.x - (LimitMaxX/2) > virtualCam.transform.position.x)
+        if (isScreenWide) {
+            float screenWidth = CameraLimit.localScale.y * Camera.main.aspect;
+            float LimitMaxX = CameraLimit.localScale.x - screenWidth;
+
+            if (CameraLimit.position.x - (LimitMaxX / 2) > virtualCam.transform.position.x)
             {
                 WideCameraPos.position = new Vector3(CameraLimit.position.x - (LimitMaxX / 2), CameraLimit.position.y, 0);
             }
-            else if(CameraLimit.position.x + (LimitMaxX/2) < virtualCam.transform.position.x)
+            else if (CameraLimit.position.x + (LimitMaxX / 2) < virtualCam.transform.position.x)
             {
                 WideCameraPos.position = new Vector3(CameraLimit.position.x + (LimitMaxX / 2), CameraLimit.position.y, 0);
             }
             else
             {
+                WideCameraPos.position = new Vector3(WideCameraPos.position.x, CameraLimit.position.y, 0);
                 if (Input.GetKey(KeyCode.LeftArrow))
                 {
-                    WideCameraPos.position += new Vector3(-1, 0, 0) * zoomSpeed * Time.deltaTime;
+                    WideCameraPos.position += new Vector3(-1, 0, 0) * zoomSpeed * Time.unscaledDeltaTime;
                 }
                 if (Input.GetKey(KeyCode.RightArrow))
                 {
-                    WideCameraPos.position += new Vector3(1, 0, 0) * zoomSpeed * Time.deltaTime;
+                    WideCameraPos.position += new Vector3(1, 0, 0) * zoomSpeed * Time.unscaledDeltaTime;
                 }
             }
             virtualCam.Follow = WideCameraPos;  // 버츄얼 카메라가 이 위치를 따라가게함...
-           
+
             // 카메라 한계점과  카메라 size 값이 1일때의 길이를 나누어 size를 구하고 카메라 크기를 커지게하는 함수에 넣어줌!!
-            SetZoom(CameraLimit.localScale.y / defaultScreenSize, false);  
+            SetZoom(CameraLimit.localScale.y / defaultScreenSize, false);
             Debug.Log(CameraLimit.localScale.y / defaultScreenSize);
         }
         else
@@ -177,6 +171,7 @@ public class PixelPerfectZoomCinemachine : MonoBehaviour
             SetZoom(5, false);
         }
     }
+
 
 
 
