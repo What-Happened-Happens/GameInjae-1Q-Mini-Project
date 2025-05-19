@@ -8,7 +8,7 @@ public class FSXAudioManager : MonoBehaviour
 
     [SerializeField] private AudioSource _audioSource;
     [SerializeField] private string clipPath = "Sounds/";
-    public AudioClip clip;
+    
 
     private readonly Dictionary<string, AudioClip> _cache = new();
 
@@ -18,8 +18,17 @@ public class FSXAudioManager : MonoBehaviour
         else Destroy(_audioSource.gameObject); 
     }
 
+    private async void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            await FSXAudioManager.Instance.PlaySFXAsync("Satin Black");
+        }
+    }
+  
     public async Task PlaySFXAsync(string clipName)
-    {        
+    {
+        AudioClip clip;
         if (!_cache.TryGetValue(clipName , out clip))
         {
             clip = await LoadClipAsync(clipName);    
@@ -29,24 +38,17 @@ public class FSXAudioManager : MonoBehaviour
                 return;
             }          
             _cache[clipName] = clip;
-        }
-        _audioSource.loop = false;
-        _audioSource.time = 1f;
-        _audioSource.volume = 5f;
-      
-        _audioSource.PlayOneShot(_cache[clipName]);
-        _audioSource.Play();
+        }            
+        _audioSource.PlayOneShot(_cache[clipName], 1f);   
     }
 
-    private Task<AudioClip> LoadClipAsync(string clipName)
+    private async Task<AudioClip> LoadClipAsync(string clipName)
     {
-        var FSX = new TaskCompletionSource<AudioClip>();
         var req = Resources.LoadAsync<AudioClip>(clipPath + clipName);
+        await Task.Yield();
 
-        req.completed += _ =>
-        {
-            FSX.SetResult(req.asset as AudioClip);
-        };
-        return FSX.Task; 
+        if (req.asset is AudioClip ac) return ac;
+        Debug.LogWarning($"[{nameof(FSXAudioManager)}] Can't load: {clipName}");
+        return null;
     }
 }
