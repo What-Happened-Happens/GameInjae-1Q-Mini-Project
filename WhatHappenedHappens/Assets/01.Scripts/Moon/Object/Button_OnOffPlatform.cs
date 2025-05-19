@@ -11,10 +11,6 @@ public class Button_OnOffPlatform : MonoBehaviour
     public List<GameObject> OnplatformObjects = new List<GameObject>();
     public List<GameObject> OffplatformObjects = new List<GameObject>();
 
-    private void Start()
-    {
-
-    }
 
     private void Update()
     {
