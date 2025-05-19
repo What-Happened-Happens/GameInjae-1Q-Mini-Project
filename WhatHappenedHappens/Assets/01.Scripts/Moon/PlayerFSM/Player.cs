@@ -23,7 +23,7 @@ public class Player : MonoBehaviour
     // private bool jumpPressed = false;
 
     [Header("Collision Size")]
-    private Vector2 wallBoxSize = new Vector2(0.1f, 1.7f);
+    private Vector2 wallBoxSize = new Vector2(0.1f, 1.6f);
     private Vector2 groundBoxSize = new Vector2(0.9f, 0.07f);
 
 
@@ -118,8 +118,8 @@ public class Player : MonoBehaviour
     public bool IsTouchWall()
     {
         Vector2 position = transform.position;
-        Vector2 leftBoxCenter = position + Vector2.left * (wallBoxSize.x + 0.18f);
-        Vector2 rightBoxCenter = position + Vector2.right * (wallBoxSize.x + 0.18f);
+        Vector2 leftBoxCenter = position + Vector2.left * (wallBoxSize.x + 0.38f);
+        Vector2 rightBoxCenter = position + Vector2.right * (wallBoxSize.x + 0.38f);
         bool hitLeftWall = Physics2D.OverlapBox(leftBoxCenter, wallBoxSize, 0f, groundLayer);
         bool hitRightWall = Physics2D.OverlapBox(rightBoxCenter, wallBoxSize, 0f, groundLayer);
 
