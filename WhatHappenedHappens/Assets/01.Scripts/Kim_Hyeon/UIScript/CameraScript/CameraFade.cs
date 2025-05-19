@@ -72,31 +72,37 @@ public class CameraFade : MonoBehaviour
     {
         float elapsed = 0f;
         float cameraZpos = CameraPrefab.transform.position.z;
-        float FadeTime = Mathf.Clamp01(elapsed / duration);
+
         Vector3 startPos = CameraPrefab.transform.position;
+        Debug.Log($"시작 위치 [x] : {startPos.x}. [y] : {startPos.y}");
+
+        Vector3 targetPos = PlayerPrefab.transform.position;
+        Debug.Log($"시작 위치 [x] : {targetPos.x}. [y] : {targetPos.y}");
+        targetPos.z = cameraZpos;
 
         while (elapsed < duration)
         {
             elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / duration);
 
-            if (isClear)
-            {
-                CameraPrefab.orthographicSize = Mathf.Lerp(fromSize, toSize, FadeTime);
-                Vector3 playerPos = PlayerPrefab.transform.position;
-                playerPos.z = cameraZpos;
-                CameraPrefab.transform.position = Vector3.Lerp(startPos, playerPos, FadeTime);
+          
+                CameraPrefab.orthographicSize = Mathf.Lerp(fromSize, toSize, t);
 
-                yield return null;
-            }
-            else if (isClear == false)
-            {
-                CameraPrefab.orthographicSize = Mathf.Lerp(toSize, fromSize, FadeTime);
-                Vector3 playerPos = PlayerPrefab.transform.position;
-                playerPos.z = cameraZpos;
-                CameraPrefab.transform.position = Vector3.Lerp(startPos, playerPos, FadeTime);
+
+                CameraPrefab.transform.position = Vector3.Lerp(startPos, targetPos, t);
+
 
                 yield return null;
-            }
+           
+           
+                //CameraPrefab.orthographicSize = Mathf.Lerp(toSize, fromSize, t);
+                //Vector3 playerPos = PlayerPrefab.transform.position;
+                //Debug.Log($"플레이어 위치 [x] : {playerPos.x}. [y] : {playerPos.y}");
+                //playerPos.z = cameraZpos;
+                //CameraPrefab.transform.position = Vector3.Lerp(startPos, playerPos, t);
+                //Debug.Log($"카메라 최종 위치 [x] : {CameraPrefab.transform.position.x}. [y] : {CameraPrefab.transform.position.y}");
+                //yield return null;
+           
            
 
         }
@@ -117,7 +123,7 @@ public class CameraFade : MonoBehaviour
 
      
     }
-    private void LateUpdate()
+    private void Update()
     {
         // 플레이어 위치 따라가기
         if (PlayerPrefab != null)
