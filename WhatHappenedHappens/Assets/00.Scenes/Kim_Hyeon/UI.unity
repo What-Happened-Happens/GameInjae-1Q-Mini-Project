@@ -1131,7 +1131,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 618812062}
         m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
         m_MethodName: OnClickMuteButton
         m_Mode: 1
@@ -1193,10 +1193,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8275133a4df53243afed37171638384, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AudioSource: {fileID: 874222832}
+  _BGMaudioSource: {fileID: 874222832}
+  _SFXaudioSource: {fileID: 522456046}
   AudioTarget: {fileID: 874222830}
-  AudioSlider: {fileID: 1230628722}
-  AudioValueText: {fileID: 1275692217}
+  _BGMAudioSlider: {fileID: 1230628722}
+  _SFXAudioSlider: {fileID: 2020489720}
+  _BGMaudioText: {fileID: 1275692217}
+  _SFXaudioText: {fileID: 1790795567}
+  SFXsources:
+  - {fileID: 522456046}
+  - {fileID: 0}
 --- !u!1 &669265120
 GameObject:
   m_ObjectHideFlags: 0
@@ -3401,10 +3407,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00edd71fed101c949a354eda4ad6830d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AudioSource: {fileID: 874222832}
+  _BGMaudioSource: {fileID: 874222832}
+  _SFXaudioSource: {fileID: 522456046}
   AudioTarget: {fileID: 874222830}
-  AudioSlider: {fileID: 2020489720}
-  AudioValueText: {fileID: 1790795567}
+  _BGMAudioSlider: {fileID: 1230628722}
+  _SFXAudioSlider: {fileID: 2020489720}
+  _BGMaudioText: {fileID: 1275692217}
+  _SFXaudioText: {fileID: 1790795567}
+  SFXsources: []
 --- !u!1 &2141723997
 GameObject:
   m_ObjectHideFlags: 0
