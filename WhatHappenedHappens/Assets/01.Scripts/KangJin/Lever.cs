@@ -7,24 +7,26 @@ public class Lever : TrueFalse
 {
     SpriteRenderer sr;
     Animation anim;
+    float elapsedTime;
     // Start is called before the first frame update
     void Start()
     {
         sr = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animation>();
+        elapsedTime = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
-/*        if(isTrue)
-        {
-            *//*sr.color = Color.green;*//*
+        if(isTrue)
+        { 
+            elapsedTime += Time.deltaTime; 
+            if(elapsedTime > 5f)
+            {
+                isTrue = false;
+            }
         }
-        else
-        {
-            *//*sr.color = Color.red;*//*
-        }*/
     }
     private void OnCollisionStay2D(Collision2D collision)
     {
@@ -44,6 +46,7 @@ public class Lever : TrueFalse
             if (!isTrue)
             {
                 isTrue = true;
+                elapsedTime = 0;
                 anim.Play("Ani_Lever");
                 Debug.Log("Lever Abled");
             }

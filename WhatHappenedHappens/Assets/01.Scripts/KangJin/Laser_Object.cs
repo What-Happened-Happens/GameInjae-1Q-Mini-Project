@@ -13,7 +13,9 @@ public class Laser_Object : MonoBehaviour
     /*SpriteRenderer sr;*/
     LineRenderer lr;
     Vector3 startPos;
+    Vector3 endPos;
     RaycastHit2D rayHit2D;
+    int layerMask;
 
     /*public TrueFalse trigger;*/
     void Start()
@@ -21,35 +23,38 @@ public class Laser_Object : MonoBehaviour
         rb = gameObject.AddComponent<Rigidbody2D>();
         rb.bodyType = RigidbodyType2D.Static;
         lr = GetComponent<LineRenderer>();
-        /*sr = GetComponent<SpriteRenderer>();
-        sr.spriteSortPoint = SpriteSortPoint.Pivot;*/
-
-        //레이캐스트 방향 정함
-        startPos = gameObject.transform.position;
+        layerMask = LayerMask.GetMask("Player", "GhostPlayer","Ground");        //레이캐스트 방향 정함
+        startPos = transform.position;
         Debug.Log(startPos);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+       
     }
 
     private void FixedUpdate()
     {
-        /*if(trigger.IsTrue)*/
         //레이캐스트 방향 정함
+        rayHit2D = Physics2D.Raycast(startPos, Vector2.down * 100, 1000, layerMask);
+        if (rayHit2D)
         {
-            rayHit2D = Physics2D.Raycast(startPos, Vector2.down*100);
-            Debug.DrawLine(startPos, rayHit2D.point, Color.magenta);
-            float posToPointY = startPos.y - rayHit2D.point.y;
-            float fixedPosY = startPos.y - (posToPointY/2);
-            gameObject.transform.localScale = new Vector3(gameObject.transform.localScale.x, rayHit2D.distance, gameObject.transform.localScale.z);
+            endPos = rayHit2D.point;
+            Debug.Log("Start :" + startPos+"End :" + endPos);
         }
+        Debug.DrawLine(startPos, rayHit2D.point, Color.magenta);
+        
+        lr.positionCount = 2;
+        lr.SetPosition(0, startPos);
+        lr.SetPosition(1, rayHit2D.point);
     }
 
-/*    private void OnCollisionStay2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log(collision.gameObject.name+" colliding!");
-    }*/
+        if(collision.tag == "Player")
+        {
+            collision.gameObject.GetComponent<Player>().isDead = true;
+        }
+    }
 }
