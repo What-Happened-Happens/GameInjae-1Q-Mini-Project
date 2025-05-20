@@ -1,7 +1,15 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using UnityEngine;
+using static Unity.Collections.AllocatorManager;
+
+// Ensure FSXState is public to match the accessibility of the method using it
+public enum FSXState
+{
+    None = 0,
+    Click = 1,
+}
 
 public class FSXAudioManager : AudioManager
 {
@@ -10,64 +18,90 @@ public class FSXAudioManager : AudioManager
     [SerializeField] private AudioSource _audioSource;
     [SerializeField] private GameObject _audioTarget;
     [SerializeField] private string clipPath = "Sounds/";
+    [SerializeField] private float longPressThreshold = 0.5f;
 
-    private readonly Dictionary<string, AudioClip> _cache = new();
+    private Coroutine _stopRoutine;
 
-    public float duration = 0.5f;
-    public float volumeScale = 0.5f; 
+    public float shortDuration = 0.3f;
+    public float longDuration = 1f;
+    public float volumeScale = 0.5f;
+
+    [Header("AudioClips")]
+    public List<AudioClip> clips = new List<AudioClip>();
+
+    private float _pressStartTime;
+    private bool _isPressing = false;
 
     private void Awake()
     {
         if (Instance == null) Instance = this;
-        else                  Destroy(_audioSource.gameObject);
+        else Destroy(gameObject);
+
         DontDestroyOnLoad(gameObject);
 
-        if (_audioTarget == null)
-        {
-            Debug.LogError("FSXAudioManager: _audioTarget이 할당되지 않았습니다.");
-        }
+        if (_audioTarget != null)
+            _audioSource = _audioTarget.GetComponent<AudioSource>();
 
-        _audioSource = _audioTarget.GetComponent<AudioSource>();
         if (_audioSource == null)
-        {
-            Debug.LogError("FSXAudioManager: _audioTarget 에 AudioSource 가 없습니다.");
-        }
-        _audioSource.volume = 0f; 
+            Debug.LogError("FSXAudioManager: AudioSource 할당이 되지 않았습니다.");
+
+        _audioSource.volume = 0f;
     }
 
-    private async void Update()
-    {        
+    private void Update()
+    {
         if (Input.GetMouseButtonDown(0))
         {
-            Debug.Log($"효과음 테스트 클릭!");
-            if (_isMute)
-            {
-                await PlayAssignedClipAsync(0f, 0f);
-            }
-           await PlayAssignedClipAsync(duration, volumeScale);        
-        }     
+            _isPressing = true;
+            _pressStartTime = Time.time;
+        }
+
+        if (_isPressing && Input.GetMouseButtonUp(0))
+        {
+            _isPressing = false;
+            float heldDuration = Time.time - _pressStartTime;
+
+            bool isShort = heldDuration < longPressThreshold;
+            float duration = isShort ? shortDuration : longDuration;
+
+            PlayClipWithDuration(duration, volumeScale);
+        }
     }
 
-    public async Task PlayAssignedClipAsync(float duration, float volumeScale)
+    public void PlayClipWithDuration(float duration, float volume)
     {
-        if (_audioSource == null || _audioSource.clip == null)
+        if (_audioSource.clip == null)
         {
-            Debug.LogWarning("FSXAudioManager: 재생할 AudioSource 또는 clip이 없습니다.");
+            Debug.LogWarning("FSXAudioManager: 재생할 AudioClip이 없습니다.");
             return;
         }
 
-        _audioSource.volume = volumeScale;
+        if (_stopRoutine != null)
+            StopCoroutine(_stopRoutine);
+
+        _audioSource.volume = volume;
         _audioSource.Play();
 
-        await Task.Delay(TimeSpan.FromSeconds(duration));
-        await Task.Yield();
-
-        ClipStop();
+        _stopRoutine = StartCoroutine(StopAfterDuration(duration));
     }
 
-    public void ClipStop()
+    public void PlayClipChanged(FSXState state)
     {
-        _audioSource.Stop();
+        switch (state)
+        {
+            case FSXState.None:
+                break;
+            case FSXState.Click:
+                break;
+        }
     }
-   
+
+    private IEnumerator StopAfterDuration(float duration)
+    {
+        float waitTime = Mathf.Min(duration, _audioSource.clip.length);
+        yield return new WaitForSeconds(waitTime);
+
+        _audioSource.Stop();
+        _stopRoutine = null;
+    }
 }

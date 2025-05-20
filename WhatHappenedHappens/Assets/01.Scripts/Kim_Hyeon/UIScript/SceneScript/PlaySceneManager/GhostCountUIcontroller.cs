@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class GhostCountUIcontroller : UIHelper
 {
     // - ghostCounter 랑 recordingTimeRemaining 가져가서 UI 표시 해주시면 될 거 같아요!! 
-    // [SerializeField] private GetItemUI _getItemUI;
     ParadoxManager _paradoxManager;
 
     [Header("ghostImageList")]
@@ -15,7 +14,9 @@ public class GhostCountUIcontroller : UIHelper
     private void Start()
     {
         // if (_getItemUI == null)  _getItemUI = gameObject.AddComponent<GetItemUI>();
-        if (_paradoxManager == null) _paradoxManager = gameObject.AddComponent<ParadoxManager>();
+        _paradoxManager = FindObjectOfType<ParadoxManager>();
+        if (_paradoxManager == null)
+            Debug.LogError("ParadoxManager를 찾을 수 없습니다!");
 
         if (ghosts == null || ghosts.Count == 0)
             Debug.LogWarning("Ghost UI Image 리스트가 비어있습니다. 인스펙터에서 할당해주세요.");
@@ -29,14 +30,14 @@ public class GhostCountUIcontroller : UIHelper
     }
     private void Update()
     {
-        int count = 1;
+        int count = _paradoxManager.ghostCounter;
         RefreshGhostUI(count);
     }
 
     // 고스트 UI Color Change 
     private void RefreshGhostUI(int ghostCount)
     {
-        if (ghosts == null || ghosts.Count == 0) return;
+        if (ghosts == null) return;
         Debug.LogWarning($"UI 이미지가 비어있습니다.");
 
         // 생성된 고스트의 개수만큼 리스트 안에 있는 고스트 이미지의 색을 white로 변경 
@@ -44,15 +45,16 @@ public class GhostCountUIcontroller : UIHelper
         {
             if (ghosts[i] == null) continue;
 
-            if (i < ghostCount)
-            {              
+            if (i <= ghostCount)
+            {
                 SetImageColor(ghosts[i], Color.white);
             }
-            else
+            else if (i >= ghostCount)
             {
-              SetImageColor(ghosts[i], Color.gray);
+                SetImageColor(ghosts[i], Color.gray);
             }
             Debug.Log($"색 변경 : {ghosts[i].color}");
+
         }
 
     }

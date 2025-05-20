@@ -6,6 +6,7 @@ public class CardKeyUIcontroller : UIHelper
 {
     [Header("ImagePrefab")]
     public Image _targetimagePrefab;
+    public GameObject _targetCardKey; 
 
     public bool _isGetCardKey { get; set; }          // 카드키를 먹었을 때 받을 bool 타입 신호 
     public bool _isGamePlaying { get; set; } = true; // 게임 플레이 중. 임시로 테스트를 위해 true 로 지정. 
@@ -17,7 +18,7 @@ public class CardKeyUIcontroller : UIHelper
         Debug.Log($"시작하면, CardKeyUI 컬러 톤을 낮추고 시작");
         _targetimagePrefab.gameObject.SetActive(true);
         Debug.Log($"SpriteManager : 시작하면, 테스트를 위해 CardKeyUI 활성화에서 시작");
-
+        CardKeyShow(true, _targetCardKey);
     }
  
     public void CardKeyShow(bool isStageScene, GameObject worldCardkeyObj)
