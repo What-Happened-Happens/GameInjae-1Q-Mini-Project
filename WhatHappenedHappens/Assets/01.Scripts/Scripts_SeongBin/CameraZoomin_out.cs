@@ -13,12 +13,12 @@ public class PixelPerfectZoomCinemachine : MonoBehaviour
     public bool isDiscrete = false;             // 즉시 변경 or 부드럽게
     public float zoomSpeed = 5f;                // 확대, 축소 속도
     public float screenMoveSpeed = 7f;          // 스크린이 움직이는 속도
-    private float currentZoom;                  // 현재 화면의 크기
+    public float currentZoom;                  // 현재 화면의 크기
     private float previousZoom;                 // 퍼블릭 변경 감지를 위한 이전값 저장
     private float defaultScreenSize;              // 크기가 1일때 카메라의 y 값
     private CinemachineVirtualCamera virtualCam;  // 버츄얼 카메라 컴포넌트 받을 변수
     public bool isScreenWide = false;
-    public pauseScreen pauseScreen;
+    public pauseScreen pauseScreen;               // q를 누르면 TF 상태를 만듦
     public Transform CameraLimit;                 // 전체 카메라의 움직임을 제한하는 오브젝트
    public Transform WideCameraPos;                // 카메라가 커졌을 때의 위치 
     public Transform NowPlayerPos;                // 현재 플레이어의 위치 
@@ -44,11 +44,11 @@ public class PixelPerfectZoomCinemachine : MonoBehaviour
 
     void Start()
     {
+        mainConvertUpdate.m_UpdateMethod = CinemachineBrain.UpdateMethod.FixedUpdate;
         virtualCam.Follow = NowPlayerPos;                      // 현제 카메라가 갈 곳을 플레이어로 정해놓음!!
         currentZoom = targetZoom;                            //현재 카메라의 크기
         previousZoom = targetZoom;                           // 과거 카메라의 크기
         ApplyZoomImmediate();
-        
         defaultScreenSize = Camera.main.orthographicSize * 2f / defaultCameraSize;  // 기본 사이즈가 5f로 설정했음으로 /5, 카메라 수직길이 / 2임으로 *2를 해줌!!! 
         // Debug.Log("디폴트 사이즈 :" + defaultScreenSize);
     }
@@ -56,7 +56,7 @@ public class PixelPerfectZoomCinemachine : MonoBehaviour
     void Update()
     {
         RealDeltaTime();
-        WideCamera();
+        WideCameraLimit();
         ApplyZoom();       // 확대 적용!!
     }
 
@@ -136,9 +136,10 @@ public class PixelPerfectZoomCinemachine : MonoBehaviour
     // 카메라 가동범위X = 전체 카메라 경계의 크기 - 카메라 y 축 최대길이일때, x길이
     // 만약 :  전체 카메라의 중심 - (카메라 가동범위/2) > main 카메라의 중심점  =라면>  카메라가 갈수 있는 최대치로 돌리기
     // 범위 안에 있다면 방향키로 움직이기 가능!!!
-    public void WideCamera()
+    public void WideCameraLimit()
     {
-        if (pauseScreen.isScreenWide) { // q가 외부에서 눌러졌을때 T 
+        if (pauseScreen.isScreenWide) { // q가 외부에서 눌러졌을때 
+            mainConvertUpdate.m_UpdateMethod = CinemachineBrain.UpdateMethod.SmartUpdate; 
             float screenWidth = CameraLimit.localScale.y * Camera.main.aspect;
             float LimitMaxX = CameraLimit.localScale.x - screenWidth;
             // 카메라가 자주 범위 밖으로 나감으로 0.05 정도 보정치 적용
@@ -153,9 +154,10 @@ public class PixelPerfectZoomCinemachine : MonoBehaviour
             else
             {
                 WideCameraPos.position = new Vector3(WideCameraPos.position.x, CameraLimit.position.y, 0);
+                Debug.Log(CameraLimit.position.y);
                 if (Input.GetKey(KeyCode.A))
                 {
-                    Debug.Log(realDeltaTime);
+                    //Debug.Log(realDeltaTime);
                     WideCameraPos.position += new Vector3(-1, 0, 0) * zoomSpeed * realDeltaTime;
                 }
                 if (Input.GetKey(KeyCode.D))
@@ -167,10 +169,11 @@ public class PixelPerfectZoomCinemachine : MonoBehaviour
 
             // 카메라 한계점과  카메라 size 값이 1일때의 길이를 나누어 size를 구하고 카메라 크기를 커지게하는 함수에 넣어줌!!
             SetZoom(CameraLimit.localScale.y / defaultScreenSize, false);
-            Debug.Log(CameraLimit.localScale.y / defaultScreenSize);
+            //Debug.Log(CameraLimit.localScale.y / defaultScreenSize);
         }
         else
         {
+            mainConvertUpdate.m_UpdateMethod = CinemachineBrain.UpdateMethod.FixedUpdate;
             virtualCam.Follow = NowPlayerPos;
             SetZoom(defaultCameraSize, false);
         }

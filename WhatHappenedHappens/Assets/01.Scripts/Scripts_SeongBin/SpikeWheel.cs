@@ -32,18 +32,22 @@ public class SpikeWheel : MonoBehaviour
         curWayPoint = 1;
         wheelTurnSpeed = 360f;
         initPos = GetComponent<Transform>();
-        if (wayPoint != null )
+        if (wayPoint != null && wayPoint.transform.childCount >= 2)
         {
+            chilWayPoints.Clear(); // 혹시 Start 여러 번 돌 수 있으니 초기화
             foreach (Transform t in wayPoint.transform)
                 chilWayPoints.Add(t);
+
             startPoint = chilWayPoints[0].position;
             endPoint = chilWayPoints[1].position;
         }
         else
         {
-            startPoint = initPos.position;
+            // 아무 것도 안 하고 현재 위치 유지 (또는 원하는 기본 위치)
+            startPoint = transform.position;
+            endPoint = transform.position;
         }
-            transform.position = startPoint;
+        transform.position = startPoint;
     }
 
     void Update()
