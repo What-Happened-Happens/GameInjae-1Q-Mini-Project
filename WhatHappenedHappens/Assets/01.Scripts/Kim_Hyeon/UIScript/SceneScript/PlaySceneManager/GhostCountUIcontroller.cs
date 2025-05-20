@@ -17,6 +17,7 @@ public class GhostCountUIcontroller : UIHelper
         if (_paradoxManager == null)
             Debug.LogError("ParadoxManager를 찾을 수 없습니다!");
 
+        ghosts = GetComponentInChildren<List<Image>>();
         if (ghosts == null || ghosts.Count == 0)
             Debug.LogWarning("Ghost UI Image 리스트가 비어있습니다. 인스펙터에서 할당해주세요.");
 
@@ -45,11 +46,11 @@ public class GhostCountUIcontroller : UIHelper
             var img = ghosts[i];
             if (img == null) continue;
 
-            if (i <= ghostCount)
+            if (i < ghostCount)
             {
                 SetImageColor(ghosts[i], Color.white);
             }
-            else if (i >= 0)
+            else 
             {
                 SetImageColor(ghosts[i], Color.gray);
             }
