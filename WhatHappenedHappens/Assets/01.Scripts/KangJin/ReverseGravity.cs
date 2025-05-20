@@ -33,16 +33,19 @@ public class ReverseGravity : MonoBehaviour
     TrueFalse levercomponent;
     bool powerOn = false; // Ä×³ª?
     public bool useGravity = false; // ²°´Âµ¥ ÀÛµ¿ ÇÏ³ª?
+
+    SpriteRenderer stepspriterenderer;
     void Start()
     {
         normalGravityScale = 1;
         reversedGravityScale = -1;
         weakenedGravityScale = 0.5f;
         reinforcedGravityScale = 2;
-        currState = GravityState.Normal;
+        /*currState = GravityState.Normal;*/
         nextState = currState;
         gravityScale = normalGravityScale;
         levercomponent = operatingObject.GetComponent<TrueFalse>();
+     /*   stepspriterenderer = gravityStep.GetComponent<SpriteRenderer>();*/
     }
 
     // Update is called once per frame
@@ -92,6 +95,7 @@ public class ReverseGravity : MonoBehaviour
                 gravityScale = reinforcedGravityScale;
                 break;
         }
+        /*nextState = currState;*/
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -101,15 +105,17 @@ public class ReverseGravity : MonoBehaviour
     }
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if(nextState != currState)
+/*        if(nextState != currState)
         {
             collision.gameObject.GetComponent<Rigidbody2D>().gravityScale *= gravityScale;
+            Debug.Log("Gravity Scale : " + collision.gameObject.GetComponent<Rigidbody2D>().gravityScale);
         }
-        nextState = currState;
+        nextState = currState;*/
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
         collision.gameObject.GetComponent<Rigidbody2D>().gravityScale = originalGravityScale;
         Debug.Log("Gravity Scale : " + collision.gameObject.GetComponent<Rigidbody2D>().gravityScale);
     }
+    public GravityState GetCurrGravityState() { return currState; }
 }
