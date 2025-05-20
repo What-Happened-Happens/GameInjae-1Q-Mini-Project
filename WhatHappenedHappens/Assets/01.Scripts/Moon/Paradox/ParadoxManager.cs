@@ -25,8 +25,9 @@ public class ParadoxManager : MonoBehaviour
     public int ghostCounter = 0;
     public float recordingTimeRemaining = 0f;
 
-    private bool isRecording = false;
+    public bool isRecording = false;
     private bool isReplaying = false;
+
     private float recordingStartTime = 0f;
     private float replayStartTime = 0f;
 

@@ -1,7 +1,6 @@
 using UnityEngine.UI;
 using UnityEngine;
 using Assets._01.Scripts.Kim_Hyeon.UIScript.SceneScript;
-using System;
 
 public class CardKeyUIcontroller : UIHelper
 {
@@ -9,8 +8,11 @@ public class CardKeyUIcontroller : UIHelper
     public Image _targetimagePrefab;
     public GameObject _targetCardKey;
 
-    public bool _isGetCardKey { get; set; }          // 카드키를 먹었을 때 받을 bool 타입 신호 
+    public bool _isGetCardKey { get; set; } = true;        // 카드키를 먹었을 때 받을 bool 타입 신호 
     public bool _isGamePlaying { get; set; } = true; // 게임 플레이 중. 임시로 테스트를 위해 true 로 지정. 
+
+    public bool _isShow {  get; set; } = true; 
+    public bool _isHide { get; set; } = true; 
 
     private void Start()
     {
@@ -18,9 +20,9 @@ public class CardKeyUIcontroller : UIHelper
         _targetimagePrefab.gameObject.SetActive(true);
 
         // test 
-        _isGetCardKey = true;
-
-        CardKeyShow(false, _targetCardKey);
+        _isGetCardKey = false;
+        SetImageColor(_targetimagePrefab, Color.gray);
+        CardKeyShow(_isGetCardKey, _targetCardKey);
         Debug.Log($"SpriteManager : 시작하면, 테스트를 위해 CardKeyUI 활성화에서 시작");
       
     }
@@ -29,11 +31,12 @@ public class CardKeyUIcontroller : UIHelper
     {
         GetCardKeyLoop(_isGetCardKey, _targetCardKey);
     }
-    public void CardKeyShow(bool isStageScene, GameObject worldCardkeyObj)
+    public void CardKeyShow(bool isStageclear, GameObject worldCardkeyObj)
     {
-        if (isStageScene && _isGamePlaying == false) return;
-        Debug.Assert(isStageScene, $"CardKey 획득되지 않았는데 Show를 호출했습니다. {isStageScene}");
+        if (isStageclear && _isGamePlaying == false && _isShow == false) return;
 
+        _isHide = false;
+        _isShow = true; 
         Vector3 worldPos = worldCardkeyObj.transform.position;
         Vector3 screenPos = Camera.main.WorldToScreenPoint(worldPos);
 
@@ -55,16 +58,18 @@ public class CardKeyUIcontroller : UIHelper
         Vector2 newScale = new Vector2(1, 1);
      
         Debug.Log($"카드키를 먹었습니다! 카드키 위치 >  SpritePosition : {screenPos}");
-        Debug.Log($"카드키 UI가 화면에 보입니다. > isGetCardKey : {isStageScene} ");
+        Debug.Log($"카드키 UI가 화면에 보입니다. > isGetCardKey : {isStageclear} ");
 
         _targetimagePrefab.gameObject.SetActive(true);
+        SetImageColor(_targetimagePrefab, Color.white); 
     }   
 
     // 카드키를 받는 값이 false 일 때, Hide.
     public void CardKeyHide(bool isStageClearScenes)
     {
-        if (isStageClearScenes != false) return;
-
+        if (isStageClearScenes != false && _isHide == false) return;
+        _isShow = false; 
+     
         Debug.Log($"스테이지 넘어갔습니다! 카드키 UI가 화면에서 숨깁니다. > isGetCardKey : {isStageClearScenes}");
         _targetimagePrefab.gameObject.SetActive(false);
     }
@@ -72,7 +77,7 @@ public class CardKeyUIcontroller : UIHelper
     // 카드키를 먹었을 때 연출할 수 있도록 Image 오브젝트 중심점 크기 조절 함수 
     public void CardKeyScale(bool isStageSceneClear, float Scalex, float Scaley)
     {
-        Debug.Assert(!isStageSceneClear, $"카드키를 먹었습니다! 연출 효과 출력!");
+        Debug.Log($"카드키를 먹었습니다! 연출 효과 출력!");
 
         Vector3 imageScale = new Vector3(Scalex, Scaley, 0f);
 

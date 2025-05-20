@@ -1,7 +1,4 @@
-﻿using System;
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.UIElements;
+﻿using UnityEngine;
 
 namespace Assets._01.Scripts.Kim_Hyeon.UIScript.SceneScript
 {
@@ -13,7 +10,6 @@ namespace Assets._01.Scripts.Kim_Hyeon.UIScript.SceneScript
         public void SetImageScale(UnityEngine.UI.Image targetImage, Vector3 imageScale) => targetImage.rectTransform.localScale = imageScale;
         
         // RectTransform 전용 
-        public void SetImageScale(Vector2 targetImageScale, Vector2 imageScale) => targetImageScale = imageScale;
         public void SetImageCanvasPosition(Vector2 anchoredPosition, Vector3 screenPos) => anchoredPosition = screenPos;
 
         // 이미지 스프라이트 셋팅 

@@ -6928,6 +6928,7 @@ MonoBehaviour:
   recordingDuration: 5
   ghostCounter: 0
   recordingTimeRemaining: 0
+  isRecording: 0
   objectManager: {fileID: 1181009346}
 --- !u!1 &1542312228
 GameObject:

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GhostTimerUIController : UIHelper
+public class GhostTest : UIHelper
 {
-     private ParadoxManager _paradoxManager;
+    private ParadoxManager _paradoxManager;
 
     [Header("GhostTimerImages")] // 고스트 타이머 이미지 리스트 
     public List<Sprite> ghostTimerSprites = new List<Sprite>(); // 변경할 스프라이트 리스트 
@@ -16,8 +16,6 @@ public class GhostTimerUIController : UIHelper
 
     private void Start()
     {
-        timerImage.gameObject.SetActive(false);
-
         _paradoxManager = FindObjectOfType<ParadoxManager>();
         if (_paradoxManager == null)
         {
@@ -27,18 +25,24 @@ public class GhostTimerUIController : UIHelper
         }
         if (ghostTimerSprites == null || ghostTimerSprites.Count == 0)
             Debug.LogWarning("ghostTimer UI Image 리스트가 비어있습니다. 인스펙터에서 할당해주세요.");
-        
+
+        timerImage.gameObject.SetActive(false);
+
         timer = _paradoxManager.recordingTimeRemaining; // 녹화 중 남아있는 시간. 
     }
 
     private void Update()
     {
-       
+        tickAcc += Time.deltaTime;
         Debug.Log("▶ GhostTimerUIController.Update 호출!");
-       
+        if (tickAcc >= 1f)
+        {
+            timer += 1f;
+            tickAcc -= 1f;
+        }
         if (_paradoxManager.isRecording == true && _paradoxManager.recordingTimeRemaining >= 0f)
         {
-            Debug.Log($"녹화 시작 지점"); 
+            Debug.Log($"녹화 시작 지점");
             timerImage.gameObject.SetActive(true);
 
             UpdateSpriteForTime(timer);
@@ -67,4 +71,3 @@ public class GhostTimerUIController : UIHelper
 
     }
 }
-
