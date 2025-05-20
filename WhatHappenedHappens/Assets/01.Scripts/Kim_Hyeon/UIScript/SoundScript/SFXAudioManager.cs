@@ -28,8 +28,8 @@ public class SFXAudioManager : MonoBehaviour
     public List<StateClip> stateClips = new List<StateClip>();
     private Dictionary<AudioSource, Coroutine> _stopCoroutines;
 
-    public bool isClipLength { get; set; }          // 재생할 clip 의 길이를 길게 할 지, 아니면 짧게 할 지 결정. 
-    public bool isStageClear { get;  set; }  // 스테이지 클리어를 체크 
+    public bool isClipLength { get; set; }    // 재생할 clip 의 길이를 길게 할 지, 아니면 짧게 할 지 결정. 
+    public bool isStageClear { get;  set; }   // 스테이지 클리어를 체크 
 
     private void Awake()
     {

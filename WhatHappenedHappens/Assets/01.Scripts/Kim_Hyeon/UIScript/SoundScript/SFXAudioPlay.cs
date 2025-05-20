@@ -15,7 +15,7 @@ public class SFXAudioPlay : SFXAudioManager
         if (Input.GetMouseButtonDown(0))
             ClickEventAudioPlay();
 
-        isStageClear = true; 
+        isStageClear = true; // test 
         ObjectAudioPlay(true); 
     }
 
@@ -28,9 +28,9 @@ public class SFXAudioPlay : SFXAudioManager
         Debug.Log($"카메라 스크린을 클릭 위치를 월드 스페이스 포지션으로 변환");
 
         var entry = stateClips.Find(sc => sc.state == SFXState.Click);
-        Debug.Log($"등록된 Object 상태의 AudioSource를 찾습니다. Object AudioSource : {entry.targetOutput.ToString()}" +
-                  $" Object State =  {entry.state.ToString()}, " +
-                  $" Object clip =  {entry.clip.ToString()}");
+        Debug.Log($"등록된 Object 상태의 AudioSource를 찾습니다. Click AudioSource : {entry.targetOutput.ToString()}" +
+                  $" Click State =  {entry.state.ToString()}, " +
+                  $" Click clip =  {entry.clip.ToString()}");
         if (entry.clip == null)
         {
             Debug.LogWarning("Click 상태에 클립이 할당되지 않았습니다.");
