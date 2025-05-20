@@ -97,7 +97,7 @@ public class AudioManager : MonoBehaviour
 
         //SFX
         // 현재 SFX 볼륨 값 이전 값에 저장 
-        _PrevSFXSoundVolume = _SFXaudioSource.volume;
+        _PrevSFXSoundVolume = await AudioSave("save_SFXSoundVolume", _SFXaudioSource.volume);
 
         for (int i =0; i < SFXsources.Count; ++i)
         {

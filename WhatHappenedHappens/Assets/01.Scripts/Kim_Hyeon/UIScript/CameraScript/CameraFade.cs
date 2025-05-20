@@ -5,11 +5,13 @@ using System;
 
 public class CameraFade : MonoBehaviour
 {
+    public static CameraFade instance; 
+   
     [Header("PlayerPrefab")]
     [SerializeField] private GameObject PlayerPrefab; // 중심이 될 플레이어 프리팹 
     [SerializeField] private Camera CameraPrefab;     // 플레이어를 따라 다닐 카메라 
     public Image FadeImage;                           // 페이드에 사용할 이미지 
-    public bool isClear { get; set; }  // 스테이지 클리어 여부 확인 
+    public bool isClear { get; set; }                 // 스테이지 클리어 여부 확인 
 
     [Header("Fade Settings")]
     [SerializeField, Range(0.1f, 5f)] private float fadeTime = 1f;
