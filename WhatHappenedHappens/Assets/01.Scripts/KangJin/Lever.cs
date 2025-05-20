@@ -6,23 +6,25 @@ using UnityEngine;
 public class Lever : TrueFalse
 {
     SpriteRenderer sr;
+    Animation anim;
     // Start is called before the first frame update
     void Start()
     {
         sr = GetComponent<SpriteRenderer>();
+        anim = GetComponent<Animation>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(isTrue)
+/*        if(isTrue)
         {
-            sr.color = Color.green;
+            *//*sr.color = Color.green;*//*
         }
         else
         {
-            sr.color = Color.red;
-        }
+            *//*sr.color = Color.red;*//*
+        }*/
     }
     private void OnCollisionStay2D(Collision2D collision)
     {
@@ -33,6 +35,7 @@ public class Lever : TrueFalse
             if (isTrue)
             {
                 isTrue = false;
+                anim.Play("Ani_Lever_Reverse");
                 Debug.Log("Lever Disabled");
             }
         }
@@ -41,6 +44,7 @@ public class Lever : TrueFalse
             if (!isTrue)
             {
                 isTrue = true;
+                anim.Play("Ani_Lever");
                 Debug.Log("Lever Abled");
             }
         }
