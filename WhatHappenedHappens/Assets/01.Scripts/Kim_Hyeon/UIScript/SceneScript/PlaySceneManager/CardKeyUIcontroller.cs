@@ -1,42 +1,66 @@
 using UnityEngine.UI;
 using UnityEngine;
 using Assets._01.Scripts.Kim_Hyeon.UIScript.SceneScript;
+using System;
 
 public class CardKeyUIcontroller : UIHelper
 {
     [Header("ImagePrefab")]
     public Image _targetimagePrefab;
-    public GameObject _targetCardKey; 
+    public GameObject _targetCardKey;
 
     public bool _isGetCardKey { get; set; }          // 카드키를 먹었을 때 받을 bool 타입 신호 
     public bool _isGamePlaying { get; set; } = true; // 게임 플레이 중. 임시로 테스트를 위해 true 로 지정. 
-  
+
     private void Start()
     {
         _targetimagePrefab = GetComponent<Image>();
+        _targetimagePrefab.gameObject.SetActive(true);
 
-        Debug.Log($"시작하면, CardKeyUI 컬러 톤을 낮추고 시작");
-        _targetimagePrefab.gameObject.SetActive(false);
+        // test 
+        _isGetCardKey = true;
+
+        CardKeyShow(false, _targetCardKey);
         Debug.Log($"SpriteManager : 시작하면, 테스트를 위해 CardKeyUI 활성화에서 시작");
-        CardKeyShow(true, _targetCardKey);
     }
- 
+
+    private void Update()
+    {
+        GetCardKeyLoop(_isGetCardKey, _targetCardKey);
+    }
     public void CardKeyShow(bool isStageScene, GameObject worldCardkeyObj)
     {
+        if (isStageScene && _isGamePlaying == false) return;
         Debug.Assert(isStageScene, $"CardKey 획득되지 않았는데 Show를 호출했습니다. {isStageScene}");
 
         Vector3 worldPos = worldCardkeyObj.transform.position;
-                           
         Vector3 screenPos = Camera.main.WorldToScreenPoint(worldPos);
 
+        var canvas = _targetimagePrefab.canvas;
+        var canvasRt = canvas.transform as RectTransform;
+
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+        canvasRt,
+        screenPos,
+        canvas.renderMode == RenderMode.ScreenSpaceOverlay
+         ? null
+         : Camera.main,
+         out Vector2 localPoint
+ );
+        var d = _targetimagePrefab.rectTransform.anchoredPosition;
         // 위치를 설정
-        SetImagePosition(_targetimagePrefab, screenPos);
+        SetImageCanvasPosition(_targetimagePrefab.rectTransform.anchoredPosition, screenPos);
+
+        Vector2 newScale = _targetimagePrefab.rectTransform.sizeDelta; 
+        SetImageScale(_targetimagePrefab.rectTransform, newScale); 
 
         Debug.Log($"카드키를 먹었습니다! 카드키 위치 >  SpritePosition : {screenPos}");
         Debug.Log($"카드키 UI가 화면에 보입니다. > isGetCardKey : {isStageScene} ");
 
         _targetimagePrefab.gameObject.SetActive(true);
     }
+
+   
 
     // 카드키를 받는 값이 false 일 때, Hide.
     public void CardKeyHide(bool isStageClearScenes)
@@ -58,10 +82,12 @@ public class CardKeyUIcontroller : UIHelper
     }
 
     // 카드키를 얻었는 지를 bool 파라메터로 받아서 로직 loop 실행    
-    private void GetCardKeyLoop(bool isStageSceneClear, GameObject worldObj)
+    public void GetCardKeyLoop(bool isStageSceneClear, GameObject worldObj)
     {
         if (isStageSceneClear) // 카드키를 먹었을 때 
         {
+            if (!_isGetCardKey || !_isGamePlaying) return;
+
             // gameObject -> WorldSpace 의 게임 오브젝트 위치에 UI 위치를 띄우기 위함.
             CardKeyShow(isStageSceneClear, worldObj);
             CardKeyScale(isStageSceneClear, 5, 5); // 게임 오브젝트 위치에 UI가 위치했을 때, 크기를 키운다. 
@@ -72,8 +98,10 @@ public class CardKeyUIcontroller : UIHelper
         }
         else if (isStageSceneClear)    // 스테이지를 넘어갔을 때 와 카드키를 먹었을 때를 어떻게 구분할 지 결정 필요.
         {
-
+            _isGetCardKey = false;
+            CardKeyHide(isStageSceneClear);
+            _isGamePlaying = false;
         }
-        else return; 
+        else return;
     }
 }

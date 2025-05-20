@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class GhostTimerUIController : UIHelper
 {
-    // private ParadoxManager _paradoxManager;
+    private ParadoxManager _paradoxManager;
 
     [Header("GhostTimerImages")] // 고스트 타이머 이미지 리스트 
     public List<Sprite> ghostTimerSprites = new List<Sprite>(); // 변경할 스프라이트 리스트 
@@ -16,12 +16,15 @@ public class GhostTimerUIController : UIHelper
 
     private void Start()
     {
-        // if (_paradoxManager == null) _paradoxManager = gameObject.AddComponent<ParadoxManager>();
+        _paradoxManager = FindObjectOfType<ParadoxManager>();
+        if (_paradoxManager == null)
+            Debug.LogError("GhostTimerUIController: ParadoxManager를 찾을 수 없습니다!");
+
         if (ghostTimerSprites == null || ghostTimerSprites.Count == 0)
             Debug.LogWarning("ghostTimer UI Image 리스트가 비어있습니다. 인스펙터에서 할당해주세요.");
 
-        //timer = _paradoxManager.recordingTimeRemaining; // 녹화 중 남아있는 시간. 
-        timer = 5f; // 녹화 중 남아있는 시간. 
+        timer = _paradoxManager.recordingTimeRemaining; // 녹화 중 남아있는 시간. 
+        //timer = 5f; // 녹화 중 남아있는 시간. 
     }
 
     private void Update()

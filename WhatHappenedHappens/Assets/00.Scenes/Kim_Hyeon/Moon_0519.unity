@@ -1363,6 +1363,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &500006340 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2589745305705957083, guid: 4138790381b3a994ab6a1cae2562c3bb, type: 3}
+  m_PrefabInstance: {fileID: 1406919796}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &507162098
 GameObject:
   m_ObjectHideFlags: 0
@@ -7174,11 +7179,6 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: -1
   m_TargetDisplay: 0
---- !u!1 &1616186354 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3579252586442614935, guid: d26dcad9d1fb21c4a8b51468f5ff48ee, type: 3}
-  m_PrefabInstance: {fileID: 2099689296}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1638904506
 GameObject:
   m_ObjectHideFlags: 0
@@ -8189,7 +8189,7 @@ PrefabInstance:
     - target: {fileID: 2052158954061016073, guid: d26dcad9d1fb21c4a8b51468f5ff48ee, type: 3}
       propertyPath: _targetCardKey
       value: 
-      objectReference: {fileID: 1616186354}
+      objectReference: {fileID: 500006340}
     - target: {fileID: 3580467361619209805, guid: d26dcad9d1fb21c4a8b51468f5ff48ee, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -42
@@ -8289,6 +8289,18 @@ PrefabInstance:
     - target: {fileID: 6114953346775992587, guid: d26dcad9d1fb21c4a8b51468f5ff48ee, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -0.9000015
+      objectReference: {fileID: 0}
+    - target: {fileID: 7337489177495597865, guid: d26dcad9d1fb21c4a8b51468f5ff48ee, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 147.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 7337489177495597865, guid: d26dcad9d1fb21c4a8b51468f5ff48ee, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 85.215
+      objectReference: {fileID: 0}
+    - target: {fileID: 7337489177495597865, guid: d26dcad9d1fb21c4a8b51468f5ff48ee, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 459.33
       objectReference: {fileID: 0}
     - target: {fileID: 7838562524583748230, guid: d26dcad9d1fb21c4a8b51468f5ff48ee, type: 3}
       propertyPath: m_Name
