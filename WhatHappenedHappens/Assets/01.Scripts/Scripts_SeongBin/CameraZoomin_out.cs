@@ -8,6 +8,7 @@ public class PixelPerfectZoomCinemachine : MonoBehaviour
 {
     [Range(1f, 20f)]
     public float defaultCameraSize;
+    
     public float targetZoom  = 3f;               // 퍼블릭 변경 시에도 반영
     public bool isDiscrete = false;             // 즉시 변경 or 부드럽게
     public float zoomSpeed = 5f;                // 확대, 축소 속도
@@ -21,6 +22,7 @@ public class PixelPerfectZoomCinemachine : MonoBehaviour
     public Transform CameraLimit;                 // 전체 카메라의 움직임을 제한하는 오브젝트
    public Transform WideCameraPos;                // 카메라가 커졌을 때의 위치 
     public Transform NowPlayerPos;                // 현재 플레이어의 위치 
+    public CinemachineBrain mainConvertUpdate;    // 메인카메라의 업데이트하는곳 바꾸기
     float realDeltaTime = 0f;
     float lastTime = 0f;
 
@@ -54,14 +56,10 @@ public class PixelPerfectZoomCinemachine : MonoBehaviour
     void Update()
     {
         RealDeltaTime();
-        WideCameraLimit();
+        WideCamera();
         ApplyZoom();       // 확대 적용!!
     }
 
-    private void LateUpdate()
-    {
-       
-    }
     //Inspector에서 값이 변경될 때 호출되는 함수
     void OnValidate()
     {
@@ -138,7 +136,7 @@ public class PixelPerfectZoomCinemachine : MonoBehaviour
     // 카메라 가동범위X = 전체 카메라 경계의 크기 - 카메라 y 축 최대길이일때, x길이
     // 만약 :  전체 카메라의 중심 - (카메라 가동범위/2) > main 카메라의 중심점  =라면>  카메라가 갈수 있는 최대치로 돌리기
     // 범위 안에 있다면 방향키로 움직이기 가능!!!
-    public void WideCameraLimit()
+    public void WideCamera()
     {
         if (pauseScreen.isScreenWide) { // q가 외부에서 눌러졌을때 T 
             float screenWidth = CameraLimit.localScale.y * Camera.main.aspect;
@@ -177,6 +175,8 @@ public class PixelPerfectZoomCinemachine : MonoBehaviour
             SetZoom(defaultCameraSize, false);
         }
     }
+
+
 
 
 

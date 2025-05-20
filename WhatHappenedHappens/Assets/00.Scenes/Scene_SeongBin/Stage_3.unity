@@ -820,7 +820,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 1
+  orthographic size: 3
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -4095,8 +4095,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f20b72f25bd414d8906ed3e34e2abf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultCameraSize: 0
-  targetZoom: 1
+  defaultCameraSize: 3
+  targetZoom: 3
   isDiscrete: 0
   zoomSpeed: 5
   screenMoveSpeed: 25
@@ -4143,7 +4143,7 @@ MonoBehaviour:
   m_Follow: {fileID: 623117335}
   m_Lens:
     FieldOfView: 34
-    OrthographicSize: 1
+    OrthographicSize: 3
     NearClipPlane: 0.03
     FarClipPlane: 1000
     Dutch: 0
