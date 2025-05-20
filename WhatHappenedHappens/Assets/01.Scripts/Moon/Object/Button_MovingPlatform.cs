@@ -8,7 +8,8 @@ public class Button_Platform : MonoBehaviour
     public GameObject platform;
 
     private MovingPlatform movingPlatform;
-    
+
+    private int playerCount = 0; // 충돌 중인 플레이어 수
 
     private void Start()
     {
@@ -20,7 +21,10 @@ public class Button_Platform : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            playerCount++;
             movingPlatform.alwaysOn = true;
+
+            Debug.Log("playerCount : " + playerCount);
         }
     }
 
@@ -29,7 +33,12 @@ public class Button_Platform : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            movingPlatform.alwaysOn = false;
+            playerCount--;
+            Debug.Log("playerCount : " + playerCount);
+            if (playerCount < 0)  playerCount = 0;
+
+
+            if (playerCount == 0)  movingPlatform.alwaysOn = false;
         }
     }
 }

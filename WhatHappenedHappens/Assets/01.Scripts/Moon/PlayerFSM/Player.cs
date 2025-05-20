@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
     public enum PlayerState { Idle, Walking, Jumping, Hurt, Fall }
 
     public bool isDead = false;
+    public bool hasCardKey = false;
 
     [Header("Components")]
     private Rigidbody2D rb;
@@ -48,8 +49,7 @@ public class Player : MonoBehaviour
     void Update() // 키 입력 
     {
 
-        // 먼저 죽었는지 확인 (가장 우선순위 높게)
-        if (isDead && !(currentState is HurtState_Player))
+        if (isDead && !(currentState is HurtState_Player)) // 죽었는지 확인 
         {
             ChangeState(new HurtState_Player(this));
             return; 
@@ -57,14 +57,9 @@ public class Player : MonoBehaviour
 
         currentState?.Update();
 
-
         // [ 가속 상태 ]
         if (IsAccelerated()) SetExternalModifier(2f, 1.5f);
         else if (!IsAccelerated() && IsGrounded()) ResetExternalModifier(); // 가속 상태가 끝나고 땅을 밟았을 때 
-
-
-        // 점프 입력 감지
-        // if (Input.GetKeyDown(KeyCode.UpArrow) && IsGrounded()) jumpPressed = true;
     }
 
 
@@ -82,14 +77,6 @@ public class Player : MonoBehaviour
             Walk();
         }
 
-        // [ 점프 처리 ]
-        /*
-        if (jumpPressed)
-        {
-            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-            jumpPressed = false;
-        }
-        */
     }
 
 
