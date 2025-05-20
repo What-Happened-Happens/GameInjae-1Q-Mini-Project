@@ -28,23 +28,25 @@ public class GhostTimerUIController : UIHelper
         if (ghostTimerSprites == null || ghostTimerSprites.Count == 0)
             Debug.LogWarning("ghostTimer UI Image 리스트가 비어있습니다. 인스펙터에서 할당해주세요.");
         
-        timer = _paradoxManager.recordingTimeRemaining; // 녹화 중 남아있는 시간. 
+        
     }
 
     private void Update()
     {
-       
-        Debug.Log("▶ GhostTimerUIController.Update 호출!");
-       
-        if (_paradoxManager.isRecording == true && _paradoxManager.recordingTimeRemaining >= 0f)
+        timer = _paradoxManager.recordingTimeRemaining; // 녹화 중 남아있는 시간. 
+        Debug.Log("timer = " + timer);
+
+        // Debug.Log("▶ GhostTimerUIController.Update 호출!");
+
+        if (_paradoxManager.isRecording == true && timer <= 5f)
         {
-            Debug.Log($"녹화 시작 지점"); 
+            Debug.Log($"녹화 시작 지점GGGGGGGGGGGG"); 
             timerImage.gameObject.SetActive(true);
 
             UpdateSpriteForTime(timer);
         }
         else if (timerImage.gameObject.activeSelf && _paradoxManager.isRecording == false
-            && _paradoxManager.recordingTimeRemaining <= 5f)
+            && timer >= 0f)
         {
             Debug.Log($"녹화 종료 지점");
             timerImage.gameObject.SetActive(false);
@@ -57,7 +59,6 @@ public class GhostTimerUIController : UIHelper
     // 남아있는 시간에 따라서 매초바다 변경 되어야 하기 때문에, Update에서 호출 필요
     public void UpdateSpriteForTime(float timeRemaining)
     {
-        if (timeRemaining <= 0f) return;
         Debug.Log($"ghostTimer : 스프라이트 개수 : {ghostTimerSprites.Count}");
         Debug.Log($"ghostTimer : 현재 타이머 시간  : {timeRemaining}");
 

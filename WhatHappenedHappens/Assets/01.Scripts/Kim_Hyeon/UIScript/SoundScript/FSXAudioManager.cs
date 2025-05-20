@@ -8,7 +8,6 @@ public enum FSXState
     None = 0,
     Click = 1,
 }
-
 public class FSXAudioManager : AudioManager
 {
     public static FSXAudioManager Instance { get; private set; }
