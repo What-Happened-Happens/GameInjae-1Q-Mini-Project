@@ -138,7 +138,7 @@ public class PixelPerfectZoomCinemachine : MonoBehaviour
     // 범위 안에 있다면 방향키로 움직이기 가능!!!
     public void WideCameraLimit()
     {
-        if (pauseScreen.isScreenWide) { // q가 외부에서 눌러졌을때 T 
+        if (pauseScreen.isScreenWide) { // q가 외부에서 눌러졌을때 
             mainConvertUpdate.m_UpdateMethod = CinemachineBrain.UpdateMethod.SmartUpdate; 
             float screenWidth = CameraLimit.localScale.y * Camera.main.aspect;
             float LimitMaxX = CameraLimit.localScale.x - screenWidth;
@@ -154,6 +154,7 @@ public class PixelPerfectZoomCinemachine : MonoBehaviour
             else
             {
                 WideCameraPos.position = new Vector3(WideCameraPos.position.x, CameraLimit.position.y, 0);
+                Debug.Log(CameraLimit.position.y);
                 if (Input.GetKey(KeyCode.A))
                 {
                     //Debug.Log(realDeltaTime);
@@ -168,7 +169,7 @@ public class PixelPerfectZoomCinemachine : MonoBehaviour
 
             // 카메라 한계점과  카메라 size 값이 1일때의 길이를 나누어 size를 구하고 카메라 크기를 커지게하는 함수에 넣어줌!!
             SetZoom(CameraLimit.localScale.y / defaultScreenSize, false);
-            Debug.Log(CameraLimit.localScale.y / defaultScreenSize);
+            //Debug.Log(CameraLimit.localScale.y / defaultScreenSize);
         }
         else
         {
