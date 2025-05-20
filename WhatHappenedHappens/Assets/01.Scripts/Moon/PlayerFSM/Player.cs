@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [Header("State")]
+    [Header("Player State")]
     private IState_Player currentState;
     public enum PlayerState { Idle, Walking, Jumping, Hurt, Fall }
 
+    [Header("Game State")]
     public bool isDead = false;
     public bool hasCardKey = false;
 
@@ -48,6 +49,7 @@ public class Player : MonoBehaviour
 
     void Update() // 키 입력 
     {
+        Debug.Log("isDead = "+ isDead + " hasCardKey = " + hasCardKey); // 현재 상태 확인
 
         if (isDead && !(currentState is HurtState_Player)) // 죽었는지 확인 
         {

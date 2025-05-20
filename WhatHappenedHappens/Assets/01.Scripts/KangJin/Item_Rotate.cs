@@ -63,14 +63,17 @@ public class Item_Rotate : MonoBehaviour
         {
             isEntered = true;
 
+            collision.gameObject.GetComponent<Player>().hasCardKey = true;
+
             // 이 오브젝트에 붙은 모든 Collider2D를 비활성화
             foreach (var col in GetComponents<Collider2D>())
             {
                 col.enabled = false;
             }
 
-            // 필요하다면 Rigidbody2D도 비활성화해서 물리 반응 제거 가능
-            GetComponent<Rigidbody2D>().simulated = false;
+            // 필요하다면 Rigidbody2D도 비활성화해서 물리 반응 제거 
+            // GetComponent<Rigidbody2D>().simulated = false;
+
         }
     }
 }
