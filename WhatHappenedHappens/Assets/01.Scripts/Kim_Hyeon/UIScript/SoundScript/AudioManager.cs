@@ -6,17 +6,16 @@ using System.Threading.Tasks;
 
 public class AudioManager : MonoBehaviour
 {
-    private static AudioManager s_instance = null;
+    private static AudioManager instance = null;
     public static AudioManager Instance
     {
         get
         {
-            if (s_instance == null)
+            if (instance == null)
             {
-                //s_instance = new FxManager();
-                s_instance = FindObjectOfType(typeof(AudioManager)) as AudioManager;
+                instance = FindObjectOfType(typeof(AudioManager)) as AudioManager;
             }
-            return s_instance;
+            return instance;
         }
     }
 
@@ -34,7 +33,7 @@ public class AudioManager : MonoBehaviour
 
     // 스테이지 클리어 여부 확인용 test
     public bool isStageCleard = false;
-    
+
     protected bool _isMute = false;             // 사운드 플레이 중인지 확인하기 위한 변수 
 
     protected float _currentSliderValue;        // 현재 슬라이더 값 
@@ -45,7 +44,7 @@ public class AudioManager : MonoBehaviour
                                                 // protected float _PrevSFXSoundVolume;         // 이전 사운드 값 
                                                 //배경음은 씬 전환이 되더라도 남도록.   
     protected async void Awake()
-    {   
+    {
 
         if (_BGMaudioSource == null) Debug.LogError("AudioSource 할당되지 않았습니다.");
         if (_BGMAudioSlider == null) Debug.LogError("AudioSlider 할당되지 않았습니다.");
@@ -56,7 +55,7 @@ public class AudioManager : MonoBehaviour
         _BGMaudioSource.volume = saveCurrentAudio;
         _BGMAudioSlider.value = saveCurrentAudio;
         _PrevSoundValue = saveCurrentAudio;
-               
+
 
         _isMute = PlayerPrefs.GetInt("save_IsMuted", 0) == 1;
         if (_isMute)
@@ -78,7 +77,7 @@ public class AudioManager : MonoBehaviour
         }
         else // 그 외의 상태 
         {
-           
+
         }
 
     }
