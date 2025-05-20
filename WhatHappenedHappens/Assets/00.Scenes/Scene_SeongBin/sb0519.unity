@@ -1280,7 +1280,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_ShowDebugText: 0
   m_ShowCameraFrustum: 1
-  m_IgnoreTimeScale: 0
+  m_IgnoreTimeScale: 1
   m_WorldUpOverride: {fileID: 0}
   m_UpdateMethod: 0
   m_BlendUpdateMethod: 1
@@ -6513,6 +6513,7 @@ MonoBehaviour:
   recordingDuration: 5
   ghostCounter: 0
   recordingTimeRemaining: 0
+  isRecording: 0
   objectManager: {fileID: 1181009346}
 --- !u!1 &1542312228
 GameObject:
