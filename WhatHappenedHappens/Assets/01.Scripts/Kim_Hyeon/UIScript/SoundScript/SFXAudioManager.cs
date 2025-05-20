@@ -21,7 +21,7 @@ public class SFXAudioManager : MonoBehaviour
 {   
 
     [Header("Playeback Setting")]
-    public float ShortDuration = 0.3f;
+    public float ShortDuration = 0.1f;
     public float LongDuration = 1f;
     public float volumeScale = 0.5f;
 
@@ -52,6 +52,7 @@ public class SFXAudioManager : MonoBehaviour
             return;
         }
         float duration = isShort ? ShortDuration : LongDuration;
+        Debug.Log($"재생 길이 : {duration}");
         PlayClipWithDuration(targetObj, entry.cllip, duration, volumeScale);
     }
 

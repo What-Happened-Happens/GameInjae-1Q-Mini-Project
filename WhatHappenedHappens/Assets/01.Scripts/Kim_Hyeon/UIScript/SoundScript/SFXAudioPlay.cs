@@ -1,16 +1,15 @@
 using UnityEngine;
 
-public class SFXAudioPlay : MonoBehaviour
+public class SFXAudioPlay : SFXAudioManager
 {
-    // Start is called before the first frame update
-    void Start()
+    public void ClickEventAudioPlay(float MouseInput)
     {
-        
+
+    }
+    public void ObjectAudioPlay(float MouseInput)
+    {
+       
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
 }
