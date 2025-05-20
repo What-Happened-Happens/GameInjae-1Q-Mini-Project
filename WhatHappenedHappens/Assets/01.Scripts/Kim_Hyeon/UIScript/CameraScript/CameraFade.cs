@@ -24,10 +24,9 @@ public class CameraFade : MonoBehaviour
         if (CameraPrefab == null) CameraPrefab = Camera.main;
         if (PlayerPrefab == null)
             PlayerPrefab = GameObject.FindWithTag("Player");
-
-        FadeImage.gameObject.SetActive(false);
-
-        isClear = true;
+         
+        FadeImage.gameObject.SetActive(true);
+        isClear = false;
         Debug.Log($"임시로 false 처리 : isClear : {isClear}");
         StartCoroutine(SequenceBegin());
     }
@@ -36,7 +35,7 @@ public class CameraFade : MonoBehaviour
     {
         FadeImage.color = new Color(0, 0, 0, 1);
         CameraPrefab.orthographicSize = zoomOutSize;
-        FadeImage.gameObject.SetActive(true);
+      
         if (isClear)
         {
             yield return StartCoroutine(Fade(1f, 0f, fadeTime));
@@ -83,7 +82,7 @@ public class CameraFade : MonoBehaviour
         Debug.Log($"시작 위치 [x] : {startPos.x}. [y] : {startPos.y}");
 
         Vector3 targetPos = PlayerPrefab.transform.position;
-        Debug.Log($"시작 위치 [x] : {targetPos.x}. [y] : {targetPos.y}");
+        Debug.Log($"상대 위치 [x] : {targetPos.x}. [y] : {targetPos.y}");
         targetPos.z = cameraZpos;
 
         while (elapsed < duration)
@@ -94,21 +93,7 @@ public class CameraFade : MonoBehaviour
             CameraPrefab.orthographicSize = Mathf.Lerp(fromSize, toSize, t);
             CameraPrefab.transform.position = Vector3.Lerp(startPos, targetPos, t);
             yield return null;
-        }
-
-        try
-        {
-            CameraPrefab.orthographicSize = toSize;
-            Vector3 finalPos = targetPos;
-            finalPos.z = cameraZpos;
-            CameraPrefab.transform.position = finalPos;
-        }
-        catch (Exception e)
-        {
-            Debug.LogError($"SoundValueLoad 중 예외 발생: {e}");
-            throw e;
-            // Error 출력
-        }
+        }        
 
 
     }
