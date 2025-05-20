@@ -1,73 +1,98 @@
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using UnityEngine;
+//using System;
+//using System.Collections;
+//using System.Collections.Generic;
+//using System.Linq;
+//using UnityEngine;
 
-public class FSXAudioManager : AudioManager
-{
-    public static FSXAudioManager Instance { get; private set; }
+//// Ensure FSXState is public to match the accessibility of the method using it
+//public enum FSXState
+//{
+//    None = 0,
+//    Click = 1,
+//    Object = 2
+//}
+//[Serializable]
+//public struct StateClip
+//{
+//    public FSXState state;
+//    public GameObject target; 
+//    public AudioClip cllip; 
+//}
 
-    [SerializeField] private AudioSource _audioSource;
-    [SerializeField] private GameObject _audioTarget;
-    [SerializeField] private string clipPath = "Sounds/";
+//public class FSXAudioManager : AudioManager
+//{
+//    public static FSXAudioManager Instance { get; private set; }
 
-    private readonly Dictionary<string, AudioClip> _cache = new();
+//    [Header("Playeback Setting")]
+//    public float ShortDuration = 0.3f;
+//    public float LongDuration = 1f;
+//    public float volumeScale = 0.5f;
 
-    public float duration = 0.5f;
-    public float volumeScale = 0.5f; 
+//    public List<StateClip> stateClips = new List<StateClip>();
+//    private Dictionary<AudioSource, Coroutine> _stopCoroutines;
 
-    private void Awake()
-    {
-        if (Instance == null) Instance = this;
-        else                  Destroy(_audioSource.gameObject);
-        DontDestroyOnLoad(gameObject);
+//    private void Awake()
+//    {
+//        if (Instance != null) Instance = this;
+//        else
+//        {
+//            Destroy(gameObject);
+//            return; 
+//        }
 
-        if (_audioTarget == null)
-        {
-            Debug.LogError("FSXAudioManager: _audioTarget이 할당되지 않았습니다.");
-        }
+//        DontDestroyOnLoad(gameObject); 
 
-        _audioSource = _audioTarget.GetComponent<AudioSource>();
-        if (_audioSource == null)
-        {
-            Debug.LogError("FSXAudioManager: _audioTarget 에 AudioSource 가 없습니다.");
-        }
-        _audioSource.volume = 0f; 
-    }
+//        _stopCoroutines = new Dictionary<AudioSource, Coroutine>();
+//    }
+ 
+//    public void PlayStateClip(AudioSource source, FSXState state, bool isShort)
+//    {
+//        // 1) 매핑 리스트에서 해당 상태의 AudioClip 찾아내기
+//        var entry = stateClips.FirstOrDefault(sc => sc.state == state);
+//        if (entry.cllip == null || entry.target == null)
+//        {
+//            Debug.LogWarning($"FSXAudioManager: '{state}' 상태에 할당된 클립이 없습니다.");
+//            return;
+//        }
+//        var targetObj = entry.target.GetComponent<AudioSource>();
+//        if (targetObj == null)
+//        {
+//            Debug.LogError($"{entry.target.name}에 AudioSource가 없습니다.");
+//            return;
+//        }
+//        float duration = isShort ? ShortDuration : LongDuration;
+//        PlayClipWithDuration(targetObj, entry.cllip, duration, volumeScale);
+//    }
 
-    private async void Update()
-    {        
-        if (Input.GetMouseButtonDown(0))
-        {
-            Debug.Log($"효과음 테스트 클릭!");
-            if (_isMute)
-            {
-                await PlayAssignedClipAsync(0f, 0f);
-            }
-           await PlayAssignedClipAsync(duration, volumeScale);        
-        }     
-    }
+//    private void PlayClipWithDuration(AudioSource source, AudioClip clip, float duration, float volume)
+//    {
+//        if (source == null)
+//        {
+//            Debug.LogError("FSXAudioManager: 전달된 AudioSource가 null 입니다.");
+//            return;
+//        }
 
-    public async Task PlayAssignedClipAsync(float duration, float volumeScale)
-    {
-        if (_audioSource == null || _audioSource.clip == null)
-        {
-            Debug.LogWarning("FSXAudioManager: 재생할 AudioSource 또는 clip이 없습니다.");
-            return;
-        }
+//        // 이전 코루틴이 남아있으면 정지
+//        if (_stopCoroutines.TryGetValue(source, out var prevRoutine))
+//        {
+//            StopCoroutine(prevRoutine);
+//        }
 
-        _audioSource.volume = volumeScale;
-        _audioSource.Play();
+//        source.clip = clip;
+//        source.volume = volume;
+//        source.Play();
 
-        await Task.Delay(TimeSpan.FromSeconds(duration));
-        await Task.Yield();
+//        // 재생 종료 예약
+//        _stopCoroutines[source] = StartCoroutine(StopAfterDuration(source, duration));
+//    }
 
-        ClipStop();
-    }
+//    private IEnumerator StopAfterDuration(AudioSource source, float duration)
+//    {
+//        // 클립 길이보다 길게 요청되면 짧게 맞추기
+//        float wait = Mathf.Min(duration, source.clip.length);
+//        yield return new WaitForSeconds(wait);
 
-    public void ClipStop()
-    {
-        _audioSource.Stop();
-    }
-   
-}
+//        source.Stop();
+//        _stopCoroutines.Remove(source);
+//    }
+//}

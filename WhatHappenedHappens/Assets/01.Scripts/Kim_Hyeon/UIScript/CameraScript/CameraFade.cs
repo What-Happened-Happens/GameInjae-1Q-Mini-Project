@@ -5,11 +5,13 @@ using System;
 
 public class CameraFade : MonoBehaviour
 {
+    public static CameraFade instance; 
+   
     [Header("PlayerPrefab")]
     [SerializeField] private GameObject PlayerPrefab; // 중심이 될 플레이어 프리팹 
     [SerializeField] private Camera CameraPrefab;     // 플레이어를 따라 다닐 카메라 
     public Image FadeImage;                           // 페이드에 사용할 이미지 
-    public bool isClear { get; set; }  // 스테이지 클리어 여부 확인 
+    public bool isClear { get; set; }                 // 스테이지 클리어 여부 확인 
 
     [Header("Fade Settings")]
     [SerializeField, Range(0.1f, 5f)] private float fadeTime = 1f;
@@ -24,11 +26,10 @@ public class CameraFade : MonoBehaviour
         if (CameraPrefab == null) CameraPrefab = Camera.main;
         if (PlayerPrefab == null)
             PlayerPrefab = GameObject.FindWithTag("Player");
-
-        FadeImage.gameObject.SetActive(false);
-
-        isClear = true;
-        Debug.Log($"임시로 false 처리 : isClear : {isClear}");
+         
+        FadeImage.gameObject.SetActive(true);
+        isClear = false;
+        //Debug.Log($"임시로 false 처리 : isClear : {isClear}");
         StartCoroutine(SequenceBegin());
     }
 
@@ -36,20 +37,20 @@ public class CameraFade : MonoBehaviour
     {
         FadeImage.color = new Color(0, 0, 0, 1);
         CameraPrefab.orthographicSize = zoomOutSize;
-        FadeImage.gameObject.SetActive(true);
+      
         if (isClear)
         {
             yield return StartCoroutine(Fade(1f, 0f, fadeTime));
             yield return StartCoroutine(ZoomCamera(zoomInSize, zoomOutSize, zoomTime));
-            Debug.Log($"Fade 값 : {Fade(1f, 0f, fadeTime)}");
-            Debug.Log($"줌 값 : {ZoomCamera(zoomOutSize, zoomInSize, zoomTime)}");
+           // Debug.Log($"Fade 값 : {Fade(1f, 0f, fadeTime)}");
+           // Debug.Log($"줌 값 : {ZoomCamera(zoomOutSize, zoomInSize, zoomTime)}");
         }
         else if (isClear == false)
         {
             yield return StartCoroutine(Fade(0f, 1f, fadeTime));
-            Debug.Log($"Fade 값 : {Fade(0f, 1f, fadeTime)}");
+           // Debug.Log($"Fade 값 : {Fade(0f, 1f, fadeTime)}");
             yield return StartCoroutine(ZoomCamera(zoomOutSize, zoomInSize, zoomTime));
-            Debug.Log($"줌 값 : {ZoomCamera(zoomOutSize, zoomInSize, zoomTime)}");
+           // Debug.Log($"줌 값 : {ZoomCamera(zoomOutSize, zoomInSize, zoomTime)}");
         }
     }
     private IEnumerator WaitForClear()
@@ -65,7 +66,7 @@ public class CameraFade : MonoBehaviour
         while (elapsed < duration)
         {
             elapsed += Time.deltaTime;
-            Debug.Log($"현재 페이드 시간 : {elapsed}");
+          //  Debug.Log($"현재 페이드 시간 : {elapsed}");
             color.a = Mathf.Lerp(startAlpha, endAlpha, elapsed / duration);
             FadeImage.color = color;
             yield return null;
@@ -80,10 +81,10 @@ public class CameraFade : MonoBehaviour
         float cameraZpos = CameraPrefab.transform.position.z;
 
         Vector3 startPos = CameraPrefab.transform.position;
-        Debug.Log($"시작 위치 [x] : {startPos.x}. [y] : {startPos.y}");
+        //Debug.Log($"시작 위치 [x] : {startPos.x}. [y] : {startPos.y}");
 
         Vector3 targetPos = PlayerPrefab.transform.position;
-        Debug.Log($"시작 위치 [x] : {targetPos.x}. [y] : {targetPos.y}");
+        //Debug.Log($"상대 위치 [x] : {targetPos.x}. [y] : {targetPos.y}");
         targetPos.z = cameraZpos;
 
         while (elapsed < duration)
@@ -94,21 +95,7 @@ public class CameraFade : MonoBehaviour
             CameraPrefab.orthographicSize = Mathf.Lerp(fromSize, toSize, t);
             CameraPrefab.transform.position = Vector3.Lerp(startPos, targetPos, t);
             yield return null;
-        }
-
-        try
-        {
-            CameraPrefab.orthographicSize = toSize;
-            Vector3 finalPos = targetPos;
-            finalPos.z = cameraZpos;
-            CameraPrefab.transform.position = finalPos;
-        }
-        catch (Exception e)
-        {
-            Debug.LogError($"SoundValueLoad 중 예외 발생: {e}");
-            throw e;
-            // Error 출력
-        }
+        }        
 
 
     }
