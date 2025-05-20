@@ -6,7 +6,7 @@ public class Player : MonoBehaviour
 {
     [Header("State")]
     private IState_Player currentState;
-    public enum PlayerState { Idle, Walking, Jumping, Hurt }
+    public enum PlayerState { Idle, Walking, Jumping, Hurt, Fall }
 
     public bool isDead = false;
 
@@ -47,14 +47,21 @@ public class Player : MonoBehaviour
 
     void Update() // 키 입력 
     {
-        currentState?.Update();
 
-        if (isDead) ChangeState(new HurtState_Player(this));
+        // 먼저 죽었는지 확인 (가장 우선순위 높게)
+        if (isDead && !(currentState is HurtState_Player))
+        {
+            ChangeState(new HurtState_Player(this));
+            return; 
+        }
+
+        currentState?.Update();
 
 
         // [ 가속 상태 ]
-        if(IsAccelerated()) SetExternalModifier(2f, 1.5f);
+        if (IsAccelerated()) SetExternalModifier(2f, 1.5f);
         else if (!IsAccelerated() && IsGrounded()) ResetExternalModifier(); // 가속 상태가 끝나고 땅을 밟았을 때 
+
 
         // 점프 입력 감지
         // if (Input.GetKeyDown(KeyCode.UpArrow) && IsGrounded()) jumpPressed = true;
@@ -63,6 +70,8 @@ public class Player : MonoBehaviour
 
     void FixedUpdate() // 물리 연산 
     {
+        if (isDead) return; 
+
         // [ 공중에서 벽 충돌 ]
         if (IsTouchWall() && !IsGrounded() && !IsAccelerated())
         {
@@ -88,8 +97,6 @@ public class Player : MonoBehaviour
 
     public void ChangeState(IState_Player newState)
     {
-        Debug.Log($"Changing state: {currentState?.GetType().Name} → {newState.GetType().Name}");
-
         currentState?.Exit();
         currentState = newState;
         currentState.Enter();

@@ -24,6 +24,11 @@ public class IdleState_Player : IState_Player
 
         if (Input.GetKeyDown(KeyCode.UpArrow) && (player.IsGrounded() || player.IsAccelerated()))
             player.ChangeState(new JumpState_Player(player));
+
+        // [ 공중 상태 ] 
+        if (!player.IsGrounded() && !player.IsAccelerated()) 
+            player.ChangeState(new FallState_Player(player));
+
     }
 
     public void FixedUpdate()
