@@ -14,11 +14,11 @@ public enum FSXState
 public struct StateClip
 {
     public FSXState state;
-    public GameObject target;
+    public AudioSource target;
     public AudioClip cllip;
 }
 public class SFXAudioManager : MonoBehaviour
-{   
+{
 
     [Header("Playeback Setting")]
     public float ShortDuration = 0.1f;
@@ -27,6 +27,8 @@ public class SFXAudioManager : MonoBehaviour
 
     public List<StateClip> stateClips = new List<StateClip>();
     private Dictionary<AudioSource, Coroutine> _stopCoroutines;
+    public bool isShort { get; set; }
+    public bool isLong { get; set; }
 
     private void Awake()
     {
