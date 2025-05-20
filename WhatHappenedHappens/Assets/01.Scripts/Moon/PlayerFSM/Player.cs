@@ -6,7 +6,7 @@ public class Player : MonoBehaviour
 {
     [Header("State")]
     private IState_Player currentState;
-    public enum PlayerState { Idle, Walking , Jumping, Hurt }
+    public enum PlayerState { Idle, Walking, Jumping, Hurt }
 
     public bool isDead = false;
 
@@ -28,6 +28,10 @@ public class Player : MonoBehaviour
     private Vector2 wallBoxSize = new Vector2(0.1f, 1.7f);
     private Vector2 groundBoxSize = new Vector2(0.8f, 0.07f);
 
+    [Header("External Modifier")]
+    private float externalSpeedModifier = 1f;
+    [SerializeField] private LayerMask AccelerateLayer;
+
 
     // -------------------------------------------------
 
@@ -45,7 +49,12 @@ public class Player : MonoBehaviour
     {
         currentState?.Update();
 
-        if(isDead) ChangeState(new HurtState_Player(this));
+        if (isDead) ChangeState(new HurtState_Player(this));
+
+
+        // [ 가속 상태 ]
+        if(IsAccelerated()) SetExternalModifier(2f, 1.5f);
+        else if (!IsAccelerated() && IsGrounded()) ResetExternalModifier(); // 가속 상태가 끝나고 땅을 밟았을 때 
 
         // 점프 입력 감지
         // if (Input.GetKeyDown(KeyCode.UpArrow) && IsGrounded()) jumpPressed = true;
@@ -55,14 +64,14 @@ public class Player : MonoBehaviour
     void FixedUpdate() // 물리 연산 
     {
         // [ 공중에서 벽 충돌 ]
-        if (IsTouchWall() && !IsGrounded()) 
-        { 
-            rb.velocity = new Vector2(0, rb.velocity.y); 
-        }  
+        if (IsTouchWall() && !IsGrounded() && !IsAccelerated())
+        {
+            rb.velocity = new Vector2(0, rb.velocity.y);
+        }
         else // [ 좌우 이동 ]
         {
             Walk();
-        } 
+        }
 
         // [ 점프 처리 ]
         /*
@@ -79,6 +88,8 @@ public class Player : MonoBehaviour
 
     public void ChangeState(IState_Player newState)
     {
+        Debug.Log($"Changing state: {currentState?.GetType().Name} → {newState.GetType().Name}");
+
         currentState?.Exit();
         currentState = newState;
         currentState.Enter();
@@ -98,7 +109,7 @@ public class Player : MonoBehaviour
     {
         moveX = Input.GetAxisRaw("Horizontal"); // -1.0 ~ 1.0
 
-        rb.velocity = new Vector2(moveX * moveSpeed, rb.velocity.y);
+        rb.velocity = new Vector2(moveX * moveSpeed * externalSpeedModifier, rb.velocity.y);
 
         // 좌우 반전
         if (moveX != 0)
@@ -136,11 +147,17 @@ public class Player : MonoBehaviour
         return Physics2D.OverlapBox(groundCheck.position, groundBoxSize, 0f, groundLayer);
     }
 
+    // [ 가속 필드 감지 ]
+    public bool IsAccelerated()
+    {
+        return Physics2D.OverlapBox(groundCheck.position, groundBoxSize, 0f, AccelerateLayer);
+    }
+
     // [ physics2d 충돌 시각화 ]
     private void OnDrawGizmos()
     {
         // 바닥 체크 시각화
-        Gizmos.color = IsGrounded() ? Color.green : Color.red;
+        Gizmos.color = (IsGrounded()||IsAccelerated()) ? Color.green : Color.red;
         Gizmos.DrawWireCube(groundCheck.position, groundBoxSize);
 
         // 벽 체크 시각화
@@ -152,6 +169,19 @@ public class Player : MonoBehaviour
 
         Gizmos.DrawWireCube(leftBoxCenter, wallBoxSize);
         Gizmos.DrawWireCube(rightBoxCenter, wallBoxSize);
+    }
+
+
+    // -----------------------[ 가속 관련 ]-------------------------
+
+    public void SetExternalModifier(float speedMod, float jumpMod)
+    {
+        externalSpeedModifier = speedMod;
+    }
+
+    public void ResetExternalModifier()
+    {
+        externalSpeedModifier = 1f;
     }
 
 

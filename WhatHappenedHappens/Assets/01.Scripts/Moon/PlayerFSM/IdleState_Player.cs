@@ -22,7 +22,7 @@ public class IdleState_Player : IState_Player
         if (Mathf.Abs(Input.GetAxisRaw("Horizontal")) > 0)
             player.ChangeState(new WalkState_Player(player));
 
-        if (Input.GetKeyDown(KeyCode.UpArrow) && player.IsGrounded())
+        if (Input.GetKeyDown(KeyCode.UpArrow) && (player.IsGrounded() || player.IsAccelerated()))
             player.ChangeState(new JumpState_Player(player));
     }
 
