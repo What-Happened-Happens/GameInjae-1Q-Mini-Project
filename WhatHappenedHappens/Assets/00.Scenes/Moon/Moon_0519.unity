@@ -2034,7 +2034,7 @@ TilemapRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
-  m_ChunkCullingBounds: {x: 0.00555557, y: 0.005617976, z: 0}
+  m_ChunkCullingBounds: {x: 0.00555557, y: 0, z: 0}
   m_MaxChunkCount: 16
   m_MaxFrameAge: 16
   m_SortOrder: 0
@@ -6320,13 +6320,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f20b72f25bd414d8906ed3e34e2abf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  defaultCameraSize: 5
   targetZoom: 5
   isDiscrete: 0
   zoomSpeed: 5
   screenMoveSpeed: 15
+  isScreenWide: 0
+  pauseScreen: {fileID: 1791191136}
   CameraLimit: {fileID: 464520255}
   WideCameraPos: {fileID: 1769108664}
   NowPlayerPos: {fileID: 44873345}
+  mainConvertUpdate: {fileID: 507162099}
 --- !u!114 &1530672299
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7045,6 +7049,7 @@ Transform:
   - {fileID: 1530672301}
   - {fileID: 1769108664}
   - {fileID: 464520255}
+  - {fileID: 1791191135}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1769108663
@@ -7144,6 +7149,51 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1613766155442584156, guid: 131268aba0ad49f4c8e69e72898c2e9e, type: 3}
   m_PrefabInstance: {fileID: 1782919886}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1791191134
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1791191135}
+  - component: {fileID: 1791191136}
+  m_Layer: 0
+  m_Name: PauseScreen
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1791191135
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1791191134}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 10.709261, y: -5.625956, z: 0.004486084}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1749743697}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1791191136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1791191134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2239443977f1edf48868872e2f84ad8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isScreenWide: 0
 --- !u!1001 &1809330779
 PrefabInstance:
   m_ObjectHideFlags: 0
