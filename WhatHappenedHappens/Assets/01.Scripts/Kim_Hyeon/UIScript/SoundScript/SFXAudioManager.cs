@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-public enum FSXState
+public enum SFXState
 {
     None = 0,
     Click = 1,
@@ -13,9 +13,9 @@ public enum FSXState
 [Serializable]
 public struct StateClip
 {
-    public FSXState state;
-    public AudioSource target;
-    public AudioClip cllip;
+    public SFXState state;
+    public AudioSource targetOutput;
+    public AudioClip clip;
 }
 public class SFXAudioManager : MonoBehaviour
 {
@@ -27,48 +27,49 @@ public class SFXAudioManager : MonoBehaviour
 
     public List<StateClip> stateClips = new List<StateClip>();
     private Dictionary<AudioSource, Coroutine> _stopCoroutines;
-    public bool isShort { get; set; }
-    public bool isLong { get; set; }
+
+    public bool isClipLength { get; set; }          // 재생할 clip 의 길이를 길게 할 지, 아니면 짧게 할 지 결정. 
+    public bool isStageClear { get;  set; }  // 스테이지 클리어를 체크 
 
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);
-
+  
         _stopCoroutines = new Dictionary<AudioSource, Coroutine>();
-    }  
+    }
 
-    public void PlayStateClip(AudioSource source, FSXState state, bool isShort)
+    public void PlayStateClip(AudioSource source, SFXState state, bool isShort)
     {
-        // 1) 매핑 리스트에서 해당 상태의 AudioClip 찾아내기
-        var entry = stateClips.FirstOrDefault(sc => sc.state == state);
+        // 사운드 효과음이 필요한 상태 에 따라서 실제로 오디오가 출력이 될
+        // AudioSource 컴포넌트를 가진 오브젝트인, targetOuput 을 찾는다.
+        source.volume = 0f; 
+        var entry = stateClips.FirstOrDefault(sc => sc.state == state && 
+                                              sc.targetOutput == source);
+   
+        if (entry.clip == null || entry.targetOutput == null)
+        {
+            Debug.LogWarning($"SFXAudioManager: '{state}' 상태에 할당된 클립이 없습니다.");
+            return;
+        }       
 
-        if (entry.cllip == null || entry.target == null)
-        {
-            Debug.LogWarning($"FSXAudioManager: '{state}' 상태에 할당된 클립이 없습니다.");
-            return;
-        }
-        var targetObj = entry.target.GetComponent<AudioSource>();
-        if (targetObj == null)
-        {
-            Debug.LogError($"{entry.target.name}에 AudioSource가 없습니다.");
-            return;
-        }
+        // 짧게 재생할 지, 길게 오디오 clip 길이에 맞춰서 재생할 지 isShort 값에 따라 결정된다. 
         float duration = isShort ? ShortDuration : LongDuration;
         Debug.Log($"재생 길이 : {duration}");
-        PlayClipWithDuration(targetObj, entry.cllip, duration, volumeScale);
+        PlayClipWithDuration(source, entry.clip, duration, volumeScale);
     }
 
     private void PlayClipWithDuration(AudioSource source, AudioClip clip, float duration, float volume)
     {
         if (source == null)
         {
-            Debug.LogError("FSXAudioManager: 전달된 AudioSource가 null 입니다.");
+            Debug.LogError("SFXAudioManager: 전달된 AudioSource가 null 입니다.");
             return;
         }
 
         // 이전 코루틴이 남아있으면 정지
         if (_stopCoroutines.TryGetValue(source, out var prevRoutine))
         {
+            Debug.Log($"SFXAudioManager : 이전에 플레이한 사운드가 남아서 플레이 중입니다. 정지시키겠습니다.");
             StopCoroutine(prevRoutine);
         }
 
