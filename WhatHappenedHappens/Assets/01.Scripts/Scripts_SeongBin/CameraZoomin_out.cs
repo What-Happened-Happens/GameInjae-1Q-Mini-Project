@@ -139,17 +139,24 @@ public class PixelPerfectZoomCinemachine : MonoBehaviour
     public void WideCameraLimit()
     {
         if (pauseScreen.isScreenWide) { // q가 외부에서 눌러졌을때 
-            mainConvertUpdate.m_UpdateMethod = CinemachineBrain.UpdateMethod.SmartUpdate; 
-            float screenWidth = CameraLimit.localScale.y * Camera.main.aspect;
-            float LimitMaxX = CameraLimit.localScale.x - screenWidth;
-            // 카메라가 자주 범위 밖으로 나감으로 0.05 정도 보정치 적용
-            if (CameraLimit.position.x - (LimitMaxX / 2) > virtualCam.transform.position.x)
+            mainConvertUpdate.m_UpdateMethod = CinemachineBrain.UpdateMethod.SmartUpdate;
+            float orthoSize = virtualCam.m_Lens.OrthographicSize;
+            float cameraWidth = orthoSize * Camera.main.aspect * 2f;
+            float halfWidth = cameraWidth / 2f;
+
+            // 전체 제한 영역의 절반
+            float limitHalfWidth = CameraLimit.localScale.x / 2f;
+
+            float camX = virtualCam.transform.position.x;
+            float limitX = CameraLimit.position.x;
+
+            if (camX - halfWidth < limitX - limitHalfWidth)
             {
-                WideCameraPos.position = new Vector3(CameraLimit.position.x - (LimitMaxX / 2) +0.05f, CameraLimit.position.y, 0);
+                WideCameraPos.position = new Vector3(limitX - limitHalfWidth + halfWidth, CameraLimit.position.y, 0);
             }
-            else if (CameraLimit.position.x + (LimitMaxX / 2) < virtualCam.transform.position.x)
+            else if (camX + halfWidth > limitX + limitHalfWidth)
             {
-                WideCameraPos.position = new Vector3(CameraLimit.position.x + (LimitMaxX / 2)- 0.05f, CameraLimit.position.y, 0);
+                WideCameraPos.position = new Vector3(limitX + limitHalfWidth - halfWidth, CameraLimit.position.y, 0);
             }
             else
             {
@@ -168,7 +175,7 @@ public class PixelPerfectZoomCinemachine : MonoBehaviour
             virtualCam.Follow = WideCameraPos;  // 버츄얼 카메라가 이 위치를 따라가게함...
 
             // 카메라 한계점과  카메라 size 값이 1일때의 길이를 나누어 size를 구하고 카메라 크기를 커지게하는 함수에 넣어줌!!
-            SetZoom(CameraLimit.localScale.y / defaultScreenSize, false);
+            SetZoom(CameraLimit.localScale.y / defaultScreenSize - 0.05f, false);
             //Debug.Log(CameraLimit.localScale.y / defaultScreenSize);
         }
         else
