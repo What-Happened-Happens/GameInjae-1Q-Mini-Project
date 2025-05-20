@@ -49,7 +49,7 @@ public class Player : MonoBehaviour
 
     void Update() // 키 입력 
     {
-        Debug.Log("isDead = "+ isDead + " hasCardKey = " + hasCardKey); // 현재 상태 확인
+        // Debug.Log("isDead = "+ isDead + " hasCardKey = " + hasCardKey); // 현재 상태 확인
 
         if (isDead && !(currentState is HurtState_Player)) // 죽었는지 확인 
         {
