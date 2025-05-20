@@ -35,15 +35,15 @@ public class AudioSliderUI : AudioManager, IPointerDownHandler
             Debug.Log($"음향을 다시 플레이 합니다.");
 
             //SFX 
-            _currentSFXSliderValue = value / 100f; 
-            _SFXaudioSource.volume = _currentSFXSliderValue;
-            _SFXaudioText.text = _SFXaudioSource.volume <= 0f ? "X" : $"{Mathf.RoundToInt(value)}%";
+            //_currentSFXSliderValue = value / 100f; 
+            //_SFXaudioSource.volume = _currentSFXSliderValue;
+            //_SFXaudioText.text = _SFXaudioSource.volume <= 0f ? "X" : $"{Mathf.RoundToInt(value)}%";
 
-            //  이전 값에 현재 값을 로드 
-            // _PrevSFXSoundValue = await AudioLoad("save_CurrentSFXaudio", 0f);
-            _PrevSFXSoundVolume = await AudioLoad("save_SFXVolume", 0f);
-            Debug.Log($"현재 SFX음향 값을 다시 로드했습니다. ");
-            Debug.Log($"SFX 음향을 다시 플레이 합니다.");
+            ////  이전 값에 현재 값을 로드 
+            //// _PrevSFXSoundValue = await AudioLoad("save_CurrentSFXaudio", 0f);
+            //_PrevSFXSoundVolume = await AudioLoad("save_SFXVolume", 0f);
+            //Debug.Log($"현재 SFX음향 값을 다시 로드했습니다. ");
+            //Debug.Log($"SFX 음향을 다시 플레이 합니다.");
 
             if (!_isMute && _currentSliderValue > 0f)
             {
@@ -59,7 +59,7 @@ public class AudioSliderUI : AudioManager, IPointerDownHandler
 
             // SFX 
             _SFXAudioSlider.value = 0f;
-            _SFXaudioSource.volume = 0f;
+            //_SFXaudioSource.volume = 0f;
         }      
 
     }

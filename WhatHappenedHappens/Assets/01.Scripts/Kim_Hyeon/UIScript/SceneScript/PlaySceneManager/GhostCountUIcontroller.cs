@@ -13,7 +13,6 @@ public class GhostCountUIcontroller : UIHelper
 
     private void Start()
     {
-        // if (_getItemUI == null)  _getItemUI = gameObject.AddComponent<GetItemUI>();
         _paradoxManager = FindObjectOfType<ParadoxManager>();
         if (_paradoxManager == null)
             Debug.LogError("ParadoxManager를 찾을 수 없습니다!");
@@ -25,6 +24,7 @@ public class GhostCountUIcontroller : UIHelper
         {
             if (img != null)
                 img.gameObject.SetActive(true);
+          
         }
 
     }
@@ -37,23 +37,24 @@ public class GhostCountUIcontroller : UIHelper
     // 고스트 UI Color Change 
     private void RefreshGhostUI(int ghostCount)
     {
-        if (ghosts == null) return;
-        Debug.LogWarning($"UI 이미지가 비어있습니다.");
+        if (ghosts == null || ghosts.Count == 0) return;
 
         // 생성된 고스트의 개수만큼 리스트 안에 있는 고스트 이미지의 색을 white로 변경 
         for (int i = 0; i < ghosts.Count; i++)
         {
-            if (ghosts[i] == null) continue;
+            var img = ghosts[i];
+            if (img == null) continue;
 
             if (i <= ghostCount)
             {
                 SetImageColor(ghosts[i], Color.white);
             }
-            else if (i >= ghostCount)
+            else if (i >= 0)
             {
                 SetImageColor(ghosts[i], Color.gray);
             }
-            Debug.Log($"색 변경 : {ghosts[i].color}");
+         
+                Debug.Log($"색 변경 : {ghosts[i].color}");
 
         }
 

@@ -16,7 +16,7 @@ public class CardKeyUIcontroller : UIHelper
         _targetimagePrefab = GetComponent<Image>();
 
         Debug.Log($"시작하면, CardKeyUI 컬러 톤을 낮추고 시작");
-        _targetimagePrefab.gameObject.SetActive(true);
+        _targetimagePrefab.gameObject.SetActive(false);
         Debug.Log($"SpriteManager : 시작하면, 테스트를 위해 CardKeyUI 활성화에서 시작");
         CardKeyShow(true, _targetCardKey);
     }

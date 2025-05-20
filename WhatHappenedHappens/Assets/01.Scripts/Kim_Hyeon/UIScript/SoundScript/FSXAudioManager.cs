@@ -1,8 +1,6 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static Unity.Collections.AllocatorManager;
 
 // Ensure FSXState is public to match the accessibility of the method using it
 public enum FSXState
@@ -64,11 +62,10 @@ public class FSXAudioManager : AudioManager
             bool isShort = heldDuration < longPressThreshold;
             float duration = isShort ? shortDuration : longDuration;
 
-            PlayClipWithDuration(duration, volumeScale);
         }
     }
 
-    public void PlayClipWithDuration(float duration, float volume)
+    public void PlayClipWithDuration(AudioClip clip, float duration, float volume)
     {
         if (_audioSource.clip == null)
         {
@@ -77,23 +74,28 @@ public class FSXAudioManager : AudioManager
         }
 
         if (_stopRoutine != null)
+        {
+            Debug.Log($"이미 코루틴 이 진행되고 있습니다.");
             StopCoroutine(_stopRoutine);
+        }
 
+        _audioSource.clip = clip;
         _audioSource.volume = volume;
         _audioSource.Play();
 
         _stopRoutine = StartCoroutine(StopAfterDuration(duration));
     }
 
-    public void PlayClipChanged(FSXState state)
+    public void PlayClipChanged(FSXState state, bool isShort)
     {
-        switch (state)
+        AudioClip clipToPlay = state switch 
         {
-            case FSXState.None:
-                break;
-            case FSXState.Click:
-                break;
-        }
+            FSXState.Click => clips.Find(c => c.name.Contains("Click")),
+            // FSXState.Drag  => clips.Find(c => c.name.Contains("Drag")),
+            _ => null
+        };
+        float duration = isShort ? shortDuration : longDuration;
+        PlayClipWithDuration(clipToPlay, duration, volumeScale);
     }
 
     private IEnumerator StopAfterDuration(float duration)

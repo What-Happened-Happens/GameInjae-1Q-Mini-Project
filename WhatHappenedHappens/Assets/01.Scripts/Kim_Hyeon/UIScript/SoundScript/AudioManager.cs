@@ -10,7 +10,7 @@ public class AudioManager : MonoBehaviour
 {
     [Header("Audio Source")]
     [SerializeField] protected AudioSource _BGMaudioSource;
-    [SerializeField] protected AudioSource _SFXaudioSource;
+   // [SerializeField] protected AudioSource _SFXaudioSource;
 
     [Header("Sliders")]
     [SerializeField] protected Slider _BGMAudioSlider;
@@ -20,18 +20,18 @@ public class AudioManager : MonoBehaviour
     [SerializeField] protected TMP_Text _BGMaudioText;
     [SerializeField] protected TMP_Text _SFXaudioText;
 
-    [Header("SFX List")]
-    [SerializeField] private List<AudioSource> SFXsources = new List<AudioSource>();
-    private readonly Dictionary<AudioSource, float> _originalVolumes = new();
+   // [Header("SFX List")]
+   //[SerializeField] private List<AudioSource> SFXsources = new List<AudioSource>();
+   // private readonly Dictionary<AudioSource, float> _originalVolumes = new();
 
     protected bool _isMute = false;             // 사운드 플레이 중인지 확인하기 위한 변수 
 
     protected float _currentSliderValue;        // 현재 슬라이더 값 
     protected float _currentSourceVolume;       // 현재 오디오 소스 볼륨
-    protected float _currentSFXSliderValue;     // 현재 슬라이더 값
+    // protected float _currentSFXSliderValue;     // 현재 슬라이더 값
 
     protected float _PrevSoundValue;            // 이전 사운드 값 
-    protected float _PrevSFXSoundVolume;         // 이전 사운드 값 
+   // protected float _PrevSFXSoundVolume;         // 이전 사운드 값 
 
     protected async void Start()
     {
@@ -47,15 +47,15 @@ public class AudioManager : MonoBehaviour
 
         // SFX 
         _SFXAudioSlider.value = 0f;
-        _SFXaudioSource.volume = 0f;
-        for (int i = 0; i < SFXsources.Count; ++i)
-        {
-            var src = SFXsources[i];
-            float saved = await AudioLoad($"save_SFXVolume_{i}", src.volume);
-            src.volume = saved;
-            _originalVolumes[src] = saved;
-            Debug.Log($"기본적으로 전부 불러와서 저장");
-        }
+       // _SFXaudioSource.volume = 0f;
+        //for (int i = 0; i < SFXsources.Count; ++i)
+        //{
+        //    var src = SFXsources[i];
+        //    float saved = await AudioLoad($"save_SFXVolume_{i}", src.volume);
+        //    src.volume = saved;
+        //    _originalVolumes[src] = saved;
+        //    Debug.Log($"기본적으로 전부 불러와서 저장");
+        //}
 
         _isMute = PlayerPrefs.GetInt("save_IsMuted", 0) == 1;
         if (_isMute)
@@ -97,19 +97,19 @@ public class AudioManager : MonoBehaviour
 
         //SFX
         // 현재 SFX 볼륨 값 이전 값에 저장 
-        _PrevSFXSoundVolume = await AudioSave("save_SFXSoundVolume", _SFXaudioSource.volume);
+        //_PrevSFXSoundVolume = await AudioSave("save_SFXSoundVolume", _SFXaudioSource.volume);
 
-        for (int i =0; i < SFXsources.Count; ++i)
-        {
-            var src = SFXsources[i];
-            float curr = src.volume;
-            await AudioSave($"save_SFXVolume", curr);
-            _originalVolumes[src] = curr;
+        //for (int i =0; i < SFXsources.Count; ++i)
+        //{
+        //    var src = SFXsources[i];
+        //    float curr = src.volume;
+        //    await AudioSave($"save_SFXVolume", curr);
+        //    _originalVolumes[src] = curr;
 
-            src.volume = 0f; 
-        }
-        _SFXaudioSource.volume = 0f;
-        _SFXaudioText.text = "X"; 
+        //    src.volume = 0f; 
+        //}
+        //_SFXaudioSource.volume = 0f;
+        //_SFXaudioText.text = "X"; 
     }
 
     // ------------------------------------------ 비동기 데이터 저장 및 로드 ------------------------------------//
