@@ -68,7 +68,7 @@ public class SpikeWheel : MonoBehaviour
     {
         if (wayPoint == null) { return; }
         elapsedTime += Time.deltaTime;
-        moveDisPer = Mathf.Clamp01(Mathf.Cos(elapsedTime * 360 * Mathf.Deg2Rad));
+        moveDisPer = Mathf.Clamp01(-Mathf.Cos(elapsedTime * 360 * Mathf.Deg2Rad)/2f);
         transform.position = Vector3.Lerp(startPoint, endPoint, moveDisPer);
     }
 
