@@ -17,7 +17,7 @@ public class CameraFade : MonoBehaviour
     [Header("Zoom Settings")]
     [SerializeField, Range(0.1f, 20f)] private float zoomInSize = 3f;
     [SerializeField, Range(0.1f, 20f)] private float zoomOutSize = 5f;
-    [SerializeField, Range(0.1f, 5f)] private float zoomTime = 1f;     
+    [SerializeField, Range(0.1f, 5f)] private float zoomTime = 2f;
 
     private void Awake()
     {
@@ -25,30 +25,31 @@ public class CameraFade : MonoBehaviour
         if (PlayerPrefab == null)
             PlayerPrefab = GameObject.FindWithTag("Player");
 
-        FadeImage.gameObject.SetActive(false); 
+        FadeImage.gameObject.SetActive(false);
 
-        isClear = false;
-        Debug.Log($"임시로 false 처리 : isClear : {isClear}"); 
-        StartCoroutine(SequenceBegin()); 
+        isClear = true;
+        Debug.Log($"임시로 false 처리 : isClear : {isClear}");
+        StartCoroutine(SequenceBegin());
     }
 
     private IEnumerator SequenceBegin()
     {
-        FadeImage.color = new Color(0, 0, 0, 0);
+        FadeImage.color = new Color(0, 0, 0, 1);
         CameraPrefab.orthographicSize = zoomOutSize;
-
+        FadeImage.gameObject.SetActive(true);
         if (isClear)
         {
-            FadeImage.gameObject.SetActive(true);
             yield return StartCoroutine(Fade(1f, 0f, fadeTime));
             yield return StartCoroutine(ZoomCamera(zoomInSize, zoomOutSize, zoomTime));
-
+            Debug.Log($"Fade 값 : {Fade(1f, 0f, fadeTime)}");
+            Debug.Log($"줌 값 : {ZoomCamera(zoomOutSize, zoomInSize, zoomTime)}");
         }
         else if (isClear == false)
         {
-            FadeImage.gameObject.SetActive(true);
             yield return StartCoroutine(Fade(0f, 1f, fadeTime));
+            Debug.Log($"Fade 값 : {Fade(0f, 1f, fadeTime)}");
             yield return StartCoroutine(ZoomCamera(zoomOutSize, zoomInSize, zoomTime));
+            Debug.Log($"줌 값 : {ZoomCamera(zoomOutSize, zoomInSize, zoomTime)}");
         }
     }
     private IEnumerator WaitForClear()
@@ -59,18 +60,18 @@ public class CameraFade : MonoBehaviour
     private IEnumerator Fade(float startAlpha, float endAlpha, float duration)
     {
         float elapsed = 0f;
-        Color color = FadeImage.color; 
+        Color color = FadeImage.color;
 
-        while(elapsed < duration)
+        while (elapsed < duration)
         {
             elapsed += Time.deltaTime;
             Debug.Log($"현재 페이드 시간 : {elapsed}");
             color.a = Mathf.Lerp(startAlpha, endAlpha, elapsed / duration);
             FadeImage.color = color;
-            yield return null; 
+            yield return null;
         }
         color.a = endAlpha;
-        FadeImage.color = color; 
+        FadeImage.color = color;
     }
 
     private IEnumerator ZoomCamera(float fromSize, float toSize, float duration)
@@ -90,25 +91,9 @@ public class CameraFade : MonoBehaviour
             elapsed += Time.deltaTime;
             float t = Mathf.Clamp01(elapsed / duration);
 
-          
-                CameraPrefab.orthographicSize = Mathf.Lerp(fromSize, toSize, t);
-
-
-                CameraPrefab.transform.position = Vector3.Lerp(startPos, targetPos, t);
-
-
-                yield return null;
-           
-           
-                //CameraPrefab.orthographicSize = Mathf.Lerp(toSize, fromSize, t);
-                //Vector3 playerPos = PlayerPrefab.transform.position;
-                //Debug.Log($"플레이어 위치 [x] : {playerPos.x}. [y] : {playerPos.y}");
-                //playerPos.z = cameraZpos;
-                //CameraPrefab.transform.position = Vector3.Lerp(startPos, playerPos, t);
-                //Debug.Log($"카메라 최종 위치 [x] : {CameraPrefab.transform.position.x}. [y] : {CameraPrefab.transform.position.y}");
-                //yield return null;
-                    
-
+            CameraPrefab.orthographicSize = Mathf.Lerp(fromSize, toSize, t);
+            CameraPrefab.transform.position = Vector3.Lerp(startPos, targetPos, t);
+            yield return null;
         }
 
         try
@@ -125,7 +110,7 @@ public class CameraFade : MonoBehaviour
             // Error 출력
         }
 
-     
+
     }
     private void Update()
     {
