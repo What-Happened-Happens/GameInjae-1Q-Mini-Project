@@ -194,10 +194,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5685071ee7ac23846a68390fbbfb9291, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDead: 0
+  moveSpeed: 5
   groundCheck: {fileID: 3356483377578284254}
   groundLayer:
     serializedVersion: 2
     m_Bits: 1048576
+  AccelerateLayer:
+    serializedVersion: 2
+    m_Bits: 65536
 --- !u!95 &3973501384153870323
 Animator:
   serializedVersion: 5

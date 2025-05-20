@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [Header("State")]
+    [Header("Player State")]
     private IState_Player currentState;
-    public enum PlayerState { Idle, Walking , Jumping, Hurt }
+    public enum PlayerState { Idle, Walking, Jumping, Hurt, Fall }
 
+    [Header("Game State")]
     public bool isDead = false;
+    public bool hasCardKey = false;
 
     [Header("Components")]
     private Rigidbody2D rb;
@@ -28,6 +30,10 @@ public class Player : MonoBehaviour
     private Vector2 wallBoxSize = new Vector2(0.1f, 1.7f);
     private Vector2 groundBoxSize = new Vector2(0.8f, 0.07f);
 
+    [Header("External Modifier")]
+    private float externalSpeedModifier = 1f;
+    [SerializeField] private LayerMask AccelerateLayer;
+
 
     // -------------------------------------------------
 
@@ -43,35 +49,36 @@ public class Player : MonoBehaviour
 
     void Update() // 키 입력 
     {
+        // Debug.Log("isDead = "+ isDead + " hasCardKey = " + hasCardKey); // 현재 상태 확인
+
+        if (isDead && !(currentState is HurtState_Player)) // 죽었는지 확인 
+        {
+            ChangeState(new HurtState_Player(this));
+            return; 
+        }
+
         currentState?.Update();
 
-        if(isDead) ChangeState(new HurtState_Player(this));
-
-        // 점프 입력 감지
-        // if (Input.GetKeyDown(KeyCode.UpArrow) && IsGrounded()) jumpPressed = true;
+        // [ 가속 상태 ]
+        if (IsAccelerated()) SetExternalModifier(2f, 1.5f);
+        else if (!IsAccelerated() && IsGrounded()) ResetExternalModifier(); // 가속 상태가 끝나고 땅을 밟았을 때 
     }
 
 
     void FixedUpdate() // 물리 연산 
     {
+        if (isDead) return; 
+
         // [ 공중에서 벽 충돌 ]
-        if (IsTouchWall() && !IsGrounded()) 
-        { 
-            rb.velocity = new Vector2(0, rb.velocity.y); 
-        }  
+        if (IsTouchWall() && !IsGrounded() && !IsAccelerated())
+        {
+            rb.velocity = new Vector2(0, rb.velocity.y);
+        }
         else // [ 좌우 이동 ]
         {
             Walk();
-        } 
-
-        // [ 점프 처리 ]
-        /*
-        if (jumpPressed)
-        {
-            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-            jumpPressed = false;
         }
-        */
+
     }
 
 
@@ -98,7 +105,7 @@ public class Player : MonoBehaviour
     {
         moveX = Input.GetAxisRaw("Horizontal"); // -1.0 ~ 1.0
 
-        rb.velocity = new Vector2(moveX * moveSpeed, rb.velocity.y);
+        rb.velocity = new Vector2(moveX * moveSpeed * externalSpeedModifier, rb.velocity.y);
 
         // 좌우 반전
         if (moveX != 0)
@@ -136,11 +143,17 @@ public class Player : MonoBehaviour
         return Physics2D.OverlapBox(groundCheck.position, groundBoxSize, 0f, groundLayer);
     }
 
+    // [ 가속 필드 감지 ]
+    public bool IsAccelerated()
+    {
+        return Physics2D.OverlapBox(groundCheck.position, groundBoxSize, 0f, AccelerateLayer);
+    }
+
     // [ physics2d 충돌 시각화 ]
     private void OnDrawGizmos()
     {
         // 바닥 체크 시각화
-        Gizmos.color = IsGrounded() ? Color.green : Color.red;
+        Gizmos.color = (IsGrounded()||IsAccelerated()) ? Color.green : Color.red;
         Gizmos.DrawWireCube(groundCheck.position, groundBoxSize);
 
         // 벽 체크 시각화
@@ -152,6 +165,19 @@ public class Player : MonoBehaviour
 
         Gizmos.DrawWireCube(leftBoxCenter, wallBoxSize);
         Gizmos.DrawWireCube(rightBoxCenter, wallBoxSize);
+    }
+
+
+    // -----------------------[ 가속 관련 ]-------------------------
+
+    public void SetExternalModifier(float speedMod, float jumpMod)
+    {
+        externalSpeedModifier = speedMod;
+    }
+
+    public void ResetExternalModifier()
+    {
+        externalSpeedModifier = 1f;
     }
 
 

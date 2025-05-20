@@ -11,6 +11,7 @@ public class Button_OnOffPlatform : MonoBehaviour
     public List<GameObject> OnplatformObjects = new List<GameObject>();
     public List<GameObject> OffplatformObjects = new List<GameObject>();
 
+    private int playerCount = 0; // 충돌 중인 플레이어 수
 
     private void Update()
     {
@@ -39,6 +40,7 @@ public class Button_OnOffPlatform : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            playerCount++;
             platformOn = true; // OnOffPlatform 비활성화
         }
     }
@@ -48,7 +50,8 @@ public class Button_OnOffPlatform : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            platformOn = false;
+            playerCount--;
+            if (playerCount == 0) platformOn = false;
         }
     }
 }

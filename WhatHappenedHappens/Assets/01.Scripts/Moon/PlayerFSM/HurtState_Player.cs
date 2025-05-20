@@ -15,6 +15,8 @@ public class HurtState_Player : IState_Player
     {
         // Debug.Log("Hurt State");
         player.SetActiveState(Player.PlayerState.Hurt);
+
+        player.isDead = true;
     }
 
     public void Update()

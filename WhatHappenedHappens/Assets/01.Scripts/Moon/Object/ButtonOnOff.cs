@@ -10,6 +10,8 @@ public class ButtonOnOff : MonoBehaviour
 
     private SpriteRenderer ButtonSprite;
 
+    private int playerCount = 0; // 충돌 중인 플레이어 수
+
     private void Start()
     { 
         ButtonSprite = GetComponent<SpriteRenderer>();
@@ -20,6 +22,7 @@ public class ButtonOnOff : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            playerCount++;
             ButtonSprite.sprite = ButtonOn;
         }
     }
@@ -29,7 +32,8 @@ public class ButtonOnOff : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            ButtonSprite.sprite = ButtonOff;
+            playerCount--;
+            if (playerCount == 0) ButtonSprite.sprite = ButtonOff;
         }
     }
 }
