@@ -70,15 +70,11 @@ public class AudioManager : MonoBehaviour
             await ApplyMuteAsync();
             isMute(false);
         }
-        else if (!_isMute && isStageCleard) // 음소거 상태이고, 스테이지를 클리어했을 때 
+        else 
         {
             await ApplyMuteAsync();
             isMute(true);
-        }
-        else // 그 외의 상태 
-        {
-
-        }
+        }       
 
     }
 
