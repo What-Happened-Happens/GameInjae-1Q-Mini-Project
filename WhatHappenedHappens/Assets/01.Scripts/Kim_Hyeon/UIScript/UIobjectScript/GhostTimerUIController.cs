@@ -10,9 +10,7 @@ public class GhostTimerUIController : UIHelper
     [Header("GhostTimerImages")] // 고스트 타이머 이미지 리스트 
     public List<Sprite> ghostTimerSprites = new List<Sprite>(); // 변경할 스프라이트 리스트 
     [SerializeField] private Image timerImage;            // 고스트 타이머 이미지    
-
-    private float tickAcc = 0f;
-    public float timer { get; set; }
+        public float timer { get; set; }
 
     private void Start()
     {
@@ -22,23 +20,21 @@ public class GhostTimerUIController : UIHelper
 
         if (ghostTimerSprites == null || ghostTimerSprites.Count == 0)
             Debug.LogWarning("ghostTimer UI Image 리스트가 비어있습니다. 인스펙터에서 할당해주세요.");
+        if (timerImage == null)
+            Debug.LogError("timerImage가 할당되지 않았습니다.");
 
-        timer = _paradoxManager.recordingTimeRemaining; // 녹화 중 남아있는 시간. 
-        //timer = 5f; // 녹화 중 남아있는 시간. 
+        timerImage.gameObject.SetActive(false);
     }
 
     private void Update()
     {
-        if (timer <= 0f) return;
-
-        tickAcc += Time.deltaTime;
-        if (tickAcc >= 1f)
+        // 1) 녹화 중이고 남은 시간이 있으면 → UI 켜고 스프라이트 갱신
+        if (_paradoxManager.recordingTimeRemaining > 0f)
         {
-            timer -= 1f;
-            tickAcc -= 1f;
+
+            UpdateSpriteForTime(timer);
         }
 
-        UpdateSpriteForTime(timer);
     }
 
     // 남아있는 시간을 받아서, 남아있는 시간 동안 타이머 스프라이트가 변경. 

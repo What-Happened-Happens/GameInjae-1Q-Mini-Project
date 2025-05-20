@@ -22,6 +22,7 @@ public class CardKeyUIcontroller : UIHelper
 
         CardKeyShow(false, _targetCardKey);
         Debug.Log($"SpriteManager : 시작하면, 테스트를 위해 CardKeyUI 활성화에서 시작");
+      
     }
 
     private void Update()
@@ -51,21 +52,18 @@ public class CardKeyUIcontroller : UIHelper
         // 위치를 설정
         SetImageCanvasPosition(_targetimagePrefab.rectTransform.anchoredPosition, screenPos);
 
-        Vector2 newScale = _targetimagePrefab.rectTransform.sizeDelta; 
-        SetImageScale(_targetimagePrefab.rectTransform, newScale); 
-
+        Vector2 newScale = new Vector2(1, 1);
+     
         Debug.Log($"카드키를 먹었습니다! 카드키 위치 >  SpritePosition : {screenPos}");
         Debug.Log($"카드키 UI가 화면에 보입니다. > isGetCardKey : {isStageScene} ");
 
         _targetimagePrefab.gameObject.SetActive(true);
-    }
-
-   
+    }   
 
     // 카드키를 받는 값이 false 일 때, Hide.
     public void CardKeyHide(bool isStageClearScenes)
     {
-        if (isStageClearScenes == false) return;
+        if (isStageClearScenes != false) return;
 
         Debug.Log($"스테이지 넘어갔습니다! 카드키 UI가 화면에서 숨깁니다. > isGetCardKey : {isStageClearScenes}");
         _targetimagePrefab.gameObject.SetActive(false);
@@ -90,13 +88,19 @@ public class CardKeyUIcontroller : UIHelper
 
             // gameObject -> WorldSpace 의 게임 오브젝트 위치에 UI 위치를 띄우기 위함.
             CardKeyShow(isStageSceneClear, worldObj);
-            CardKeyScale(isStageSceneClear, 5, 5); // 게임 오브젝트 위치에 UI가 위치했을 때, 크기를 키운다. 
+            CardKeyScale(isStageSceneClear, 1, 1); // 게임 오브젝트 위치에 UI가 위치했을 때, 크기를 키운다. 
 
-            Vector3 imageScale = new Vector3(_targetimagePrefab.rectTransform.localScale.x, _targetimagePrefab.rectTransform.localScale.y, 0f);
-            CardKeyScale(isStageSceneClear, imageScale.x, imageScale.y); // 게임 오브젝트 위치에 UI가 위치했을 때, 크기를 키운다. 
+            Vector3 imageStartScale = new Vector3(1f, 1f, 0f);
+            CardKeyScale(isStageSceneClear, imageStartScale.x, imageStartScale.y); // 게임 오브젝트 위치에 UI가 위치했을 때, 크기를 키운다.
+
+            Vector3 imageMiddleScale = new Vector3(2f, 2f, 0f);
+            CardKeyScale(isStageSceneClear, imageMiddleScale.x, imageMiddleScale.y); // 게임 오브젝트 위치에 UI가 위치했을 때, 크기를 키운다.
+
+            Vector3 imageEndScale = new Vector3(1f, 1f, 0f);
+            CardKeyScale(isStageSceneClear, imageEndScale.x , imageEndScale.y); // 게임 오브젝트 위치에 UI가 위치했을 때, 크기를 키운다. 
 
         }
-        else if (isStageSceneClear)    // 스테이지를 넘어갔을 때 와 카드키를 먹었을 때를 어떻게 구분할 지 결정 필요.
+        else if (!isStageSceneClear)    // 스테이지를 넘어갔을 때 와 카드키를 먹었을 때를 어떻게 구분할 지 결정 필요.
         {
             _isGetCardKey = false;
             CardKeyHide(isStageSceneClear);
