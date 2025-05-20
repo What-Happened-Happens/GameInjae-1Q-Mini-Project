@@ -16,10 +16,8 @@ public class TemporaryPausePopUp : MonoBehaviour
         Debug.Log($"테스트를 위해서 일시적으로 활성화 상태로 지정. TemporaryPausePopUp ");
         isPopUpActived = true;
         Debug.Log($"테스트를 위해서 일시적으로 활성화 상태로 지정. TemporaryPausePopUp isPopUpActived : {isPopUpActived} ");
-        isEscPressed = false;
-        Debug.Log($"테스트를 위해서 일시적으로 활성화 상태로 지정. TemporaryPausePopUp isEscPressed : {isEscPressed} ");
-
-        
+        isEscPressed = false;   
+                
     }
     private void Update()
     {
@@ -36,12 +34,14 @@ public class TemporaryPausePopUp : MonoBehaviour
             Debug.Log($"ESC 키를 눌렀습니다! > {isEscPressed}");
             Debug.Log($"현재 팝업 상태  > {isPopUpActived}");
             _targetCanvas.gameObject.SetActive(true);
+            isPopUpActived = true; 
         }
         else if (isEscPressed && isPopUpActived) // Esc키를 눌렀을 때, 팝업 창이 활성화 상태일 때 
         {
             Debug.Log($"ESC 키를 눌렀습니다! > {isEscPressed}");
             Debug.Log($"현재 팝업 상태  > {isPopUpActived}");
             _targetCanvas.gameObject.SetActive(false);
+            isPopUpActived = false;
         }
         else
         {

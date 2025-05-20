@@ -3,52 +3,116 @@ using UnityEngine.UI;
 using UnityEngine;
 using System;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Linq;
 
 public class AudioManager : MonoBehaviour
 {
+    [Header("Audio Source")]
+    [SerializeField] protected AudioSource _BGMaudioSource;
+    [SerializeField] protected AudioSource _SFXaudioSource;
 
-    [Header("Audio Mixer & Sliders")]
-    [SerializeField] protected AudioSource AudioSource;
-    [SerializeField] protected GameObject AudioTarget;
-    [SerializeField] protected Slider AudioSlider;
-    [SerializeField] protected TMP_Text AudioValueText;
+    [Header("Sliders")]
+    [SerializeField] protected Slider _BGMAudioSlider;
+    [SerializeField] protected Slider _SFXAudioSlider;
+
+    [Header("AudioValueText")]
+    [SerializeField] protected TMP_Text _BGMaudioText;
+    [SerializeField] protected TMP_Text _SFXaudioText;
+
+    [Header("SFX List")]
+    [SerializeField] private List<AudioSource> SFXsources = new List<AudioSource>();
+    private readonly Dictionary<AudioSource, float> _originalVolumes = new();
 
     protected bool _isMute = false;             // 사운드 플레이 중인지 확인하기 위한 변수 
 
     protected float _currentSliderValue;        // 현재 슬라이더 값 
-    protected float _currentSourceVolume;       // 현재 오디오 소스 볼륨 
+    protected float _currentSourceVolume;       // 현재 오디오 소스 볼륨
+    protected float _currentSFXSliderValue;     // 현재 슬라이더 값
+
     protected float _PrevSoundValue;            // 이전 사운드 값 
+    protected float _PrevSFXSoundVolume;         // 이전 사운드 값 
 
     protected async void Start()
     {
-        if (AudioSource == null)    Debug.LogError("AudioSource 할당 안 됨!");
-        if (AudioSlider == null)    Debug.LogError("AudioSlider 할당 안 됨!");
-        if (AudioValueText == null) Debug.LogError("VolumeText 할당 안 됨!");
+        if (_BGMaudioSource == null) Debug.LogError("AudioSource 할당되지 않았습니다.");
+        if (_BGMAudioSlider == null) Debug.LogError("AudioSlider 할당되지 않았습니다.");
+        if (_BGMaudioText == null) Debug.LogError("VolumeText  할당되지 않았습니다.");
 
-        float saveCurrentAudio = await AudioLoad("save_CurrentSoundValue", 10f);
-        AudioSource.volume = saveCurrentAudio;
-        AudioSlider.value = saveCurrentAudio;
+        // BGM
+        float saveCurrentAudio = await AudioLoad("save_BGMSoundVolume", 10f);
+        _BGMaudioSource.volume = saveCurrentAudio;
+        _BGMAudioSlider.value = saveCurrentAudio;
         _PrevSoundValue = saveCurrentAudio;
+
+        // SFX 
+        _SFXAudioSlider.value = 0f;
+        _SFXaudioSource.volume = 0f;
+        for (int i = 0; i < SFXsources.Count; ++i)
+        {
+            var src = SFXsources[i];
+            float saved = await AudioLoad($"save_SFXVolume_{i}", src.volume);
+            src.volume = saved;
+            _originalVolumes[src] = saved;
+            Debug.Log($"기본적으로 전부 불러와서 저장");
+        }
+
+        _isMute = PlayerPrefs.GetInt("save_IsMuted", 0) == 1;
+        if (_isMute)
+            await ApplyMuteAsync();
+
     }
 
     public async void OnClickMuteButton()  // 음소거 버튼을 눌렀을 때
     {
-        if (_isMute) return; 
+        if (_isMute)
+        {
+            await ApplyMuteAsync();
+            isMute(false);
+        }
+        else
+        {
+            await ApplyMuteAsync();
+            isMute(true);
+        }
+
+    }
+
+    public async Task ApplyMuteAsync()
+    {
+        if (_isMute) return;
 
         // 현재 볼륨을 저장해두고
-        _currentSourceVolume = AudioSource.volume;
+        _currentSourceVolume = _BGMaudioSource.volume;
 
         // 비동기 저장
-        await AudioSave("save_CurrentSoundValue", _currentSourceVolume);
+        await AudioSave("save_BGMSoundVolume", _currentSourceVolume);
 
         isMute(false);
-       
-        // 실제 음소거
-        AudioSource.volume = 0f;
-        AudioSlider.value = 0f;
-        Debug.Log($"음향을 음소거 시킵니다. 현 상태 : {_isMute}");
-    } 
 
+        // BGM 음소거
+        _BGMaudioSource.volume = 0f;
+        _BGMAudioSlider.value = 0f;
+        Debug.Log($"BGM 음향을 음소거 시킵니다. 현 상태 : {_isMute}");
+
+        //SFX
+        // 현재 SFX 볼륨 값 이전 값에 저장 
+        _PrevSFXSoundVolume = _SFXaudioSource.volume;
+
+        for (int i =0; i < SFXsources.Count; ++i)
+        {
+            var src = SFXsources[i];
+            float curr = src.volume;
+            await AudioSave($"save_SFXVolume", curr);
+            _originalVolumes[src] = curr;
+
+            src.volume = 0f; 
+        }
+        _SFXaudioSource.volume = 0f;
+        _SFXaudioText.text = "X"; 
+    }
+
+    // ------------------------------------------ 비동기 데이터 저장 및 로드 ------------------------------------//
     public async Task<float> AudioSave(string prefKey, float SaveData) // 슬라이더 변경점에 따라서 그 당시의 값을 저장 
     {
         await Task.Yield();
@@ -61,7 +125,7 @@ public class AudioManager : MonoBehaviour
     }
 
     public async Task<float> AudioLoad(string prefKey, float LoadData = 0f) // 그리고, 저장된 값을 불러와서 읽는다. 
-    { 
+    {
         // 값을 다시 사용하기 위해서 파라메터를 사용       
         try
         {
@@ -80,10 +144,11 @@ public class AudioManager : MonoBehaviour
 
     public bool isMute(bool soundState) // 음소거 가 풀리면, 저장된 값을 다시 불러와서 그 순간 부터 재생. 
     {
-        if (soundState) {
+        if (soundState)
+        {
             Debug.Log($"현재 음소거 상태 일 때 : {soundState}");
-            _isMute = false; 
-            return _isMute; 
+            _isMute = false;
+            return _isMute;
         }
         else
         {

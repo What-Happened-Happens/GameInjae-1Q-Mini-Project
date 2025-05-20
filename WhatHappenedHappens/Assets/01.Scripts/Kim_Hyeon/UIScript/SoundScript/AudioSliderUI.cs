@@ -5,12 +5,18 @@ public class AudioSliderUI : AudioManager, IPointerDownHandler
 {
     private void OnEnable()
     {
-        AudioSlider.onValueChanged.AddListener(onAudioValueChanged);
-        onAudioValueChanged(AudioSlider.value);
+        // BGM
+        _BGMAudioSlider.onValueChanged.AddListener(onAudioValueChanged);
+        onAudioValueChanged(_BGMAudioSlider.value);
+        //SFX
+        _SFXAudioSlider.onValueChanged.AddListener(onAudioValueChanged);
+        onAudioValueChanged(_SFXAudioSlider.value);
+
     }
     private void OnDisable()
     {
-        AudioSlider.onValueChanged.RemoveListener(onAudioValueChanged);
+        _BGMAudioSlider.onValueChanged.RemoveListener(onAudioValueChanged);
+        _SFXAudioSlider.onValueChanged.RemoveListener(onAudioValueChanged);
     }
     public async void onAudioValueChanged(float value)
     {
@@ -20,13 +26,24 @@ public class AudioSliderUI : AudioManager, IPointerDownHandler
         {
             _currentSliderValue = value / 100f;
 
-            AudioSource.volume = _currentSliderValue;
-            AudioValueText.text = AudioSource.volume <= 0f ? "X" : $"{Mathf.RoundToInt(value)}%";
+            _BGMaudioSource.volume = _currentSliderValue;
+            _BGMaudioText.text = _BGMaudioSource.volume <= 0f ? "X" : $"{Mathf.RoundToInt(value)}%";
 
             //  이전 값에 현재 값을 로드 
-            _PrevSoundValue = await AudioLoad("save_CurrentSoundValue", 0f);
+            _PrevSoundValue = await AudioLoad("save_BGMSoundVolume", 0f);
             Debug.Log($"현재 음향 값을 다시 로드했습니다. ");
             Debug.Log($"음향을 다시 플레이 합니다.");
+
+            //SFX 
+            _currentSFXSliderValue = value / 100f; 
+            _SFXaudioSource.volume = _currentSFXSliderValue;
+            _SFXaudioText.text = _SFXaudioSource.volume <= 0f ? "X" : $"{Mathf.RoundToInt(value)}%";
+
+            //  이전 값에 현재 값을 로드 
+            // _PrevSFXSoundValue = await AudioLoad("save_CurrentSFXaudio", 0f);
+            _PrevSFXSoundVolume = await AudioLoad("save_SFXVolume", 0f);
+            Debug.Log($"현재 SFX음향 값을 다시 로드했습니다. ");
+            Debug.Log($"SFX 음향을 다시 플레이 합니다.");
 
             if (!_isMute && _currentSliderValue > 0f)
             {
@@ -37,10 +54,13 @@ public class AudioSliderUI : AudioManager, IPointerDownHandler
         else if (value == 0f)
         {
             isMute(false);
-            AudioSource.volume = 0f;
-            AudioSlider.value = 0f; 
-        }
-       
+            _BGMaudioSource.volume = 0f;
+            _BGMAudioSlider.value = 0f;
+
+            // SFX 
+            _SFXAudioSlider.value = 0f;
+            _SFXaudioSource.volume = 0f;
+        }      
 
     }
 
