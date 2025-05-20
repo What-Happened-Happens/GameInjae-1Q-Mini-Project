@@ -439,6 +439,7 @@ MonoBehaviour:
   CameraLimit: {fileID: 1079321857}
   WideCameraPos: {fileID: 1399824492}
   NowPlayerPos: {fileID: 1050528670}
+  mainConvertUpdate: {fileID: 508422429}
 --- !u!114 &732435514
 MonoBehaviour:
   m_ObjectHideFlags: 0
