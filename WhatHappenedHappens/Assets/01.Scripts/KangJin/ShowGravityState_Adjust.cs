@@ -3,18 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShowGravityState : MonoBehaviour
+public class ShowGravityState_Adjust : MonoBehaviour
 {
     // Start is called before the first frame update
 
-    [Header("Sprites")]
-    /*public Sprite[] sprites = new Sprite[3];*/
-    public Sprite ReverseSprite;
-    public Sprite HalfSprite;
-    public Sprite DoubleSprite;
-
+    public Sprite[] sprites = new Sprite[3];
+    public GameObject[] gravitySteps = new GameObject[3];
+    GameObject currentGravitySteps;
     SpriteRenderer sr;
-
     public ReverseGravity gravityZone;
     void Start()
     {
@@ -27,22 +23,15 @@ public class ShowGravityState : MonoBehaviour
         switch (gravityZone.GetCurrGravityState())
         {
             case ReverseGravity.GravityState.Normal:
-
                 break;
             case ReverseGravity.GravityState.Reversed:
-                sr.sprite = ReverseSprite;
-                /*Destroy(mode);
-                mode = Instantiate(gravityModes[0]);*/
+                sr.sprite = sprites[0];
                 break;
             case ReverseGravity.GravityState.Weakened:
-                sr.sprite = HalfSprite;
-                /*Destroy(mode);
-                mode = Instantiate(gravityModes[1]);*/
+                sr.sprite = sprites[1];
                 break;
             case ReverseGravity.GravityState.Reinforced:
-                sr.sprite = DoubleSprite;
-                /*Destroy(mode);
-                mode = Instantiate(gravityModes[2]);*/
+                sr.sprite = sprites[2];
                 break;
         }
     }

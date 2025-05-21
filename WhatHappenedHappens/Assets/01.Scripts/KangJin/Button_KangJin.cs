@@ -19,6 +19,7 @@ public class Button_KangJin : TrueFalse
     // Update is called once per frame
     void Update()
     {
+        //이 녀석은 한 번 누르면 그 대로 True 값 지속 됨 -> 패러독스에만 영향 받음
         if(isColliding)
         {
             if(Input.GetKeyDown(KeyCode.F))
@@ -27,17 +28,28 @@ public class Button_KangJin : TrueFalse
                 Debug.Log("Button On!");
             }
         }
+        ChangeState();
     }
 
     private void OnTriggerStay2D(Collider2D collision)
     {
         isColliding = true;
-        sr.sprite = ButtonOn;
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
         isColliding = false;
-        sr.sprite = ButtonOff;
         Debug.Log("Trigger Exit!");
+    }
+
+    public void ChangeState()
+    {
+        if (isTrue)
+        {
+            sr.sprite = ButtonOn;
+        }
+        else
+        {
+            sr.sprite = ButtonOff;
+        }
     }
 }
