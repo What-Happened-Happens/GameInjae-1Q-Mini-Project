@@ -9,15 +9,26 @@ public class AudioSliderUI : AudioManager, IPointerDownHandler
         _BGMAudioSlider.onValueChanged.AddListener(onAudioValueChanged);
         onAudioValueChanged(_BGMAudioSlider.value);
         //SFX
-        _SFXAudioSlider.onValueChanged.AddListener(onAudioValueChanged);
-        onAudioValueChanged(_SFXAudioSlider.value);
+        _SFXAudioSlider.onValueChanged.AddListener(OnSFXAudioValueChanged);
+        OnSFXAudioValueChanged(_SFXAudioSlider.value);
 
     }
     private void OnDisable()
     {
         _BGMAudioSlider.onValueChanged.RemoveListener(onAudioValueChanged);
-        _SFXAudioSlider.onValueChanged.RemoveListener(onAudioValueChanged);
+        _SFXAudioSlider.onValueChanged.RemoveListener(OnSFXAudioValueChanged);
     }
+
+    private void OnSFXAudioValueChanged(float value)
+    {
+        if (_isMute) return;
+
+        if (value >= 0f && value <= 100f)
+        {
+
+        }
+    }
+
     public async void onAudioValueChanged(float value)
     {
         if (_isMute) return;
@@ -30,7 +41,7 @@ public class AudioSliderUI : AudioManager, IPointerDownHandler
             _BGMaudioText.text = _BGMaudioSource.volume <= 0f ? "X" : $"{Mathf.RoundToInt(value)}%";
 
             //  이전 값에 현재 값을 로드 
-            _PrevSoundValue = await AudioLoad("save_BGMSoundVolume", 0f);
+            _PrevBGMSoundValue = await AudioLoad("save_BGMSoundVolume", 0f);
             Debug.Log($"현재 음향 값을 다시 로드했습니다. ");
             Debug.Log($"음향을 다시 플레이 합니다.");
 
@@ -52,7 +63,6 @@ public class AudioSliderUI : AudioManager, IPointerDownHandler
         }
 
     }
-
     public void OnPointerDown(PointerEventData eventData)
     {
         Debug.Log("Slider clicked");
