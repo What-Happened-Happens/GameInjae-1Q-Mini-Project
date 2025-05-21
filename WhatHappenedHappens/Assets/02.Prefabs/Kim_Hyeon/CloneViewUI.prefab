@@ -160,7 +160,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6835984513845005014}
   - component: {fileID: 862242445760855717}
-  - component: {fileID: 1953639973202394878}
+  - component: {fileID: 5941269921788943904}
   - component: {fileID: 971003967474696885}
   m_Layer: 5
   m_Name: CloneViewUI
@@ -198,7 +198,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8873684604033914892}
   m_CullTransparentMesh: 1
---- !u!114 &1953639973202394878
+--- !u!114 &5941269921788943904
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
