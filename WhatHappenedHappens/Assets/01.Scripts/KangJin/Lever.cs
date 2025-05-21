@@ -33,7 +33,6 @@ public class Lever : TrueFalse
                 elapsedTime = 0;
             }
         }
-
         // Debug.Log("Lever state: " + isTrue);
     }
 
