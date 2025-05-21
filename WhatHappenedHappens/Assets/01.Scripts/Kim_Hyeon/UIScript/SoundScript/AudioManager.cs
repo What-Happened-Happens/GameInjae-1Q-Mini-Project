@@ -40,7 +40,6 @@ public class AudioManager : MonoBehaviour
 
     protected float _currentSliderValue;        // 현재 슬라이더 값 
     protected float _currentSourceVolume;       // 현재 오디오 소스 볼륨
-    // protected float _currentSFXSliderValue;     // 현재 슬라이더 값
 
     protected float _PrevSoundValue;            // 이전 사운드 값 
                                                 // protected float _PrevSFXSoundVolume;         // 이전 사운드 값 

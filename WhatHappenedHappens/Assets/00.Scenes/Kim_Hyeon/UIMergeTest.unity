@@ -2977,7 +2977,7 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 41adfab0a2a79b343a79d6d53b7fbec5, type: 3}
   - state: 2
     targetOutput: {fileID: 103406910}
-    clip: {fileID: 8300000, guid: f49803751296cb447a86a2ca4dde3cae, type: 3}
+    clip: {fileID: 8300000, guid: 551d4da0f2798df4586acb8f6151cc30, type: 3}
   shortThreshold: 1
   clickSoundDepth: 1.5
 --- !u!1 &966118651
@@ -8203,7 +8203,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: ef3201a496a91524da65092594a053e1, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 3052e1aba6daf4b47ab0253fa7f0025a, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
