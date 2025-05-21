@@ -2,7 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
+using static UnityEngine.EventSystems.EventTrigger;
 
 // 1. Inspector 창에서 오디오 상태 / 재생할 오디오 소스 컴포넌트가 있는 오브젝트 / 재생할 오디오 클립을 등록.
 // 1-1. SFXAudioPlay가 들어가 있는 오브젝트라면, SFXAudioManager의 Inspector 창에서 등록된 상태 / 오브젝트 / 클립을 동일하게 등록해야 함. 
@@ -48,7 +50,7 @@ public class SFXAudioManager : MonoBehaviour
     public bool IsClipLength { get; set; }    // 재생할 clip 의 길이를 길게 할 지, 아니면 짧게 할 지 결정. : 길게(false)는 클립의 원래 길이로 재생 
     public bool IsStageClear { get;  set; }   // 스테이지 클리어를 체크 
     public bool IsMute { get; set; } = false; // 사운드 음소거 체크 
-
+    public bool IsLoop { get; set; } = false; // 사운드 루프 체크 
 
     private void Awake()
     {
@@ -58,7 +60,7 @@ public class SFXAudioManager : MonoBehaviour
     }
 
     // 외부 스크립트에서 이 함수를 호출해서 오디오 효과음을 재생. 
-    public void PlayStateClip(AudioSource source, SFXState state, bool isClipLength)
+    public void PlayStateClip(AudioSource source, SFXState state, bool isClipLength, bool isLoop)
     {
         if (isMute() == true)
         {
@@ -84,11 +86,12 @@ public class SFXAudioManager : MonoBehaviour
 
         // 짧게 재생할 지, 길게 오디오 clip 길이에 맞춰서 재생할 지 isShort 값에 따라 결정된다. 
         float duration = isClipLength ? ShortDuration : LongDuration;
+
         Debug.Log($"재생 길이 : {duration}");
-        PlayClipWithDuration(source, entry.clip, duration, volumeScale);
+        PlayClipWithDuration(source, entry.clip, duration, volumeScale, isLoop);
     }
 
-    private void PlayClipWithDuration(AudioSource source, AudioClip clip, float duration, float volume)
+    private void PlayClipWithDuration(AudioSource source, AudioClip clip, float duration, float volume, bool isLoop)
     {
         if (source == null)
         {
@@ -103,6 +106,8 @@ public class SFXAudioManager : MonoBehaviour
             StopCoroutine(prevRoutine);
         }
 
+        // Loop 여부 결정        
+        source.loop = isLoop;
         source.clip = clip;
         source.volume = volume;
         source.Play();

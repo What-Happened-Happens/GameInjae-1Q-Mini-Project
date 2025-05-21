@@ -49,19 +49,19 @@ public class SFXAudioPlay : SFXAudioManager
             return;
         }
 
-        PlayStateClip(entry.targetOutput, entry.state, false);
+        PlayStateClip(entry.targetOutput, entry.state, false, false);
     }
 
     public void ObjectAudioPlay(bool isAudioPlaying)
     {
         Debug.Log($"Object Audio State : Object Play");
 
-        ObjectEventAudioPlay();
+        ObjectEventAudioPlay(false);
 
     }
     // 오브젝트의 오디오를 플레이. 
     // 추후, 스테이지 클리어 상태에 따라서 오브젝트 오디오 볼륨 조절 
-    public void ObjectEventAudioPlay()
+    public void ObjectEventAudioPlay(bool isLoop)
     {
         var entry = stateClips.Find(sc => sc.state == SFXState.OBJECT);
         Debug.Log($"등록된 Object 상태의 AudioSource를 찾습니다. Object AudioSource : {entry.targetOutput.ToString()}" +
@@ -77,7 +77,7 @@ public class SFXAudioPlay : SFXAudioManager
                   $" Object AudioSource : {entry.targetOutput.ToString()}" +
                   $" Object State =  {entry.state.ToString()}," +
                   $" Object clip =  {entry.clip.ToString()}");
-        PlayStateClip(entry.targetOutput, SFXState.OBJECT, IsClipLength);
+        PlayStateClip(entry.targetOutput, SFXState.OBJECT, IsClipLength, true);
     }
 
     public void OnMuteVolume()
