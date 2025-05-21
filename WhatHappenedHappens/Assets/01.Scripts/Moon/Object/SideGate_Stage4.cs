@@ -31,14 +31,5 @@ public class SideGate_Stage4 : MonoBehaviour
             animator.SetTrigger("Open");
             gateCollider.isTrigger = true; // 통과 가능하게 
         }
-        else if (isOpen &&
-            (!(Rever1.GetComponent<Lever>().IsTrue && Rever2.GetComponent<Lever>().IsTrue)
-            && !CircuitBreaker.GetComponent<CircuitBreaker>().IsTrue))
-        {
-            isOpen = false;
-            animator.SetTrigger("Close");
-            gateCollider.isTrigger = false; // 통과 불가능하게
-        }
-
     }
 }
