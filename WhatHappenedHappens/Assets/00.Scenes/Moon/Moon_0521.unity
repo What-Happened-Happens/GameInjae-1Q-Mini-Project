@@ -2273,6 +2273,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1613766155442584156, guid: 131268aba0ad49f4c8e69e72898c2e9e, type: 3}
   m_PrefabInstance: {fileID: 675854046}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &676343394 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7741481901036988896, guid: 4cad1d66759d2d3459c0e3ed432955ca, type: 3}
+  m_PrefabInstance: {fileID: 1279683016}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &702373015
 GameObject:
   m_ObjectHideFlags: 0
@@ -3282,7 +3287,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movingObjects: []
   triggerObjects:
-  - {fileID: 0}
+  - {fileID: 676343394}
 --- !u!1 &1276912205
 GameObject:
   m_ObjectHideFlags: 0
@@ -3324,6 +3329,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 538818444052904004, guid: 4cad1d66759d2d3459c0e3ed432955ca, type: 3}
+      propertyPath: paradoxManager
+      value: 
+      objectReference: {fileID: 1539049846}
     - target: {fileID: 6129305463411261747, guid: 4cad1d66759d2d3459c0e3ed432955ca, type: 3}
       propertyPath: m_Controller
       value: 
@@ -3334,11 +3343,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8550544033674394041, guid: 4cad1d66759d2d3459c0e3ed432955ca, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.6349878
+      value: -3.311
       objectReference: {fileID: 0}
     - target: {fileID: 8550544033674394041, guid: 4cad1d66759d2d3459c0e3ed432955ca, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -6.473218
+      value: -6.549
       objectReference: {fileID: 0}
     - target: {fileID: 8550544033674394041, guid: 4cad1d66759d2d3459c0e3ed432955ca, type: 3}
       propertyPath: m_LocalPosition.z
@@ -8005,7 +8014,7 @@ PrefabInstance:
     - target: {fileID: 1107238338354692505, guid: 66d17cf833295a94ea0ff351c08630f6, type: 3}
       propertyPath: operatingObject
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 676343394}
     - target: {fileID: 5011315963516703307, guid: 66d17cf833295a94ea0ff351c08630f6, type: 3}
       propertyPath: m_Name
       value: ReverseGravity

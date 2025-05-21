@@ -6,7 +6,7 @@ using UnityEngine;
 public class Lever : TrueFalse
 {
     SpriteRenderer sr;
-    Animation anim;
+    Animator animator;
     float elapsedTime;
 
     public ParadoxManager paradoxManager;
@@ -14,7 +14,7 @@ public class Lever : TrueFalse
     void Start()
     {
         sr = GetComponent<SpriteRenderer>();
-        anim = GetComponent<Animation>();
+        animator = GetComponent<Animator>();
 
         elapsedTime = 0;
     }
@@ -28,6 +28,7 @@ public class Lever : TrueFalse
             if (elapsedTime > 5f)
             {
                 isTrue = false;
+                animator.SetTrigger("Lever_Left");
                 elapsedTime = 0;
             }
         }
@@ -40,8 +41,6 @@ public class Lever : TrueFalse
         if (!collision.gameObject.CompareTag("Player"))
             return;
 
-        Debug.Log("Lever Collision with Player");
-
         SpriteRenderer playerSr = collision.gameObject.GetComponent<SpriteRenderer>();
         if (playerSr == null) return;
 
@@ -52,19 +51,19 @@ public class Lever : TrueFalse
         {
             if (isTrue)
             {
+                animator.SetTrigger("Lever_Left");
+                // Debug.Log("Lever Disabled (Right)");
                 isTrue = false;
-                anim.Play("Ani_Lever_Reverse");
-                Debug.Log("Lever Disabled (Right)");
             }
         }
         else if (playerCenterX < leverCenterX) // 플레이어가 왼쪽에 있음
         {
             if (!isTrue)
             {
-                isTrue = true;
+                animator.SetTrigger("Lever_Right");
+                // Debug.Log("Lever Abled (Left)");
                 elapsedTime = 0;
-                anim.Play("Ani_Lever");
-                Debug.Log("Lever Abled (Left)");
+                isTrue = true;
             }
         }
     }
@@ -77,15 +76,15 @@ public class Lever : TrueFalse
         isTrue = value;
         elapsedTime = 0;
 
-        if (anim != null)
+        if (animator != null)
         {
             if (value)
             {
-                anim.Play("Ani_Lever");
+                animator.SetTrigger("Lever_Right");
             }
             else
             {
-                anim.Play("Ani_Lever_Reverse");
+                animator.SetTrigger("Lever_Left");
             }
         }
 
