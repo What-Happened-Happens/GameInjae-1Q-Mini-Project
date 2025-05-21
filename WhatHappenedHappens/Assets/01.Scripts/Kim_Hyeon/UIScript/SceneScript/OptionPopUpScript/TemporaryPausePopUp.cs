@@ -10,9 +10,9 @@ public class TemporaryPausePopUp : MonoBehaviour
 
     private void Start()
     {
-        _targetCanvas =  GetComponent<Canvas>(); 
-       
-        gameObject.SetActive(true);
+        _targetCanvas =  GetComponent<Canvas>();
+
+        _targetCanvas.gameObject.SetActive(true);
         Debug.Log($"테스트를 위해서 일시적으로 활성화 상태로 지정. TemporaryPausePopUp ");
         isPopUpActived = true;
         Debug.Log($"테스트를 위해서 일시적으로 활성화 상태로 지정. TemporaryPausePopUp isPopUpActived : {isPopUpActived} ");
@@ -21,14 +21,18 @@ public class TemporaryPausePopUp : MonoBehaviour
     }
     private void Update()
     {
+        if(Input.GetKeyDown(KeyCode.Escape)) // ESC 키를 눌렀을 때 
+        {
+            isEscPressed = true;
+        }
+      
         TemporaryPausePopUpControl(isEscPressed);
     }
 
     // ESC 키 입력 상태에 따라서 팝업 창 Show 
     public void TemporaryPausePopUpControl (bool isEscPressed)
     {
-        if (isEscPressed == false ) return;
-
+        
         if (isEscPressed && !isPopUpActived)  // Esc키를 눌렀을 때, 팝업 창이 활성화 상태가 아닐 때 
         {
             Debug.Log($"ESC 키를 눌렀습니다! > {isEscPressed}");
@@ -43,10 +47,7 @@ public class TemporaryPausePopUp : MonoBehaviour
             _targetCanvas.gameObject.SetActive(false);
             isPopUpActived = false;
         }
-        else
-        {
-            Debug.Log($"더 뭔가 있을 줄 아셨나요? 그렇다면 안타깝군요.");
-        }
+        
     
     }
 

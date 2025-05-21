@@ -6,19 +6,43 @@ public class AudioSliderUI : AudioManager, IPointerDownHandler
     private void OnEnable()
     {
         // BGM
-        _BGMAudioSlider.onValueChanged.AddListener(onAudioValueChanged);
-        onAudioValueChanged(_BGMAudioSlider.value);
+        _BGMAudioSlider.onValueChanged.AddListener(onBGMValueChangedAsync);
+        onBGMValueChangedAsync(_BGMAudioSlider.value);
         //SFX
-        _SFXAudioSlider.onValueChanged.AddListener(onAudioValueChanged);
-        onAudioValueChanged(_SFXAudioSlider.value);
+        _SFXAudioSlider.onValueChanged.AddListener(OnSFXSliderChangedAsync);
+        OnSFXSliderChangedAsync(_SFXAudioSlider.value);
 
     }
     private void OnDisable()
     {
-        _BGMAudioSlider.onValueChanged.RemoveListener(onAudioValueChanged);
-        _SFXAudioSlider.onValueChanged.RemoveListener(onAudioValueChanged);
+        // BGM
+        _BGMAudioSlider.onValueChanged.RemoveListener(onBGMValueChangedAsync);
+        // SFX
+        _SFXAudioSlider.onValueChanged.RemoveListener(OnSFXSliderChangedAsync);
     }
-    public async void onAudioValueChanged(float value)
+
+    public async void OnSFXSliderChangedAsync(float value)
+    {
+        if (_isMute) return;
+
+        float normalized = value / 1000f;     
+
+        await AudioSave("save_SFXSoundVolume", normalized);
+
+        _SFXaudioText.text = normalized <= 0f ? "X" : $"{Mathf.RoundToInt(value)}%";
+        SFXAudioManager.Instance.volumeScale = normalized;
+
+        foreach (var entry in SFXAudioManager.Instance.stateClips)
+        {
+            if (entry.targetOutput != null)
+            {               
+                entry.targetOutput.volume = normalized;               
+            }         
+
+        }
+    }
+
+    public async void onBGMValueChangedAsync(float value)
     {
         if (_isMute) return;
 
@@ -30,7 +54,7 @@ public class AudioSliderUI : AudioManager, IPointerDownHandler
             _BGMaudioText.text = _BGMaudioSource.volume <= 0f ? "X" : $"{Mathf.RoundToInt(value)}%";
 
             //  이전 값에 현재 값을 로드 
-            _PrevSoundValue = await AudioLoad("save_BGMSoundVolume", 0f);
+            _PrevBGMSoundValue = await AudioLoad("save_BGMSoundVolume", 0f);
             Debug.Log($"현재 음향 값을 다시 로드했습니다. ");
             Debug.Log($"음향을 다시 플레이 합니다.");
 
@@ -46,13 +70,9 @@ public class AudioSliderUI : AudioManager, IPointerDownHandler
             _BGMaudioSource.volume = 0f;
             _BGMAudioSlider.value = 0f;
 
-            // SFX 
-            _SFXAudioSlider.value = 0f;
-            //_SFXaudioSource.volume = 0f;
         }
 
     }
-
     public void OnPointerDown(PointerEventData eventData)
     {
         Debug.Log("Slider clicked");
