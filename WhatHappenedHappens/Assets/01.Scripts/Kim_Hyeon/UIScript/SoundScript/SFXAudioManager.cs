@@ -10,6 +10,7 @@ using static UnityEngine.EventSystems.EventTrigger;
 // 1-1. SFXAudioPlay가 들어가 있는 오브젝트라면, SFXAudioManager의 Inspector 창에서 등록된 상태 / 오브젝트 / 클립을 동일하게 등록해야 함. 
 // 2. AudioSource 컴포넌트가 있는 오브젝트에는 오디오 클립, 소스가 비어있어도 상관 없음. 
 // 3. 이 스크립트 내에 있는 함수를 사용해 따로 오디오 재생만을 모은 스크립트가 SFXAudioPlay.cs 에 있음. 
+// 4. 그러나 따로 사용하고 싶다면 PlayStateClip 함수 사용. 
 public enum SFXState
 {
     NONE,

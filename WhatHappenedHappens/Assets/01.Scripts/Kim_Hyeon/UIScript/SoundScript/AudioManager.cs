@@ -62,7 +62,6 @@ public class AudioManager : MonoBehaviour
         _BGMAudioSlider.value = saveCurrentAudio;
         _PrevSoundValue = saveCurrentAudio;
 
-
         _isMute = PlayerPrefs.GetInt("save_IsMuted", 0) == 1;
         if (_isMute)
             await ApplyMuteAsync();

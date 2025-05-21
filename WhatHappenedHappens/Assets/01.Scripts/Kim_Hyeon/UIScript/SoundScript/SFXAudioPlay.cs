@@ -56,7 +56,7 @@ public class SFXAudioPlay : SFXAudioManager
     {
         Debug.Log($"Object Audio State : Object Play");
 
-        ObjectEventAudioPlay(false);
+        ObjectEventAudioPlay(true);
 
     }
     public void ObjectEventAudioPlay(bool isLoop)
@@ -81,25 +81,21 @@ public class SFXAudioPlay : SFXAudioManager
     public void OnMuteVolume()
     {
         Debug.Log($"SFXAudioPlay : SFX 음소거 하겠습니다.");
-       
+
         foreach (var entry in stateClips)
         {
-            if (entry.targetOutput != null && isMute()) // 음소거 상태일 때 
+            if (entry.targetOutput != null)
             {
-                entry.targetOutput.mute = true;  
-                entry.targetOutput.volume = 0f; // 음소거 상태일 때, 볼륨을 0으로 설정 
-            }
-            else if (entry.targetOutput != null && !isMute()) // 음소거 해제 상태일 때
-            {
-                entry.targetOutput.mute = false; // 음소거 해제 
-                entry.targetOutput.volume = 1f; // 음소거 해제 시, 볼륨을 원래대로 복구  
-
+                entry.targetOutput.mute = true;
                 Debug.Log($"AudioSource : {entry.targetOutput.ToString()} " +
-                          $"AudioState :  {entry.state.ToString()} " +
-                          $"AudioClip :   {entry.clip.ToString()} " +
-                          $"AudioVolume : {entry.targetOutput.mute}");
+                        $"SFX Volume : {entry.targetOutput.volume} ");
+                Debug.Log($"SFX State :  {entry.state.ToString()} " +
+                          $"SFX Clip :   {entry.clip.ToString()} " +
+                          $"SFX Mute : {entry.targetOutput.mute}");
             }
+           
         }
-    }
 
+    }
 }
+
