@@ -177,12 +177,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8550544033674394041}
-  - component: {fileID: 3720786090546306241}
   - component: {fileID: 7573237900620583128}
   - component: {fileID: 538818444052904004}
   - component: {fileID: 131311407076148981}
+  - component: {fileID: 6129305463411261747}
   m_Layer: 0
-  m_Name: Lever
+  m_Name: Lever_Moon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -205,23 +205,6 @@ Transform:
   - {fileID: 2720694921356538324}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!111 &3720786090546306241
-Animation:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7741481901036988896}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: 4aace44edddacd14abacec79ff2c0fa8, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: 4aace44edddacd14abacec79ff2c0fa8, type: 2}
-  - {fileID: 7400000, guid: d175ebdb54080ea49bb136ce03945c42, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 0
-  m_AnimatePhysics: 0
-  m_CullingType: 0
 --- !u!61 &7573237900620583128
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -279,6 +262,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18462c9303fd85a41bf9e87b7ab84c16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  paradoxManager: {fileID: 0}
 --- !u!212 &131311407076148981
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -331,3 +315,24 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &6129305463411261747
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7741481901036988896}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

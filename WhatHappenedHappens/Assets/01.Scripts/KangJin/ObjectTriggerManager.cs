@@ -61,7 +61,7 @@ public class ObjectTriggerManager : MonoBehaviour
             float elapsed = Time.time - recordingStartTime;
             recordingTimeRemaining = Mathf.Max(0f, recordingDuration - elapsed);
 
-            recorder.Record(player, elapsed);
+            recorder.Record(player, elapsed, objectManager.triggerObjects);
             
 
             if (elapsed >= recordingDuration)

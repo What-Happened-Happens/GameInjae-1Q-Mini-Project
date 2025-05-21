@@ -34,6 +34,8 @@ public class Player : MonoBehaviour
     private float externalSpeedModifier = 1f;
     [SerializeField] private LayerMask AccelerateLayer;
 
+    [Header("Gravity")]
+    [SerializeField] private LayerMask GravityLayer;
 
     // -------------------------------------------------
 
@@ -62,6 +64,9 @@ public class Player : MonoBehaviour
         // [ 가속 상태 ]
         if (IsAccelerated()) SetExternalModifier(2f, 1.5f);
         else if (!IsAccelerated() && IsGrounded()) ResetExternalModifier(); // 가속 상태가 끝나고 땅을 밟았을 때 
+
+        // [ 중력장 ]
+        
     }
 
 
@@ -128,6 +133,8 @@ public class Player : MonoBehaviour
     // [ 벽 (=옆에 붙은 땅) 감지 ]
     public bool IsTouchWall()
     {
+        if(IsGravityField()) return false; // 중력장에 있을 때는 벽 감지 안함
+
         Vector2 position = transform.position;
         Vector2 leftBoxCenter = position + Vector2.left * (wallBoxSize.x + 0.37f);
         Vector2 rightBoxCenter = position + Vector2.right * (wallBoxSize.x + 0.37f);
@@ -149,6 +156,12 @@ public class Player : MonoBehaviour
         return Physics2D.OverlapBox(groundCheck.position, groundBoxSize, 0f, AccelerateLayer);
     }
 
+    // [ 중력장 감지 ]
+    public bool IsGravityField()
+    {
+        return Physics2D.OverlapBox(groundCheck.position, groundBoxSize, 0f, GravityLayer);
+    }
+    
     // [ physics2d 충돌 시각화 ]
     private void OnDrawGizmos()
     {
