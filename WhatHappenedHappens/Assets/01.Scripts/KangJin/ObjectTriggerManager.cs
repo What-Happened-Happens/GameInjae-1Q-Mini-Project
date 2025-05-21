@@ -7,9 +7,9 @@ using UnityEngine;
 public class ObjectTriggerManager : MonoBehaviour
 {
     public static ObjectTriggerManager instance;
-    
-    [Header("Object")]
-    public GameObject Object;
+
+    [Header("Objects")]
+    public List<TrueFalse> triggers;
 
     [Header("Player")]
     public GameObject player;
@@ -26,14 +26,16 @@ public class ObjectTriggerManager : MonoBehaviour
     public float recordingTimeRemaining = 0f;
 
     private bool isRecording = false;
+    public bool recording { get { return isRecording; } }
     private bool isReplaying = false;
+    public bool Replaying { get { return isReplaying; } }
     private float recordingStartTime = 0f;
     private float replayStartTime = 0f;
 
     private ParadoxRecorder recorder;
-    private ParadoxGhostPlayer ghostPlayer;
-    public ParadoxObjectManager objectManager;
-    public ParadoxTriggerRecorder triggerRecorder;
+    private ParadoxGhostPlayer  ghostPlayer;
+    public  ParadoxObjectManager objectManager;
+    public  List<ParadoxTriggerRecorder> triggerRecorder;
 
     private void Awake()
     {
@@ -42,7 +44,8 @@ public class ObjectTriggerManager : MonoBehaviour
 
         recorder = new ParadoxRecorder();
         ghostPlayer = new ParadoxGhostPlayer();
-        triggerRecorder = new ParadoxTriggerRecorder();
+        triggerRecorder = new List<ParadoxTriggerRecorder>();
+        triggerRecorder.Clear();
         // positionManager = new ParadoxPositionManager();
     }
 
@@ -72,14 +75,15 @@ public class ObjectTriggerManager : MonoBehaviour
 
         if (isReplaying)
         {
+            //잘라내는 시간 계산
             float trimTime = Time.time - replayStartTime;
-            recorder.Trim(trimTime);
-            triggerRecorder.Trim(trimTime);
+            recorder.Trim(trimTime); // 
+            /*triggerRecorder.Trim(trimTime);*/
         }
         else
         {
             recorder.Clear();
-            triggerRecorder.Clear();
+            /*triggerRecorder.Clear();*/
         }
 
         isRecording = true;
@@ -88,7 +92,7 @@ public class ObjectTriggerManager : MonoBehaviour
         objectManager.Save(); // 오브젝트 위치 저장
         objectManager.SavePlayer(player); // 플레이어 위치 저장
         recorder.Start();
-        triggerRecorder.Start();
+        /*triggerRecorder.Start();*/
     }
 
     public void StopRecording()
@@ -97,7 +101,7 @@ public class ObjectTriggerManager : MonoBehaviour
         RecordEffect.SetActive(false);
 
         recorder.Enqueue(maxParadox);
-        triggerRecorder.Enqueue(maxParadox);
+        /*triggerRecorder.Enqueue(maxParadox);*/
         objectManager.ResetPlayer(player);
         objectManager.ResetAll();
 
@@ -112,7 +116,7 @@ public class ObjectTriggerManager : MonoBehaviour
 
         List<List<PlayerMovementRecord>> moveData = recorder.GetAllMovementData();
         List<List<PlayerAnimationRecord>> animData = recorder.GetAllAnimationData();
-        List<List<ObjectTriggerRecord>> triggerData = triggerRecorder.GetAllTriggerData();
+        /*List<List<ObjectTriggerRecord>> triggerData = triggerRecorder.GetAllTriggerData();*/
 
         for (int i = 0; i < moveData.Count; i++)
         {
