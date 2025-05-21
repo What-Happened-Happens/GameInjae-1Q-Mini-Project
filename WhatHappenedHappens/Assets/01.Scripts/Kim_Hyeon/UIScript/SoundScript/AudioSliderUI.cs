@@ -25,32 +25,19 @@ public class AudioSliderUI : AudioManager, IPointerDownHandler
     {
         if (_isMute) return;
 
-        float normalized = value / 100f;     
+        float normalized = value / 1000f;     
 
         await AudioSave("save_SFXSoundVolume", normalized);
 
+        _SFXaudioText.text = normalized <= 0f ? "X" : $"{Mathf.RoundToInt(value)}%";
         SFXAudioManager.Instance.volumeScale = normalized;
 
         foreach (var entry in SFXAudioManager.Instance.stateClips)
         {
             if (entry.targetOutput != null)
-            {
-                entry.targetOutput.volume = _currentSFXsliderValue;
-                _SFXaudioText.text = _BGMaudioSource.volume <= 0f ? "X" : $"{Mathf.RoundToInt(value)}%";
-                entry.targetOutput.volume = normalized;
-                if (!_isMute && _currentSFXsliderValue > 0f)
-                {
-                    isMute(true);
-                    Debug.Log($"음향을 다시 플레이 합니다.");
-                }
-            }
-            else if (value == 0f)
-            {
-                isMute(false);               
-                // SFX 
-                _SFXAudioSlider.value = 0f;
-                entry.targetOutput.volume = 0f;
-            }
+            {               
+                entry.targetOutput.volume = normalized;               
+            }         
 
         }
     }

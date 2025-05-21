@@ -3321,6 +3321,11 @@ Transform:
   - {fileID: 101103790}
   m_Father: {fileID: 966118652}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1287287441 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3415960197548531511, guid: fff8b7bd0b14d8341a07e11e6cb681aa, type: 3}
+  m_PrefabInstance: {fileID: 4959683975921237436}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1328059939
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8199,6 +8204,30 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1999740027233568940, guid: fff8b7bd0b14d8341a07e11e6cb681aa, type: 3}
   m_PrefabInstance: {fileID: 4959683975921237436}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2190776725594380074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1287287441}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3901658187167a9499b5c653e7a4b4fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _BGMaudioSource: {fileID: 886796930}
+  _BGMAudioSlider: {fileID: 2040942353}
+  _SFXAudioSlider: {fileID: 1008096700}
+  _BGMaudioText: {fileID: 1580685349}
+  _SFXaudioText: {fileID: 909013973}
+  isStageCleard: 0
+  ShortDuration: 0.1
+  LongDuration: 1
+  volumeScale: 0.5
+  stateClips: []
+  shortThreshold: 1
+  clickSoundDepth: 1.5
 --- !u!224 &2711243339578043349 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7866314352187857057, guid: 33d77b645a6617945954359e0fdcebf3, type: 3}
@@ -8404,6 +8433,9 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3415960197548531511, guid: fff8b7bd0b14d8341a07e11e6cb681aa, type: 3}
+      insertIndex: 6
+      addedObject: {fileID: 2190776725594380074}
     - targetCorrespondingSourceObject: {fileID: 42633035446329223, guid: fff8b7bd0b14d8341a07e11e6cb681aa, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1008096701}
