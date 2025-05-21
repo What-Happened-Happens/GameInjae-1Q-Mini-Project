@@ -53,8 +53,6 @@ public class GhostCountUIcontroller : UIHelper
             {
                 SetImageColor(ghosts[i], Color.gray);
             }
-         
-                Debug.Log($"»ö º¯°æ : {ghosts[i].color}");
 
         }
 

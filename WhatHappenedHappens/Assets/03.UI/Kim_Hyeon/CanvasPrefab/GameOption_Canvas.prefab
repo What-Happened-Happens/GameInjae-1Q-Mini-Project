@@ -192,9 +192,13 @@ MonoBehaviour:
   ShortDuration: 0.1
   LongDuration: 1
   volumeScale: 0.5
-  stateClips: []
+  stateClips:
+  - state: 1
+    targetOutput: {fileID: 0}
+    clip: {fileID: 0}
   shortThreshold: 1
   clickSoundDepth: 1.5
+  audioSource: {fileID: 0}
 --- !u!1 &3497526651870489779
 GameObject:
   m_ObjectHideFlags: 0

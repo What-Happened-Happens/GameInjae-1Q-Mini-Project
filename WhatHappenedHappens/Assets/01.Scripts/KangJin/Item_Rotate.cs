@@ -58,7 +58,7 @@ public class Item_Rotate : MonoBehaviour
             }
 
             // 목표 방향으로 이동
-            transform.position += directionVector * Time.deltaTime * 10f;
+            transform.position += directionVector * Time.deltaTime * 15f;
 
             // 거리 가까워지면 제거
             if (Vector3.Distance(transform.position, targetPos) < 0.1f)
