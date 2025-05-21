@@ -24,7 +24,7 @@ public struct StateClip
     public AudioSource targetOutput;
     public AudioClip clip;
 }
-public class SFXAudioManager : MonoBehaviour
+public class SFXAudioManager : AudioManager
 {
      private static SFXAudioManager instance = null; 
      public static SFXAudioManager Instance
@@ -49,7 +49,6 @@ public class SFXAudioManager : MonoBehaviour
 
     public bool IsClipLength { get; set; }    // 재생할 clip 의 길이를 길게 할 지, 아니면 짧게 할 지 결정. : 길게(false)는 클립의 원래 길이로 재생 
     public bool IsStageClear { get;  set; }   // 스테이지 클리어를 체크 
-    public bool IsMute { get; set; } = false; // 사운드 음소거 체크 
     public bool IsLoop { get; set; } = false; // 사운드 루프 체크    
     public SFXState SFXstate { get; set; } = SFXState.NONE; // 현재 재생중인 사운드 상태 체크 
 
@@ -129,15 +128,15 @@ public class SFXAudioManager : MonoBehaviour
 
     public bool isMute()
     {
-        if (IsMute)
+        if (_isMute)
         {
             Debug.Log($"사운드 음소거 상태입니다.");
-            return IsMute = true;
+            return _isMute = true;
         }
         else
         {
             Debug.Log($"사운드 음소거 해제 상태입니다.");
-            return IsMute = false;
+            return _isMute = false;
         } 
     }
 }

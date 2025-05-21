@@ -32,6 +32,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] protected TMP_Text _SFXaudioText;
 
     private SFXAudioPlay _sfxAudioPlay;
+    private SFXAudioManager _sfxAudioManager; 
 
     // 스테이지 클리어 여부 확인용 test
     public bool isStageCleard = false;
@@ -47,6 +48,9 @@ public class AudioManager : MonoBehaviour
     protected async void Awake()
     {
         _sfxAudioPlay = FindObjectOfType<SFXAudioPlay>();
+        _sfxAudioManager = FindObjectOfType<SFXAudioManager>();
+
+        if (_sfxAudioManager == null) Debug.LogError("SFXAudioManager 할당되지 않았습니다.");
         if (_sfxAudioPlay == null) Debug.LogError("SFXAudioManager 할당되지 않았습니다.");
         if (_BGMaudioSource == null) Debug.LogError("AudioSource 할당되지 않았습니다.");
         if (_BGMAudioSlider == null) Debug.LogError("AudioSlider 할당되지 않았습니다.");
