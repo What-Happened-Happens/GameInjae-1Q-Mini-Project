@@ -3,8 +3,6 @@ using UnityEngine.UI;
 using UnityEngine;
 using System;
 using System.Threading.Tasks;
-using System.Linq;
-using static Unity.VisualScripting.Member;
 
 public class AudioManager : MonoBehaviour
 {
@@ -34,7 +32,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] protected TMP_Text _SFXaudioText;
 
     private SFXAudioPlay _sfxAudioPlay;
-    private SFXAudioManager _sfxAudioManager; 
+    private SFXAudioManager _sfxAudioManager;
 
     // 스테이지 클리어 여부 확인용 test
     public bool isStageCleard = false;
@@ -77,8 +75,8 @@ public class AudioManager : MonoBehaviour
         // SFX 
         float savedSFXvolume = await AudioLoad("save_SFXSoundVolume", 10f);
         _SFXAudioSlider.value = savedSFXvolume;
-        _PrevSFXaudioValue = savedSFXvolume; 
-    }   
+        _PrevSFXaudioValue = savedSFXvolume;
+    }
 
     // 음소거 
     public async void OnClickMuteButton()  // 음소거 버튼을 눌렀을 때
@@ -88,11 +86,11 @@ public class AudioManager : MonoBehaviour
             await ApplyMuteAsync();
             isMute(false);
         }
-        else 
+        else
         {
             await ApplyMuteAsync();
             isMute(true);
-        }       
+        }
 
     }
 
@@ -112,7 +110,7 @@ public class AudioManager : MonoBehaviour
         Debug.Log($"BGM 음향을 음소거 시킵니다. 현 상태 : {_isMute}");
 
         // SFX 음소거 
-        _sfxAudioPlay.OnMuteVolume(); 
+        _sfxAudioPlay.OnMuteVolume();
     }
 
     // ------------------------------------------ 비동기 데이터 저장 및 로드 ------------------------------------//

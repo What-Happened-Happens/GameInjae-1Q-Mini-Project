@@ -84,7 +84,7 @@ public class SFXAudioPlay : SFXAudioManager
 
         foreach (var entry in stateClips)
         {
-            if (entry.targetOutput != null && isMute())
+            if (entry.targetOutput != null )
             {
                 entry.targetOutput.mute = true;
                 Debug.Log($"AudioSource : {entry.targetOutput.ToString()} " +
@@ -100,9 +100,9 @@ public class SFXAudioPlay : SFXAudioManager
                         $"SFX Volume :    {entry.targetOutput.volume} ");
                 Debug.Log($"SFX State :   {entry.state.ToString()} " +
                           $"SFX Clip :    {entry.clip.ToString()} " +
-                          $"SFX Mute :    {entry.targetOutput.mute}"); 
+                          $"SFX Mute :    {entry.targetOutput.mute}");
             }
-           
+
         }
 
     }

@@ -25,7 +25,7 @@ public class AudioSliderUI : AudioManager, IPointerDownHandler
     {
         if (_isMute) return;
 
-        float normalized = value / 1000f;     
+        float normalized = value / 1000f;
 
         await AudioSave("save_SFXSoundVolume", normalized);
 
@@ -35,9 +35,9 @@ public class AudioSliderUI : AudioManager, IPointerDownHandler
         foreach (var entry in SFXAudioManager.Instance.stateClips)
         {
             if (entry.targetOutput != null)
-            {               
-                entry.targetOutput.volume = normalized;               
-            }         
+            {
+                entry.targetOutput.volume = normalized;
+            }
 
         }
     }
