@@ -94,8 +94,6 @@ public class AudioManager : MonoBehaviour
         // 비동기 저장
         await AudioSave("save_BGMSoundVolume", _currentSourceVolume);
 
-        isMute(false);
-
         // BGM 음소거
         _BGMaudioSource.volume = 0f;
         _BGMAudioSlider.value = 0f;

@@ -47,10 +47,7 @@ public class TemporaryPausePopUp : MonoBehaviour
             _targetCanvas.gameObject.SetActive(false);
             isPopUpActived = false;
         }
-        else
-        {
-            Debug.Log($"더 뭔가 있을 줄 아셨나요? 그렇다면 안타깝군요.");
-        }
+        
     
     }
 

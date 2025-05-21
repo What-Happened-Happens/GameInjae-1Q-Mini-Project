@@ -80,18 +80,18 @@ public class SFXAudioPlay : SFXAudioManager
 
     public void OnMuteVolume()
     {
-        Debug.LogWarning($"SFXAudioPlay : SFX Mute Volume is Noting!");
+        Debug.Log($"SFXAudioPlay : SFX 음소거 하겠습니다.");
        
         foreach (var entry in stateClips)
         {
             if (entry.targetOutput != null && isMute()) // 음소거 상태일 때 
             {
-                entry.targetOutput.mute = true;              
+                entry.targetOutput.mute = true;  
+                entry.targetOutput.volume = 0f; // 음소거 상태일 때, 볼륨을 0으로 설정 
             }
-            else
+            else if (entry.targetOutput != null && !isMute()) // 음소거 해제 상태일 때
             {
                 entry.targetOutput.mute = false; // 음소거 해제 
-                entry.targetOutput.loop = false; // 루프 해제 
                 entry.targetOutput.volume = 1f; // 음소거 해제 시, 볼륨을 원래대로 복구  
 
                 Debug.Log($"AudioSource : {entry.targetOutput.ToString()} " +
