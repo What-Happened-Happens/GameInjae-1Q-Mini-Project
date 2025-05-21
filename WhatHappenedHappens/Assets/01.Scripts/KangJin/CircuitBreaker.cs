@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class CircuitBreaker : TrueFalse
 {
-    // Start is called before the first frame update
     float elapsedTime;
     public float maxTime;
     bool isColliding = false;
@@ -13,6 +12,9 @@ public class CircuitBreaker : TrueFalse
     SpriteRenderer sr;
     public Sprite onSprites;
     public Sprite offSprites;
+
+    public ParadoxManager paradoxManager;
+
     void Start()
     {
         elapsedTime = 0f;
@@ -21,12 +23,12 @@ public class CircuitBreaker : TrueFalse
         sr.sprite = offSprites;
     }
 
-    // Update is called once per frame
     void Update()
     {
         CheckTrueFalse();
         ChangeSprite();
     }
+
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.gameObject == GameObject.FindWithTag("Player"))
@@ -44,7 +46,7 @@ public class CircuitBreaker : TrueFalse
 
     public void CheckTrueFalse()
     {
-        if (isTrue)
+        if (isTrue && !paradoxManager.isRecording && !paradoxManager.isReplaying)
         {
             //특정시간 지나면 false
             elapsedTime += Time.deltaTime;

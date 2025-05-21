@@ -382,8 +382,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca50674d0b68d424197113db3f8afe57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sprites:
-  - {fileID: 21300000, guid: 209171382f9cfa140bf3b4c486eb0367, type: 3}
-  - {fileID: 21300000, guid: 5913eabb3aa9e4a40aaaefee118ece5b, type: 3}
-  - {fileID: 21300000, guid: 4b46cc12078d38546903ea179942baad, type: 3}
-  gravityZone: {fileID: 0}
+  ReverseSprite: {fileID: 21300000, guid: a1717699a741b344386b20b9fd94b71d, type: 3}
+  HalfSprite: {fileID: 21300000, guid: 5a73b451703fb1e40b35c1d70d2af12b, type: 3}
+  DoubleSprite: {fileID: 21300000, guid: fed6042bbb09c7c4188a8946ff6fef07, type: 3}
+  gravityZone: {fileID: 7311553959038585617}

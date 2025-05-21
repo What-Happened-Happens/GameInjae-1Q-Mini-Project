@@ -24,6 +24,7 @@ public class ReverseGravity_Adjust : MonoBehaviour
     public Material ReverseGravityEffect;
     public Material HalfGravityEffect;
     public Material DoubledGravityEffect;
+    public Material NormalGravityEffect;
 
     public GravityState poweredState;
     public GravityState unpoweredState;
@@ -84,6 +85,7 @@ public class ReverseGravity_Adjust : MonoBehaviour
         {
             case GravityState.Normal:
                 gravityScale = normalGravityScale;
+                useGravity = false;
                 break;
             case GravityState.Reversed:
                 gravityScale = reversedGravityScale;
@@ -113,8 +115,8 @@ public class ReverseGravity_Adjust : MonoBehaviour
     {
         switch (currState)
         {
-            case GravityState.Normal:
-                sr.material = null;
+           case GravityState.Normal:
+                sr.material = NormalGravityEffect;
                 break;
             case GravityState.Reversed:
                 sr.material = ReverseGravityEffect;
