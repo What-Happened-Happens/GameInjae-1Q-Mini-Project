@@ -8,15 +8,13 @@ public class SFXAudioPlay : SFXAudioManager
     [Header("재생 기준 시간")]
     [SerializeField] private float clickSoundDepth = 1.5f;
 
-
-
     private void Update()
     {
         if (Input.GetMouseButtonDown(0))
             ClickEventAudioPlay();
 
         isStageClear = true; // test 
-        ObjectAudioPlay(true); 
+        ObjectAudioPlay(true);
     }
 
     public void ClickEventAudioPlay()
@@ -24,6 +22,9 @@ public class SFXAudioPlay : SFXAudioManager
         Debug.Log($"Object Audio State : Click Play");
         Vector3 screenPos = Input.mousePosition;
         screenPos.z = clickSoundDepth;
+        Debug.Log($"포인터 입력 포지션 : X : {screenPos.x}" +
+                  $"Y : {screenPos.y}" +
+                  $"Z : {screenPos.z}");
         Vector3 worldPos = Camera.main.ScreenToWorldPoint(screenPos);
         Debug.Log($"카메라 스크린을 클릭 위치를 월드 스페이스 포지션으로 변환");
 
@@ -42,15 +43,10 @@ public class SFXAudioPlay : SFXAudioManager
 
     public void ObjectAudioPlay(bool isAudioPlaying)
     {
-        Debug.Log($"Object Audio State : Object Play"); 
-        if (isStageClear)
-        {
-            ObjectEventAudioPlay();
-        }
-        else if (!isStageClear)
-        {
+        Debug.Log($"Object Audio State : Object Play");
 
-        }
+        ObjectEventAudioPlay();
+
     }
     // 오브젝트의 오디오를 플레이. 
     // 추후, 스테이지 클리어 상태에 따라서 오브젝트 오디오 볼륨 조절 
@@ -71,6 +67,21 @@ public class SFXAudioPlay : SFXAudioManager
                   $" Object State =  {entry.state.ToString()}," +
                   $" Object clip =  {entry.clip.ToString()}");
         PlayStateClip(entry.targetOutput, SFXState.Object, isClipLength);
+    }
+
+    public void OnMuteVolume()
+    {
+        foreach (var entry in stateClips)
+        {
+            if (entry.targetOutput != null)
+            {
+                entry.targetOutput.volume = 0f;
+                Debug.Log($"AudioSource : {entry.targetOutput.ToString()} " +
+                          $"AudioState :  {entry.state.ToString()} " +
+                          $"AudioClip :   {entry.clip.ToString()} " +
+                          $"AudioVolume : {entry.targetOutput.volume}");
+            }
+        }
     }
 
 }
