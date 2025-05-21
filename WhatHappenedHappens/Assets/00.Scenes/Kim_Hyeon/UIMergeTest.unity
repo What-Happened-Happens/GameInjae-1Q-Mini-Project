@@ -2769,6 +2769,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2833611696381230998, guid: 98a6ef5b44222e0488ea57a0a9500c62, type: 3}
+      propertyPath: volumeScale
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2833611696381230998, guid: 98a6ef5b44222e0488ea57a0a9500c62, type: 3}
+      propertyPath: ShortDuration
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2833611696381230998, guid: 98a6ef5b44222e0488ea57a0a9500c62, type: 3}
       propertyPath: stateClips.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -2779,7 +2787,7 @@ PrefabInstance:
     - target: {fileID: 2833611696381230998, guid: 98a6ef5b44222e0488ea57a0a9500c62, type: 3}
       propertyPath: stateClips.Array.data[1].clip
       value: 
-      objectReference: {fileID: 8300000, guid: b233c498c4537ce4d8302f8b18096961, type: 3}
+      objectReference: {fileID: 8300000, guid: 551d4da0f2798df4586acb8f6151cc30, type: 3}
     - target: {fileID: 2833611696381230998, guid: 98a6ef5b44222e0488ea57a0a9500c62, type: 3}
       propertyPath: stateClips.Array.data[0].state
       value: 1
@@ -2816,6 +2824,10 @@ PrefabInstance:
       propertyPath: stateClips.Array.data[0].targetOutput
       value: 
       objectReference: {fileID: 1173016975}
+    - target: {fileID: 3720667040260898260, guid: 98a6ef5b44222e0488ea57a0a9500c62, type: 3}
+      propertyPath: isStageCleard
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4679885843855910302, guid: 98a6ef5b44222e0488ea57a0a9500c62, type: 3}
       propertyPath: isStageCleard
       value: 0

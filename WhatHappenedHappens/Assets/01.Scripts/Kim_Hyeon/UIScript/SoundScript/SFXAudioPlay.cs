@@ -11,7 +11,6 @@ public class SFXAudioPlay : SFXAudioManager
 
     private void Update()
     {
-        Debug.Log($"Update: Button held? {Input.GetMouseButton(0)}, ButtonDown? {Input.GetMouseButtonDown(0)}");
         if (Input.GetMouseButtonDown(0))
             if (Input.GetMouseButtonDown(0))
             ClickEventAudioPlay();
@@ -41,7 +40,7 @@ public class SFXAudioPlay : SFXAudioManager
             return;
         }
 
-        SFXAudioManager.Instance.PlayStateClip(entry.targetOutput, entry.state, false, false);
+        SFXAudioManager.Instance.PlayStateClip(entry.targetOutput, entry.state, true, false);
     }
 
     public void ObjectAudioPlay(bool isAudioLoop)
@@ -89,6 +88,7 @@ public class SFXAudioPlay : SFXAudioManager
             else if (!isMute() && Input.GetMouseButtonDown(0))
             {
                 entry.targetOutput.mute = false;
+                SFXAudioManager.Instance.volumeScale = 0.5f;
             }
 
 

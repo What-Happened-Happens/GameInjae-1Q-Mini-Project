@@ -57,6 +57,7 @@ public class SFXAudioManager : AudioManager
         DontDestroyOnLoad(gameObject);
 
         _stopCoroutines = new Dictionary<AudioSource, Coroutine>();
+        volumeScale = 0.5f; 
     }
 
     // 외부 스크립트에서 이 함수를 호출해서 오디오 효과음을 재생. 
