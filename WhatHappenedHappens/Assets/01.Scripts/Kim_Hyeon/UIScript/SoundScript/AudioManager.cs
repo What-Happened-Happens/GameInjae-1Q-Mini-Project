@@ -3,8 +3,6 @@ using UnityEngine.UI;
 using UnityEngine;
 using System;
 using System.Threading.Tasks;
-using System.Linq;
-using static Unity.VisualScripting.Member;
 
 public class AudioManager : MonoBehaviour
 {
@@ -34,7 +32,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] protected TMP_Text _SFXaudioText;
 
     private SFXAudioPlay _sfxAudioPlay;
-    private SFXAudioManager _sfxAudioManager; 
+    private SFXAudioManager _sfxAudioManager;
 
     // 스테이지 클리어 여부 확인용 test
     public bool isStageCleard = false;
@@ -55,8 +53,8 @@ public class AudioManager : MonoBehaviour
     //배경음은 씬 전환이 되더라도 남도록.   
     protected async void Awake()
     {
-        _sfxAudioPlay = FindObjectOfType<SFXAudioPlay>();
         _sfxAudioManager = FindObjectOfType<SFXAudioManager>();
+        _sfxAudioPlay = FindObjectOfType<SFXAudioPlay>();
 
         if (_sfxAudioManager == null) Debug.LogError("SFXAudioManager 할당되지 않았습니다.");
         if (_sfxAudioPlay == null) Debug.LogError("SFXAudioManager 할당되지 않았습니다.");
@@ -77,28 +75,28 @@ public class AudioManager : MonoBehaviour
         // SFX 
         float savedSFXvolume = await AudioLoad("save_SFXSoundVolume", 10f);
         _SFXAudioSlider.value = savedSFXvolume;
-        _PrevSFXaudioValue = savedSFXvolume; 
-    }   
-
+        _PrevSFXaudioValue = savedSFXvolume;
+    }
+   
     // 음소거 
     public async void OnClickMuteButton()  // 음소거 버튼을 눌렀을 때
     {
         if (_isMute && isStageCleard) // 음소거 상태이고, 스테이지를 클리어 했을 때 
-        {
-            await ApplyMuteAsync();
-            isMute(false);
+        {          
+            await ApplyMuteAsync();            
         }
-        else 
+        else
         {
+            isMute(false);
             await ApplyMuteAsync();
-            isMute(true);
-        }       
+           
+        }
 
     }
 
     public async Task ApplyMuteAsync()
     {
-        if (_isMute) return;
+        if (!_isMute) return;
 
         // 현재 볼륨을 저장해두고
         _currentSourceVolume = _BGMaudioSource.volume;
@@ -112,7 +110,7 @@ public class AudioManager : MonoBehaviour
         Debug.Log($"BGM 음향을 음소거 시킵니다. 현 상태 : {_isMute}");
 
         // SFX 음소거 
-        _sfxAudioPlay.OnMuteVolume(); 
+        _sfxAudioPlay.OnMuteVolume();
     }
 
     // ------------------------------------------ 비동기 데이터 저장 및 로드 ------------------------------------//

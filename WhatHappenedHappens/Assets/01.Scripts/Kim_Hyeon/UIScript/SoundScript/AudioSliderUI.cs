@@ -12,7 +12,8 @@ public class AudioSliderUI : AudioManager, IPointerDownHandler
         _SFXAudioSlider.onValueChanged.AddListener(OnSFXSliderChangedAsync);
         OnSFXSliderChangedAsync(_SFXAudioSlider.value);
 
-    }
+}
+
     private void OnDisable()
     {
         // BGM
@@ -23,22 +24,26 @@ public class AudioSliderUI : AudioManager, IPointerDownHandler
 
     public async void OnSFXSliderChangedAsync(float value)
     {
-        if (_isMute) return;
-
-        float normalized = value / 1000f;     
-
-        await AudioSave("save_SFXSoundVolume", normalized);
-
-        _SFXaudioText.text = normalized <= 0f ? "X" : $"{Mathf.RoundToInt(value)}%";
-        SFXAudioManager.Instance.volumeScale = normalized;
-
-        foreach (var entry in SFXAudioManager.Instance.stateClips)
+       
+        if (value >= 0f && value <= 100f)
         {
-            if (entry.targetOutput != null)
-            {               
-                entry.targetOutput.volume = normalized;               
-            }         
+            float normalized = value / 1f;
+            Debug.Log($"ÇöÀç SFX º¼·ý : {normalized}"); 
 
+            foreach (var entry in SFXAudioManager.Instance.stateClips)
+            {
+                await AudioSave("save_SFXSoundVolume", normalized);
+
+                if (entry.targetOutput != null)
+                {
+                    _SFXaudioText.text = normalized <= 0f ? "X" : $"{Mathf.RoundToInt(normalized * 100)}%";
+                    SFXAudioManager.Instance.volumeScale = await AudioLoad("save_SFXSoundVolume", normalized);
+                    entry.targetOutput.volume = normalized;
+
+                    if (entry.targetOutput != null)
+                        entry.targetOutput.mute = false;
+                }
+            }
         }
     }
 
