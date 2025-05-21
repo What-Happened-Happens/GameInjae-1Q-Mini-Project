@@ -30,7 +30,6 @@ public class AudioSliderUI : AudioManager, IPointerDownHandler
             float normalized = value / 1f;
             Debug.Log($"ÇöÀç SFX º¼·ý : {normalized}"); 
 
-
             foreach (var entry in SFXAudioManager.Instance.stateClips)
             {
                 await AudioSave("save_SFXSoundVolume", normalized);

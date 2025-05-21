@@ -81,10 +81,11 @@ public class SFXAudioPlay : SFXAudioManager
     public void LogOnlySpecificObjectAudio(AudioSource targetSource)
     {
         // state == OBJECT 이고, targetOutput이 specificSource인 항목만 지정해서 출력 
-        var entries = stateClips
+        var ObjClips = stateClips
             .Where(sc => sc.state == SFXState.OBJECT && sc.targetOutput == targetSource);
+        targetSource.volume = 0f; 
 
-        foreach (var entry in entries)
+        foreach (var entry in ObjClips)
         {
             Debug.Log($"[OBJECT only] Source: {entry.targetOutput.name.ToString()}, Clip: {entry.clip.name.ToString()}");
             entry.targetOutput.Play();
