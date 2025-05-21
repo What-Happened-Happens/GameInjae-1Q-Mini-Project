@@ -40,7 +40,7 @@ public class GhostTimerUIController : UIHelper
 
         if (_paradoxManager.isRecording == true && timer <= 5f)
         {
-            Debug.Log($"녹화 시작 지점GGGGGGGGGGGG"); 
+            Debug.Log($"녹화 시작 지점"); 
             timerImage.gameObject.SetActive(true);
 
             UpdateSpriteForTime(timer);
