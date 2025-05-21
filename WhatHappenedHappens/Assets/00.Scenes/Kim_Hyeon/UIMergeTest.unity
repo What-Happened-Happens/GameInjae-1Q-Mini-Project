@@ -2639,7 +2639,7 @@ PrefabInstance:
     - target: {fileID: 1335870995239199326, guid: 98a6ef5b44222e0488ea57a0a9500c62, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1895769828}
+      objectReference: {fileID: 1895769829}
     - target: {fileID: 1335870995239199326, guid: 98a6ef5b44222e0488ea57a0a9500c62, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -2770,20 +2770,32 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2833611696381230998, guid: 98a6ef5b44222e0488ea57a0a9500c62, type: 3}
       propertyPath: stateClips.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2833611696381230998, guid: 98a6ef5b44222e0488ea57a0a9500c62, type: 3}
       propertyPath: stateClips.Array.data[0].clip
       value: 
-      objectReference: {fileID: 8300000, guid: 41adfab0a2a79b343a79d6d53b7fbec5, type: 3}
+      objectReference: {fileID: 8300000, guid: aa0ffdf33f5205c4b89c1e7b36cbfb8a, type: 3}
+    - target: {fileID: 2833611696381230998, guid: 98a6ef5b44222e0488ea57a0a9500c62, type: 3}
+      propertyPath: stateClips.Array.data[1].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: b233c498c4537ce4d8302f8b18096961, type: 3}
     - target: {fileID: 2833611696381230998, guid: 98a6ef5b44222e0488ea57a0a9500c62, type: 3}
       propertyPath: stateClips.Array.data[0].state
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2833611696381230998, guid: 98a6ef5b44222e0488ea57a0a9500c62, type: 3}
+      propertyPath: stateClips.Array.data[1].state
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2833611696381230998, guid: 98a6ef5b44222e0488ea57a0a9500c62, type: 3}
       propertyPath: stateClips.Array.data[0].targetOutput
       value: 
-      objectReference: {fileID: 2768188208330490831, guid: c57be11d9c151d241ac75312a808ca78, type: 3}
+      objectReference: {fileID: 1173016975}
+    - target: {fileID: 2833611696381230998, guid: 98a6ef5b44222e0488ea57a0a9500c62, type: 3}
+      propertyPath: stateClips.Array.data[1].targetOutput
+      value: 
+      objectReference: {fileID: 1555533080}
     - target: {fileID: 3497526651870489779, guid: 98a6ef5b44222e0488ea57a0a9500c62, type: 3}
       propertyPath: m_Name
       value: GameOption_Canvas
@@ -2805,21 +2817,37 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1173016975}
     - target: {fileID: 4679885843855910302, guid: 98a6ef5b44222e0488ea57a0a9500c62, type: 3}
+      propertyPath: isStageCleard
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4679885843855910302, guid: 98a6ef5b44222e0488ea57a0a9500c62, type: 3}
       propertyPath: stateClips.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4679885843855910302, guid: 98a6ef5b44222e0488ea57a0a9500c62, type: 3}
       propertyPath: stateClips.Array.data[0].clip
       value: 
       objectReference: {fileID: 8300000, guid: 41adfab0a2a79b343a79d6d53b7fbec5, type: 3}
     - target: {fileID: 4679885843855910302, guid: 98a6ef5b44222e0488ea57a0a9500c62, type: 3}
+      propertyPath: stateClips.Array.data[1].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: f49803751296cb447a86a2ca4dde3cae, type: 3}
+    - target: {fileID: 4679885843855910302, guid: 98a6ef5b44222e0488ea57a0a9500c62, type: 3}
       propertyPath: stateClips.Array.data[0].state
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4679885843855910302, guid: 98a6ef5b44222e0488ea57a0a9500c62, type: 3}
+      propertyPath: stateClips.Array.data[1].state
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4679885843855910302, guid: 98a6ef5b44222e0488ea57a0a9500c62, type: 3}
       propertyPath: stateClips.Array.data[0].targetOutput
       value: 
       objectReference: {fileID: 2768188208330490831, guid: c57be11d9c151d241ac75312a808ca78, type: 3}
+    - target: {fileID: 4679885843855910302, guid: 98a6ef5b44222e0488ea57a0a9500c62, type: 3}
+      propertyPath: stateClips.Array.data[1].targetOutput
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 4967136482741145752, guid: 98a6ef5b44222e0488ea57a0a9500c62, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -3298,6 +3326,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 251050958}
     m_Modifications:
+    - target: {fileID: 2768188208330490831, guid: c57be11d9c151d241ac75312a808ca78, type: 3}
+      propertyPath: Mute
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2768188208330490831, guid: c57be11d9c151d241ac75312a808ca78, type: 3}
       propertyPath: m_audioClip
       value: 
@@ -7423,6 +7455,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6008483199023240898, guid: d6107d8fd808eba4ca13a5a878466af1, type: 3}
+      propertyPath: Mute
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6008483199023240898, guid: d6107d8fd808eba4ca13a5a878466af1, type: 3}
       propertyPath: m_audioClip
       value: 
       objectReference: {fileID: 0}
@@ -7442,6 +7478,11 @@ PrefabInstance:
 --- !u!4 &1555533079 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 336429870249454445, guid: d6107d8fd808eba4ca13a5a878466af1, type: 3}
+  m_PrefabInstance: {fileID: 1555533078}
+  m_PrefabAsset: {fileID: 0}
+--- !u!82 &1555533080 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 6008483199023240898, guid: d6107d8fd808eba4ca13a5a878466af1, type: 3}
   m_PrefabInstance: {fileID: 1555533078}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1606136928 stripped
@@ -8186,6 +8227,17 @@ MonoBehaviour:
   _BGMaudioText: {fileID: 1285141692}
   _SFXaudioText: {fileID: 1353878565}
   isStageCleard: 0
+--- !u!114 &1895769829 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2135886321149466362, guid: 98a6ef5b44222e0488ea57a0a9500c62, type: 3}
+  m_PrefabInstance: {fileID: 758756121}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1895769825}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00edd71fed101c949a354eda4ad6830d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1931910132
 GameObject:
   m_ObjectHideFlags: 0
