@@ -53,8 +53,8 @@ public class AudioManager : MonoBehaviour
     //배경음은 씬 전환이 되더라도 남도록.   
     protected async void Awake()
     {
-        _sfxAudioPlay = FindObjectOfType<SFXAudioPlay>();
         _sfxAudioManager = FindObjectOfType<SFXAudioManager>();
+        _sfxAudioPlay = FindObjectOfType<SFXAudioPlay>();
 
         if (_sfxAudioManager == null) Debug.LogError("SFXAudioManager 할당되지 않았습니다.");
         if (_sfxAudioPlay == null) Debug.LogError("SFXAudioManager 할당되지 않았습니다.");

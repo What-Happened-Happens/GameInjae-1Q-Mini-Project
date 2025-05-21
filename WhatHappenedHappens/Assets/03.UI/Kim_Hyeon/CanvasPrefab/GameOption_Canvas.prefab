@@ -147,8 +147,6 @@ GameObject:
   - component: {fileID: 1631035906903571159}
   - component: {fileID: 2430440160920670563}
   - component: {fileID: 428367175294823814}
-  - component: {fileID: 3665427051790145459}
-  - component: {fileID: 1176929459726609471}
   - component: {fileID: 5795957182953319742}
   - component: {fileID: 8419985071576368719}
   m_Layer: 5
@@ -243,64 +241,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _targetCamera: {fileID: 0}
   _uiCanvas: {fileID: 1631035906903571159}
---- !u!114 &3665427051790145459
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3497526651870489779}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e76334a1d4fc551409d6972a6a4a0655, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _BGMaudioSource: {fileID: 3440734609893803664, guid: 910c6af28679a7d4fb0743c1e4f3eaef, type: 3}
-  _BGMAudioSlider: {fileID: 1253660672632698229}
-  _SFXAudioSlider: {fileID: 1335870995239199326}
-  _BGMaudioText: {fileID: 2990903152583635528}
-  _SFXaudioText: {fileID: 632119005121479120}
-  isStageCleard: 0
-  ShortDuration: 0.1
-  LongDuration: 1
-  volumeScale: 0.5
-  stateClips:
-  - state: 1
-    targetOutput: {fileID: 2768188208330490831, guid: c57be11d9c151d241ac75312a808ca78, type: 3}
-    clip: {fileID: 8300000, guid: 32d7e25092eebb748a35eda53f6b44fb, type: 3}
-  - state: 2
-    targetOutput: {fileID: 6008483199023240898, guid: d6107d8fd808eba4ca13a5a878466af1, type: 3}
-    clip: {fileID: 8300000, guid: 50aaa6b28a05c5d478b67f486be8c998, type: 3}
---- !u!114 &1176929459726609471
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3497526651870489779}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3901658187167a9499b5c653e7a4b4fe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _BGMaudioSource: {fileID: 3440734609893803664, guid: 910c6af28679a7d4fb0743c1e4f3eaef, type: 3}
-  _BGMAudioSlider: {fileID: 1253660672632698229}
-  _SFXAudioSlider: {fileID: 1335870995239199326}
-  _BGMaudioText: {fileID: 2990903152583635528}
-  _SFXaudioText: {fileID: 632119005121479120}
-  isStageCleard: 0
-  ShortDuration: 0.1
-  LongDuration: 1
-  volumeScale: 0.5
-  stateClips:
-  - state: 1
-    targetOutput: {fileID: 2768188208330490831, guid: c57be11d9c151d241ac75312a808ca78, type: 3}
-    clip: {fileID: 8300000, guid: 32d7e25092eebb748a35eda53f6b44fb, type: 3}
-  - state: 2
-    targetOutput: {fileID: 6008483199023240898, guid: d6107d8fd808eba4ca13a5a878466af1, type: 3}
-    clip: {fileID: 8300000, guid: 50aaa6b28a05c5d478b67f486be8c998, type: 3}
-  shortThreshold: 1
-  clickSoundDepth: 1.5
 --- !u!114 &5795957182953319742
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -418,6 +358,7 @@ GameObject:
   - component: {fileID: 5320333901111270348}
   - component: {fileID: 5995572433417836208}
   - component: {fileID: 6572370880123230767}
+  - component: {fileID: 1516963335253224586}
   - component: {fileID: 4206199281179886262}
   m_Layer: 5
   m_Name: SouneMute_Btn
@@ -540,6 +481,30 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1516963335253224586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8253985082601266059}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3901658187167a9499b5c653e7a4b4fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _BGMaudioSource: {fileID: 3440734609893803664, guid: 910c6af28679a7d4fb0743c1e4f3eaef, type: 3}
+  _BGMAudioSlider: {fileID: 1253660672632698229}
+  _SFXAudioSlider: {fileID: 1335870995239199326}
+  _BGMaudioText: {fileID: 2990903152583635528}
+  _SFXaudioText: {fileID: 632119005121479120}
+  isStageCleard: 0
+  ShortDuration: 0.1
+  LongDuration: 1
+  volumeScale: 0.5
+  stateClips: []
+  shortThreshold: 1
+  clickSoundDepth: 1.5
 --- !u!114 &4206199281179886262
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -13,6 +13,7 @@ public class AudioSliderUI : AudioManager, IPointerDownHandler
         OnSFXSliderChangedAsync(_SFXAudioSlider.value);
 
     }
+
     private void OnDisable()
     {
         // BGM
@@ -24,21 +25,23 @@ public class AudioSliderUI : AudioManager, IPointerDownHandler
     public async void OnSFXSliderChangedAsync(float value)
     {
         if (_isMute) return;
-
-        float normalized = value / 1000f;
-
-        await AudioSave("save_SFXSoundVolume", normalized);
-
-        _SFXaudioText.text = normalized <= 0f ? "X" : $"{Mathf.RoundToInt(value)}%";
-        SFXAudioManager.Instance.volumeScale = normalized;
-
-        foreach (var entry in SFXAudioManager.Instance.stateClips)
+        if (value >= 0f && value <= 100f)
         {
-            if (entry.targetOutput != null)
-            {
-                entry.targetOutput.volume = normalized;
-            }
+            float normalized = value / 100f;
 
+            await AudioSave("save_SFXSoundVolume", normalized);
+
+            _SFXaudioText.text = normalized <= 0f ? "X" : $"{Mathf.RoundToInt(value)}%";
+            SFXAudioManager.Instance.volumeScale = normalized;
+
+            foreach (var entry in SFXAudioManager.Instance.stateClips)
+            {
+                if (entry.targetOutput != null)
+                {
+                    entry.targetOutput.volume = normalized;
+                }
+
+            }
         }
     }
 
