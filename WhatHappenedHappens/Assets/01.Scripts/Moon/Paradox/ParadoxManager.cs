@@ -81,7 +81,7 @@ public class ParadoxManager : MonoBehaviour
         isRecording = true;
         recordingStartTime = Time.time;
 
-        objectManager.Save(); // 오브젝트 위치 저장
+        objectManager.Save(); // 오브젝트 위치 및 트리거 저장
         objectManager.SavePlayer(player); // 플레이어 위치 저장
         recorder.Start();
     }

@@ -8,48 +8,89 @@ public class Lever : TrueFalse
     SpriteRenderer sr;
     Animation anim;
     float elapsedTime;
-    // Start is called before the first frame update
+
+    public ParadoxManager paradoxManager;
+
     void Start()
     {
         sr = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animation>();
+
         elapsedTime = 0;
     }
 
-    // Update is called once per frame
+
     void Update()
     {
-        if(isTrue)
-        { 
-            elapsedTime += Time.deltaTime; 
-            if(elapsedTime > 5f)
+        if (isTrue && !paradoxManager.isRecording)
+        {
+            elapsedTime += Time.deltaTime;
+            if (elapsedTime > 5f)
             {
                 isTrue = false;
+                elapsedTime = 0;
             }
         }
+
+        // Debug.Log("Lever state: " + isTrue);
     }
+
     private void OnCollisionStay2D(Collision2D collision)
     {
-        GameObject player = GameObject.FindWithTag("Player");
-        SpriteRenderer playersr = player.GetComponent<SpriteRenderer>();
-        if (sr.bounds.max.x <= playersr.bounds.min.x) // 오른쪽에 있을때,
+        if (!collision.gameObject.CompareTag("Player"))
+            return;
+
+        Debug.Log("Lever Collision with Player");
+
+        SpriteRenderer playerSr = collision.gameObject.GetComponent<SpriteRenderer>();
+        if (playerSr == null) return;
+
+        float playerCenterX = playerSr.bounds.center.x;
+        float leverCenterX = sr.bounds.center.x;
+
+        if (playerCenterX > leverCenterX) // 플레이어가 오른쪽에 있음
         {
             if (isTrue)
             {
                 isTrue = false;
                 anim.Play("Ani_Lever_Reverse");
-                Debug.Log("Lever Disabled");
+                Debug.Log("Lever Disabled (Right)");
             }
         }
-        else if (sr.bounds.min.x >= playersr.bounds.max.x) // 왼쪽에 있을때,
+        else if (playerCenterX < leverCenterX) // 플레이어가 왼쪽에 있음
         {
             if (!isTrue)
             {
                 isTrue = true;
                 elapsedTime = 0;
                 anim.Play("Ani_Lever");
-                Debug.Log("Lever Abled");
+                Debug.Log("Lever Abled (Left)");
             }
         }
     }
+    
+
+    public override void SetState(bool value)
+    {
+        if (isTrue == value) return;
+
+        isTrue = value;
+        elapsedTime = 0;
+
+        if (anim != null)
+        {
+            if (value)
+            {
+                anim.Play("Ani_Lever");
+            }
+            else
+            {
+                anim.Play("Ani_Lever_Reverse");
+            }
+        }
+
+        Debug.Log("Lever state restored: " + value);
+    }
+    
 }
+ 
