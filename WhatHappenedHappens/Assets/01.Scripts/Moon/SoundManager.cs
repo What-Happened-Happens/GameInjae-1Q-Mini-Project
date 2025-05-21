@@ -27,11 +27,13 @@ public class SoundManager : MonoBehaviour
     [Header("Audio Sources")]
     public AudioSource bgmSource;
     public AudioSource sfxSource;
+    public AudioSource sfxSource_player;
     public AudioSource loopSFXSource; // 걷기 소리 등 루프용
 
     [Header("Audio Clips")]
     public AudioClip[] bgmClips;
     public AudioClip[] sfxClips;
+
 
     private Dictionary<string, AudioClip> sfxDict = new();
 
@@ -73,6 +75,21 @@ public class SoundManager : MonoBehaviour
         {
             sfxSource.pitch = pitch;
             sfxSource.PlayOneShot(clip);
+        }
+        else
+        {
+            Debug.LogWarning("SFX not found: " + name);
+        }
+    }
+
+    public void PlaySFX_player(string name, float pitch = 1f)
+    {
+        if (sfxSource == null) return;
+
+        if (sfxDict.TryGetValue(name, out var clip))
+        {
+            sfxSource_player.pitch = pitch;
+            sfxSource_player.PlayOneShot(clip);
         }
         else
         {

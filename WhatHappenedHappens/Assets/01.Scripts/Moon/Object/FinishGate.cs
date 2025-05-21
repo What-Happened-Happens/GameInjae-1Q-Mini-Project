@@ -9,10 +9,12 @@ public class FinishGate : MonoBehaviour
     private Player player;
 
     private Animator animator; // 문 여는 애니메이션
+    private AudioSource audioSource;
 
     void Start()
     {
         animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -24,6 +26,7 @@ public class FinishGate : MonoBehaviour
                 // Debug.Log("Finish Gate Opened!");
 
                 animator.SetTrigger("Open");
+                audioSource.Play();
                 isOpened = true;
             }
             else

@@ -21,7 +21,7 @@ public class JumpState_Player : IState_Player
         player.SetActiveState(Player.PlayerState.Jumping);
         player.Jump();
         elapsedTime = 0f;
-        SoundManager.Instance.PlaySFX("Jump", 2.0f);
+        SoundManager.Instance.PlaySFX_player("Jump", 2.0f);
     }
 
     public void Update()
@@ -38,6 +38,9 @@ public class JumpState_Player : IState_Player
 
         if (!player.IsGrounded() && !player.IsAccelerated() && player.GetVelocity().y < 0f && elapsedTime >= minJumpTime)
             player.ChangeState(new FallState_Player(player));
+
+        if (player.isDead)
+            player.ChangeState(new HurtState_Player(player));
     }
 
     public void FixedUpdate()

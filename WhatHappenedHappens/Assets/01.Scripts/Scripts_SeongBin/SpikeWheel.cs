@@ -23,6 +23,9 @@ public class SpikeWheel : MonoBehaviour
     float moveTime;     
     float moveDisPer;
     bool isReturning;  //end waypoint에서 돌아갈때 사용
+
+    private AudioSource audioSource;
+
     void Start()
     {
         moveTime = 2f;
@@ -32,6 +35,9 @@ public class SpikeWheel : MonoBehaviour
         curWayPoint = 1;
         wheelTurnSpeed = 360f;
         initPos = GetComponent<Transform>();
+        audioSource = GetComponent<AudioSource>();
+        audioSource.Play();
+
         if (wayPoint != null && wayPoint.transform.childCount >= 2)
         {
             chilWayPoints.Clear(); // 혹시 Start 여러 번 돌 수 있으니 초기화

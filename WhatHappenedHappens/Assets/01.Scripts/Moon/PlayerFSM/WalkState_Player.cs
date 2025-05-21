@@ -29,6 +29,9 @@ public class WalkState_Player : IState_Player
         // [ 공중 상태 ] 
         if (!player.IsGrounded() && !player.IsAccelerated())
             player.ChangeState(new FallState_Player(player));
+
+        if (player.isDead)
+            player.ChangeState(new HurtState_Player(player));
     }
 
     public void FixedUpdate()

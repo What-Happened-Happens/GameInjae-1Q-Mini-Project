@@ -20,11 +20,15 @@ public class Item_Rotate : MonoBehaviour
     private Vector3 directionVector;
     private bool isMoving = false;
 
+    private AudioSource audioSource;
+
     void Start()
     {
         // 회전 후 이동할 목표 UI의 월드 위치
         // targetPos = Camera.main.ViewportToWorldPoint(new Vector3(0.1f, 0.9f, Camera.main.nearClipPlane));
         // targetPos.z = 0; // Z값 고정
+
+        audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -37,6 +41,7 @@ public class Item_Rotate : MonoBehaviour
         {
             // 제자리 회전
             transform.rotation *= Quaternion.Euler(0, rotateSpeed * Time.deltaTime * 100f, 0);
+            
         }
         else
         {
@@ -73,6 +78,7 @@ public class Item_Rotate : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             isEntered = true;
+            audioSource.Play();
 
             collision.gameObject.GetComponent<Player>().hasCardKey = true;
 

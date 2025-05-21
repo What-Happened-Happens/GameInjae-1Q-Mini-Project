@@ -19,6 +19,8 @@ public class Laser_Object : MonoBehaviour
     [Header("Raycast Direction")]
     public bool isUp = false; // 레이캐스트 방향 정함
 
+    private bool IsPlayerDead = false;
+
     void Start()
     {
         rb = gameObject.AddComponent<Rigidbody2D>();
@@ -46,12 +48,14 @@ public class Laser_Object : MonoBehaviour
             endPos = rayHit2D.point;
             // Debug.Log("Start :" + startPos+"End :" + endPos);
 
-            if (rayHit2D.collider.CompareTag("Player"))
+            if (rayHit2D.collider.CompareTag("Player") && !IsPlayerDead)
             {
                 Debug.Log("Raycast hit Player!");
 
                 // 예: Player 죽이기
+                SoundManager.Instance.PlaySFX_player("Player_hit_lazer", 1.0f);
                 rayHit2D.collider.GetComponent<Player>().isDead = true;
+                IsPlayerDead = true;
             }
         }
         Debug.DrawLine(startPos, rayHit2D.point, Color.magenta);
