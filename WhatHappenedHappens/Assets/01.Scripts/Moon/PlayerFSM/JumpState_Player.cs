@@ -21,6 +21,7 @@ public class JumpState_Player : IState_Player
         player.SetActiveState(Player.PlayerState.Jumping);
         player.Jump();
         elapsedTime = 0f;
+        SoundManager.Instance.PlaySFX("Jump", 2.0f);
     }
 
     public void Update()

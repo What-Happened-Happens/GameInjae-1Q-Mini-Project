@@ -50,6 +50,7 @@ public class ParadoxManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R))
         {
             StartRecording();
+            SoundManager.Instance.PlaySFX("Paradox_record", 1.0f);
         }
 
         if (isRecording)

@@ -6,14 +6,14 @@ using UnityEngine;
 // 사용 예시
 
 // 배경음악 재생
-// SoundManager.Instance.PlayBGM("MainTheme");
+// SoundManager.Instance.PlayBGM(SoundManager.Instance.bgmClips[0]);
 
 // 캐릭터가 점프할 때
 // SoundManager.Instance.PlaySFX("Jump");
 
 // UI 버튼 클릭 시
 /*
-    public void OnButtonClick()
+public void OnButtonClick()
 {
     SoundManager.Instance.PlaySFX("UIClick");
 }
@@ -27,6 +27,7 @@ public class SoundManager : MonoBehaviour
     [Header("Audio Sources")]
     public AudioSource bgmSource;
     public AudioSource sfxSource;
+    public AudioSource loopSFXSource; // 걷기 소리 등 루프용
 
     [Header("Audio Clips")]
     public AudioClip[] bgmClips;
@@ -64,11 +65,42 @@ public class SoundManager : MonoBehaviour
         bgmSource.Play();
     }
 
-    public void PlaySFX(string name)
+    public void PlaySFX(string name, float pitch = 1f)
     {
-        if (sfxDict.ContainsKey(name))
+        if (sfxSource == null) return;
+
+        if (sfxDict.TryGetValue(name, out var clip))
         {
-            sfxSource.PlayOneShot(sfxDict[name]);
+            sfxSource.pitch = pitch;
+            sfxSource.PlayOneShot(clip);
+        }
+        else
+        {
+            Debug.LogWarning("SFX not found: " + name);
+        }
+    }
+
+    // 루프용 효과음 재생
+    public void PlayLoopSFX(string name, float pitch = 1f)
+    {
+        if (loopSFXSource.isPlaying) return; // 이미 재생 중이면 무시
+
+        if (sfxDict.TryGetValue(name, out var clip))
+        {
+            loopSFXSource.clip = clip;
+            loopSFXSource.pitch = pitch;
+            loopSFXSource.loop = true;
+            loopSFXSource.Play();
+        }
+    }
+
+    public void StopLoopSFX()
+    {
+        if (loopSFXSource.isPlaying)
+        {
+            loopSFXSource.Stop();
+            loopSFXSource.clip = null;
+            loopSFXSource.pitch = 1f;
         }
     }
 }

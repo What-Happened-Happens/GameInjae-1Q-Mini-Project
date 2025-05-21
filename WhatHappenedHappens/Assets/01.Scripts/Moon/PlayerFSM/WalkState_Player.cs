@@ -15,6 +15,7 @@ public class WalkState_Player : IState_Player
     {
         // Debug.Log("Walk State");
         player.SetActiveState(Player.PlayerState.Walking);
+        SoundManager.Instance.PlayLoopSFX("Walk", 2.0f);
     }
 
     public void Update()
@@ -37,6 +38,6 @@ public class WalkState_Player : IState_Player
 
     public void Exit()
     {
-
+        SoundManager.Instance.StopLoopSFX();
     }
 }
