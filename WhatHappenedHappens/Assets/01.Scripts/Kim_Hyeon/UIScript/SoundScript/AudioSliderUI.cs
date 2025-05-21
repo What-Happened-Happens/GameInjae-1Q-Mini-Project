@@ -6,30 +6,56 @@ public class AudioSliderUI : AudioManager, IPointerDownHandler
     private void OnEnable()
     {
         // BGM
-        _BGMAudioSlider.onValueChanged.AddListener(onAudioValueChanged);
-        onAudioValueChanged(_BGMAudioSlider.value);
+        _BGMAudioSlider.onValueChanged.AddListener(onBGMValueChangedAsync);
+        onBGMValueChangedAsync(_BGMAudioSlider.value);
         //SFX
-        _SFXAudioSlider.onValueChanged.AddListener(OnSFXAudioValueChanged);
-        OnSFXAudioValueChanged(_SFXAudioSlider.value);
+        _SFXAudioSlider.onValueChanged.AddListener(OnSFXSliderChangedAsync);
+        OnSFXSliderChangedAsync(_SFXAudioSlider.value);
 
     }
     private void OnDisable()
     {
-        _BGMAudioSlider.onValueChanged.RemoveListener(onAudioValueChanged);
-        _SFXAudioSlider.onValueChanged.RemoveListener(OnSFXAudioValueChanged);
+        // BGM
+        _BGMAudioSlider.onValueChanged.RemoveListener(onBGMValueChangedAsync);
+        // SFX
+        _SFXAudioSlider.onValueChanged.RemoveListener(OnSFXSliderChangedAsync);
     }
 
-    private void OnSFXAudioValueChanged(float value)
+    public async void OnSFXSliderChangedAsync(float value)
     {
         if (_isMute) return;
 
-        if (value >= 0f && value <= 100f)
+        float normalized = value / 100f;     
+
+        await AudioSave("save_SFXSoundVolume", normalized);
+
+        SFXAudioManager.Instance.volumeScale = normalized;
+
+        foreach (var entry in SFXAudioManager.Instance.stateClips)
         {
+            if (entry.targetOutput != null)
+            {
+                entry.targetOutput.volume = _currentSFXsliderValue;
+                _SFXaudioText.text = _BGMaudioSource.volume <= 0f ? "X" : $"{Mathf.RoundToInt(value)}%";
+                entry.targetOutput.volume = normalized;
+                if (!_isMute && _currentSFXsliderValue > 0f)
+                {
+                    isMute(true);
+                    Debug.Log($"음향을 다시 플레이 합니다.");
+                }
+            }
+            else if (value == 0f)
+            {
+                isMute(false);               
+                // SFX 
+                _SFXAudioSlider.value = 0f;
+                entry.targetOutput.volume = 0f;
+            }
 
         }
     }
 
-    public async void onAudioValueChanged(float value)
+    public async void onBGMValueChangedAsync(float value)
     {
         if (_isMute) return;
 
@@ -57,9 +83,6 @@ public class AudioSliderUI : AudioManager, IPointerDownHandler
             _BGMaudioSource.volume = 0f;
             _BGMAudioSlider.value = 0f;
 
-            // SFX 
-            _SFXAudioSlider.value = 0f;
-            //_SFXaudioSource.volume = 0f;
         }
 
     }

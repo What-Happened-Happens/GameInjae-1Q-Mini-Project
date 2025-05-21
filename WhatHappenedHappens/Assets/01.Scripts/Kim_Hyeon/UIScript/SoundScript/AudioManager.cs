@@ -47,6 +47,7 @@ public class AudioManager : MonoBehaviour
     protected float _PrevBGMSoundValue;         // 이전 BGM사운드 값 
     protected float _PrevSFXaudioValue;         // 이전 SFX 사운드 값
 
+    //SFX 
     protected float _currentSFXsliderValue;     // 현재 SFX 슬라이더 값
     protected float _currentSFXsourceVolume;    // 현재 SFX 오디오 소스 볼륨 
 
@@ -74,20 +75,12 @@ public class AudioManager : MonoBehaviour
             await ApplyMuteAsync();
 
         // SFX 
-        float savedSFXvolume = await AudioLoad("save_SFXSoundVolume", 10f); 
-        _SFXAudioSlider.value = savedSFXvolume; 
-        ApplySFXVolume(savedSFXvolume); // SFX 볼륨 적용 
-        _SFXAudioSlider.onValueChanged.AddListener(OnSfxSliderChangedAsync);
-    }
-    private async void OnSfxSliderChangedAsync(float newVolume)
-    {
-        await AudioSave("save_SFXSoundVolume", newVolume);
-        ApplySFXVolume(newVolume); 
-    }
-    private void ApplySFXVolume(float Volume)
-    {
-    }
+        float savedSFXvolume = await AudioLoad("save_SFXSoundVolume", 10f);
+        _SFXAudioSlider.value = savedSFXvolume;
+        _PrevSFXaudioValue = savedSFXvolume; 
+    }   
 
+    // 음소거 
     public async void OnClickMuteButton()  // 음소거 버튼을 눌렀을 때
     {
         if (_isMute && isStageCleard) // 음소거 상태이고, 스테이지를 클리어 했을 때 
