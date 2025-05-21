@@ -12,7 +12,7 @@ public class AudioSliderUI : AudioManager, IPointerDownHandler
         _SFXAudioSlider.onValueChanged.AddListener(OnSFXSliderChangedAsync);
         OnSFXSliderChangedAsync(_SFXAudioSlider.value);
 
-    }
+}
 
     private void OnDisable()
     {
@@ -27,11 +27,12 @@ public class AudioSliderUI : AudioManager, IPointerDownHandler
         if (_isMute) return;
         if (value >= 0f && value <= 100f)
         {
-            float normalized = value / 100f;
+            float normalized = value / 1f;
+            Debug.Log($"ÇöÀç SFX º¼·ý : {normalized}"); 
 
             await AudioSave("save_SFXSoundVolume", normalized);
 
-            _SFXaudioText.text = normalized <= 0f ? "X" : $"{Mathf.RoundToInt(value)}%";
+            _SFXaudioText.text = normalized <= 0f ? "X" : $"{Mathf.RoundToInt(normalized * 100)}%";
             SFXAudioManager.Instance.volumeScale = normalized;
 
             foreach (var entry in SFXAudioManager.Instance.stateClips)

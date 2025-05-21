@@ -55,7 +55,6 @@ public class SFXAudioManager : AudioManager
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);
-
         _stopCoroutines = new Dictionary<AudioSource, Coroutine>();
         volumeScale = 0.5f; 
     }

@@ -77,26 +77,26 @@ public class AudioManager : MonoBehaviour
         _SFXAudioSlider.value = savedSFXvolume;
         _PrevSFXaudioValue = savedSFXvolume;
     }
-
+   
     // 음소거 
     public async void OnClickMuteButton()  // 음소거 버튼을 눌렀을 때
     {
         if (_isMute && isStageCleard) // 음소거 상태이고, 스테이지를 클리어 했을 때 
-        {
-            await ApplyMuteAsync();
-            isMute(false);
+        {          
+            await ApplyMuteAsync();            
         }
         else
         {
+            isMute(false);
             await ApplyMuteAsync();
-            isMute(true);
+           
         }
 
     }
 
     public async Task ApplyMuteAsync()
     {
-        if (_isMute) return;
+        if (!_isMute) return;
 
         // 현재 볼륨을 저장해두고
         _currentSourceVolume = _BGMaudioSource.volume;
