@@ -22,9 +22,10 @@ public class Lever : TrueFalse
 
     void Update()
     {
-        if (isTrue && !paradoxManager.isRecording)
+        if (isTrue && !paradoxManager.isRecording && !paradoxManager.isReplaying)
         {
             elapsedTime += Time.deltaTime;
+            Debug.Log("Elapsed Time: " + elapsedTime);
             if (elapsedTime > 5f)
             {
                 isTrue = false;

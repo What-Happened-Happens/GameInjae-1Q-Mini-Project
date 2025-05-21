@@ -26,7 +26,11 @@ public class FallState_Player : IState_Player
 
     public void FixedUpdate()
     {
-
+        // 중력장에 있으면 이동 가능하도록
+        if (player.IsGravityField())
+        {
+            player.Walk();
+        }
     }
 
     public void Exit()
