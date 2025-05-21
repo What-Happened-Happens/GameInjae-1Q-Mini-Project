@@ -4,15 +4,15 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-// 1. Inspector 창에서 오디오 상태 / 재생할 오디오 소스 컴포넌트가 있는 오브젝트 / 재생할 오디오 클립을 등록. 
+// 1. Inspector 창에서 오디오 상태 / 재생할 오디오 소스 컴포넌트가 있는 오브젝트 / 재생할 오디오 클립을 등록.
+// 1-1. SFXAudioPlay가 들어가 있는 오브젝트라면, SFXAudioManager의 Inspector 창에서 등록된 상태 / 오브젝트 / 클립을 동일하게 등록해야 함. 
 // 2. AudioSource 컴포넌트가 있는 오브젝트에는 오디오 클립, 소스가 비어있어도 상관 없음. 
-// 3. 스크립트 내에 있는 함수를 사용해 따로 오디오 재생만을 모은 스크립트가 SFXAudioPlay.cs 에 있음. 
-
+// 3. 이 스크립트 내에 있는 함수를 사용해 따로 오디오 재생만을 모은 스크립트가 SFXAudioPlay.cs 에 있음. 
 public enum SFXState
 {
-    None = 0,
-    Click = 1,
-    Object = 2
+    NONE,
+    CLICK,
+    OBJECT
 }
 
 [Serializable]

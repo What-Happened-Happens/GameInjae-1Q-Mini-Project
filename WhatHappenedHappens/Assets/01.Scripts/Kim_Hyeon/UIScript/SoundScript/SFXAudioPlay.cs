@@ -13,7 +13,6 @@ public class SFXAudioPlay : SFXAudioManager
         if (Input.GetMouseButtonDown(0))
             ClickEventAudioPlay();
 
-        isStageClear = true; // test 
         ObjectAudioPlay(true);
     }
 
@@ -28,7 +27,7 @@ public class SFXAudioPlay : SFXAudioManager
         Vector3 worldPos = Camera.main.ScreenToWorldPoint(screenPos);
         Debug.Log($"카메라 스크린을 클릭 위치를 월드 스페이스 포지션으로 변환");
 
-        var entry = stateClips.Find(sc => sc.state == SFXState.Click);
+        var entry = stateClips.Find(sc => sc.state == SFXState.CLICK);
         Debug.Log($"등록된 Object 상태의 AudioSource를 찾습니다. Click AudioSource : {entry.targetOutput.ToString()}" +
                   $" Click State =  {entry.state.ToString()}, " +
                   $" Click clip =  {entry.clip.ToString()}");
@@ -52,7 +51,7 @@ public class SFXAudioPlay : SFXAudioManager
     // 추후, 스테이지 클리어 상태에 따라서 오브젝트 오디오 볼륨 조절 
     public void ObjectEventAudioPlay()
     {
-        var entry = stateClips.Find(sc => sc.state == SFXState.Object);
+        var entry = stateClips.Find(sc => sc.state == SFXState.OBJECT);
         Debug.Log($"등록된 Object 상태의 AudioSource를 찾습니다. Object AudioSource : {entry.targetOutput.ToString()}" +
                   $" Object State =  {entry.state.ToString()}, " +
                   $" Object clip =  {entry.clip.ToString()}");
@@ -66,7 +65,7 @@ public class SFXAudioPlay : SFXAudioManager
                   $" Object AudioSource : {entry.targetOutput.ToString()}" +
                   $" Object State =  {entry.state.ToString()}," +
                   $" Object clip =  {entry.clip.ToString()}");
-        PlayStateClip(entry.targetOutput, SFXState.Object, isClipLength);
+        PlayStateClip(entry.targetOutput, SFXState.OBJECT, isClipLength);
     }
 
     public void OnMuteVolume()
