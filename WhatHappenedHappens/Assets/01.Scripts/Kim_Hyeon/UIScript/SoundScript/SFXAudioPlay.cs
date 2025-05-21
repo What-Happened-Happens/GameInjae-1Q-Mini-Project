@@ -1,6 +1,5 @@
 using System.Linq;
 using UnityEngine;
-using static UnityEngine.EventSystems.EventTrigger;
 
 public class SFXAudioPlay : SFXAudioManager
 {
@@ -12,8 +11,7 @@ public class SFXAudioPlay : SFXAudioManager
     [SerializeField] private float clickSoundDepth = 1.5f;
 
     [Header("AudioSourceTest")]
-    [SerializeField] private AudioSource audioSource; // 특정 오브젝트 소리를 출력해보기 위한 테스트용.
-
+    [SerializeField] private AudioSource audioSource; // 특정 오브젝트 소리를 출력해보기 위한 AudioSource 
     private void Update()
     {
         if (Input.GetMouseButtonDown(0))
