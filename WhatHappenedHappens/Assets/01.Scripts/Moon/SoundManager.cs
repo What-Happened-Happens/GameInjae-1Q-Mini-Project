@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 // 사용 예시
 
@@ -33,7 +34,6 @@ public class SoundManager : MonoBehaviour
     [Header("Audio Clips")]
     public AudioClip[] bgmClips;
     public AudioClip[] sfxClips;
-
 
     private Dictionary<string, AudioClip> sfxDict = new();
 
