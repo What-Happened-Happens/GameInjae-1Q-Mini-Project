@@ -6,50 +6,91 @@ using UnityEngine;
 public class Lever : TrueFalse
 {
     SpriteRenderer sr;
-    Animation anim;
+    Animator animator;
     float elapsedTime;
-    // Start is called before the first frame update
+
+    public ParadoxManager paradoxManager;
+
     void Start()
     {
         sr = GetComponent<SpriteRenderer>();
-        anim = GetComponent<Animation>();
+        animator = GetComponent<Animator>();
+
         elapsedTime = 0;
     }
 
-    // Update is called once per frame
+
     void Update()
     {
-        if(isTrue)
-        { 
-            elapsedTime += Time.deltaTime; 
-            if(elapsedTime > 5f)
+        if (isTrue && !paradoxManager.isRecording && !paradoxManager.isReplaying)
+        {
+            elapsedTime += Time.deltaTime;
+            Debug.Log("Elapsed Time: " + elapsedTime);
+            if (elapsedTime > 5f)
             {
                 isTrue = false;
+                animator.SetTrigger("Lever_Left");
+                elapsedTime = 0;
             }
         }
+
+        // Debug.Log("Lever state: " + isTrue);
     }
+
     private void OnCollisionStay2D(Collision2D collision)
     {
-        GameObject player = GameObject.FindWithTag("Player");
-        SpriteRenderer playersr = player.GetComponent<SpriteRenderer>();
-        if (sr.bounds.max.x <= playersr.bounds.min.x) // 오른쪽에 있을때,
+        if (!collision.gameObject.CompareTag("Player"))
+            return;
+
+        SpriteRenderer playerSr = collision.gameObject.GetComponent<SpriteRenderer>();
+        if (playerSr == null) return;
+
+        float playerCenterX = playerSr.bounds.center.x;
+        float leverCenterX = sr.bounds.center.x;
+
+        if (playerCenterX > leverCenterX) // 플레이어가 오른쪽에 있음
         {
             if (isTrue)
             {
+                animator.SetTrigger("Lever_Left");
+                // Debug.Log("Lever Disabled (Right)");
                 isTrue = false;
-                anim.Play("Ani_Lever_Reverse");
-                Debug.Log("Lever Disabled");
             }
         }
-        else if (sr.bounds.min.x >= playersr.bounds.max.x) // 왼쪽에 있을때,
+        else if (playerCenterX < leverCenterX) // 플레이어가 왼쪽에 있음
         {
             if (!isTrue)
             {
-                isTrue = true;
+                animator.SetTrigger("Lever_Right");
+                // Debug.Log("Lever Abled (Left)");
                 elapsedTime = 0;
-                anim.Play("Ani_Lever");
-                Debug.Log("Lever Abled");
+                isTrue = true;
             }
         }
     }
+    
+
+    public override void SetState(bool value)
+    {
+        if (isTrue == value) return;
+
+        isTrue = value;
+        elapsedTime = 0;
+
+        if (animator != null)
+        {
+            if (value)
+            {
+                animator.SetTrigger("Lever_Right");
+            }
+            else
+            {
+                animator.SetTrigger("Lever_Left");
+            }
+        }
+
+        Debug.Log("Lever state restored: " + value);
+    }
+    
 }
+ 

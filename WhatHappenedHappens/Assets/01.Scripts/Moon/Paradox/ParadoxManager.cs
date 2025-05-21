@@ -26,7 +26,7 @@ public class ParadoxManager : MonoBehaviour
     public float recordingTimeRemaining = 0f;
 
     public bool isRecording = false;
-    private bool isReplaying = false;
+    public bool isReplaying = false;
 
     private float recordingStartTime = 0f;
     private float replayStartTime = 0f;
@@ -57,7 +57,7 @@ public class ParadoxManager : MonoBehaviour
             float elapsed = Time.time - recordingStartTime;
             recordingTimeRemaining = Mathf.Max(0f, recordingDuration - elapsed);
 
-            recorder.Record(player, elapsed);
+            recorder.Record(player, elapsed, objectManager.triggerObjects);
 
             if (elapsed >= recordingDuration)
                 StopRecording();
@@ -81,7 +81,7 @@ public class ParadoxManager : MonoBehaviour
         isRecording = true;
         recordingStartTime = Time.time;
 
-        objectManager.Save(); // 오브젝트 위치 저장
+        objectManager.Save(); // 오브젝트 위치 및 트리거 저장
         objectManager.SavePlayer(player); // 플레이어 위치 저장
         recorder.Start();
     }
@@ -106,6 +106,8 @@ public class ParadoxManager : MonoBehaviour
 
         List<List<PlayerMovementRecord>> moveData = recorder.GetAllMovementData();
         List<List<PlayerAnimationRecord>> animData = recorder.GetAllAnimationData();
+        List<Dictionary<GameObject, List<ObjectTrueFalseRecord>>> tfData = recorder.GetAllTrueFalseData();
+
 
         for (int i = 0; i < moveData.Count; i++)
         {
@@ -121,6 +123,28 @@ public class ParadoxManager : MonoBehaviour
                 ghostCounter--;
                 if (ghostCounter == 0) EndReplay();
             }));
+        }
+
+        for (int i = 0; i < tfData.Count; i++)
+        {
+            var tfDict = tfData[i];
+            foreach (var kvp in tfDict)
+            {
+                var obj = kvp.Key;
+                var records = kvp.Value;
+
+                StartCoroutine(ReplayTrueFalse(obj, records));
+            }
+        }
+    }
+
+    private IEnumerator ReplayTrueFalse(GameObject obj, List<ObjectTrueFalseRecord> records)
+    {
+        foreach (var record in records)
+        {
+            yield return new WaitForSeconds(record.time);
+            var tf = obj.GetComponent<TrueFalse>();
+            if (tf != null) tf.SetState(record.state);
         }
     }
 
