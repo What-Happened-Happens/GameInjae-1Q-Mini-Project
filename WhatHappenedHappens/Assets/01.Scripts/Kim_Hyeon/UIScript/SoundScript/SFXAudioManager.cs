@@ -2,9 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using UnityEngine;
-using static UnityEngine.EventSystems.EventTrigger;
+
 
 // 1. Inspector 창에서 오디오 상태 / 재생할 오디오 소스 컴포넌트가 있는 오브젝트 / 재생할 오디오 클립을 등록.
 // 1-1. SFXAudioPlay가 들어가 있는 오브젝트라면, SFXAudioManager의 Inspector 창에서 등록된 상태 / 오브젝트 / 클립을 동일하게 등록해야 함. 
