@@ -40,7 +40,7 @@ public class SFXAudioManager : AudioManager
     }
 
     [Header("Playeback Setting")]
-    public float ShortDuration = 0.1f;
+    public float ShortDuration = 0.3f;
     public float LongDuration = 1f;
     public float volumeScale = 0.5f;
 

@@ -1,5 +1,6 @@
 using System.Linq;
 using UnityEngine;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class SFXAudioPlay : SFXAudioManager
 {
@@ -11,7 +12,7 @@ public class SFXAudioPlay : SFXAudioManager
     [SerializeField] private float clickSoundDepth = 1.5f;
 
     [Header("AudioSourceTest")]
-    [SerializeField] private AudioSource audioSource; 
+    [SerializeField] private AudioSource audioSource; // 특정 오브젝트 소리를 출력해보기 위한 테스트용.
 
     private void Update()
     {
@@ -20,7 +21,7 @@ public class SFXAudioPlay : SFXAudioManager
                 ClickEventAudioPlay();
 
         ObjectAudioPlay(true);
-        LogOnlySpecificObjectAudio(audioSource); 
+        LogOnlySpecificObjectAudio(audioSource);
     }
 
     public void ClickEventAudioPlay()
@@ -88,16 +89,19 @@ public class SFXAudioPlay : SFXAudioManager
         foreach (var entry in entries)
         {
             Debug.Log($"[OBJECT only] Source: {entry.targetOutput.name.ToString()}, Clip: {entry.clip.name.ToString()}");
-            entry.targetOutput.Play(); 
+            entry.targetOutput.Play();
         }
     }
 
     public void OnMuteVolume()
     {
         Debug.Log($"SFXAudioPlay : SFX 음소거 하겠습니다.");
+        float entryVolume;
 
         foreach (var entry in stateClips)
         {
+            entryVolume = entry.targetOutput.volume;
+
             if (entry.targetOutput != null)
             {
                 entry.targetOutput.mute = true;
@@ -107,12 +111,10 @@ public class SFXAudioPlay : SFXAudioManager
                           $"SFX Clip :    {entry.clip.ToString()} " +
                           $"SFX Mute :    {entry.targetOutput.mute}");
             }
-            else if (!isMute())
-            {
-                entry.targetOutput.mute = false;
-            }
+            
         }
-
     }
+
 }
+
 
