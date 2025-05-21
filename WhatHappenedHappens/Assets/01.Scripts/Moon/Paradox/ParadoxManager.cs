@@ -20,7 +20,7 @@ public class ParadoxManager : MonoBehaviour
 
     [Header("Paradox Settings")]
     public int maxParadox = 3;
-    public float recordingDuration = 5f;
+    public float recordingDuration = 15f;
 
     public int ghostCounter = 0;
     public float recordingTimeRemaining = 0f;

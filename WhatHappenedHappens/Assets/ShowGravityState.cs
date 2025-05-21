@@ -15,7 +15,7 @@ public class ShowGravityState : MonoBehaviour
 
     SpriteRenderer sr;
 
-    public ReverseGravity gravityZone;
+    public ReverseGravity_Adjust gravityZone;
     void Start()
     {
         sr = GetComponent<SpriteRenderer>();
@@ -26,20 +26,20 @@ public class ShowGravityState : MonoBehaviour
     {
         switch (gravityZone.GetCurrGravityState())
         {
-            case ReverseGravity.GravityState.Normal:
+            case ReverseGravity_Adjust.GravityState.Normal:
 
                 break;
-            case ReverseGravity.GravityState.Reversed:
+            case ReverseGravity_Adjust.GravityState.Reversed:
                 sr.sprite = ReverseSprite;
                 /*Destroy(mode);
                 mode = Instantiate(gravityModes[0]);*/
                 break;
-            case ReverseGravity.GravityState.Weakened:
+            case ReverseGravity_Adjust.GravityState.Half:
                 sr.sprite = HalfSprite;
                 /*Destroy(mode);
                 mode = Instantiate(gravityModes[1]);*/
                 break;
-            case ReverseGravity.GravityState.Reinforced:
+            case ReverseGravity_Adjust.GravityState.Double:
                 sr.sprite = DoubleSprite;
                 /*Destroy(mode);
                 mode = Instantiate(gravityModes[2]);*/

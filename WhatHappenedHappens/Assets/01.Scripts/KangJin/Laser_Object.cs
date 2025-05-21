@@ -7,7 +7,6 @@ using UnityEngine.Rendering;
 
 public class Laser_Object : MonoBehaviour
 {
-    // Start is called before the first frame update
     Rigidbody2D rb;
     Ray2D ray2d;
     /*SpriteRenderer sr;*/
@@ -17,7 +16,9 @@ public class Laser_Object : MonoBehaviour
     RaycastHit2D rayHit2D;
     int layerMask;
 
-    /*public TrueFalse trigger;*/
+    [Header("Raycast Direction")]
+    public bool isUp = false; // 레이캐스트 방향 정함
+
     void Start()
     {
         rb = gameObject.AddComponent<Rigidbody2D>();
@@ -28,7 +29,7 @@ public class Laser_Object : MonoBehaviour
         Debug.Log(startPos);
     }
 
-    // Update is called once per frame
+
     void Update()
     {
        
@@ -37,11 +38,21 @@ public class Laser_Object : MonoBehaviour
     private void FixedUpdate()
     {
         //레이캐스트 방향 정함
-        rayHit2D = Physics2D.Raycast(startPos, Vector2.down * 100, 1000, layerMask);
+        if(isUp) rayHit2D = Physics2D.Raycast(startPos, Vector2.up * 100, 1000, layerMask);
+        else rayHit2D = Physics2D.Raycast(startPos, Vector2.down * 100, 1000, layerMask);
+
         if (rayHit2D)
         {
             endPos = rayHit2D.point;
-            Debug.Log("Start :" + startPos+"End :" + endPos);
+            // Debug.Log("Start :" + startPos+"End :" + endPos);
+
+            if (rayHit2D.collider.CompareTag("Player"))
+            {
+                Debug.Log("Raycast hit Player!");
+
+                // 예: Player 죽이기
+                rayHit2D.collider.GetComponent<Player>().isDead = true;
+            }
         }
         Debug.DrawLine(startPos, rayHit2D.point, Color.magenta);
         
@@ -50,11 +61,4 @@ public class Laser_Object : MonoBehaviour
         lr.SetPosition(1, rayHit2D.point);
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if(collision.tag == "Player")
-        {
-            collision.gameObject.GetComponent<Player>().isDead = true;
-        }
-    }
 }

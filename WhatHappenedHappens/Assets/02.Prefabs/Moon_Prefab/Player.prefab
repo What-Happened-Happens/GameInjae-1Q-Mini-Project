@@ -203,7 +203,10 @@ MonoBehaviour:
     m_Bits: 1048576
   AccelerateLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 65536
+  GravityLayer:
+    serializedVersion: 2
+    m_Bits: 16384
 --- !u!95 &3973501384153870323
 Animator:
   serializedVersion: 5
