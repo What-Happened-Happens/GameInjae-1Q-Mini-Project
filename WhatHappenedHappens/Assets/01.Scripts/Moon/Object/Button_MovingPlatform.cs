@@ -16,7 +16,7 @@ public class Button_Platform : MonoBehaviour
         movingPlatform = platform.GetComponent<MovingPlatform>();
     }
 
-    // 버튼 눌림 
+    // 버튼 눌림
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))

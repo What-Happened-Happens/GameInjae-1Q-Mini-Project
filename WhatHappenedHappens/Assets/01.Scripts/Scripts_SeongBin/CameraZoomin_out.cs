@@ -162,12 +162,12 @@ public class PixelPerfectZoomCinemachine : MonoBehaviour
             {
                 WideCameraPos.position = new Vector3(WideCameraPos.position.x, CameraLimit.position.y, 0);
                 Debug.Log(CameraLimit.position.y);
-                if (Input.GetKey(KeyCode.A))
+                if (Input.GetKey(KeyCode.LeftArrow))
                 {
                     //Debug.Log(realDeltaTime);
                     WideCameraPos.position += new Vector3(-1, 0, 0) * zoomSpeed * realDeltaTime;
                 }
-                if (Input.GetKey(KeyCode.D))
+                if (Input.GetKey(KeyCode.RightArrow))
                 {
                     WideCameraPos.position += new Vector3(1, 0, 0) * zoomSpeed * realDeltaTime;
                 }
