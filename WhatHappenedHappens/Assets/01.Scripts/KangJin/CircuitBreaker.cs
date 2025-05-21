@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class CircuitBreaker : TrueFalse
+public class CircuitBreaker : TrueFalse, IInteractive
 {
     // Start is called before the first frame update
     float elapsedTime;
@@ -51,5 +51,9 @@ public class CircuitBreaker : TrueFalse
     private void OnTriggerExit2D(Collider2D collision)
     {
         isColliding = false;
+    }
+    public void Interact()
+    {
+        
     }
 }

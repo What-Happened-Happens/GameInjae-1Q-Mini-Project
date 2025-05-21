@@ -17,8 +17,4 @@ public class TrueFalse : MonoBehaviour
     {
         
     }
-    /*public TrueFalse(bool istrue)
-    {
-        istrue = IsTrue;
-    }*/
 }
