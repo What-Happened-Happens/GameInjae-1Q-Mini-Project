@@ -74,6 +74,7 @@ public class ParadoxRecorder
         if (animator.GetCurrentAnimatorStateInfo(0).IsName("Walking")) return "Walking";
         else if (animator.GetCurrentAnimatorStateInfo(0).IsName("Jumping")) return "Jumping";
         else if (animator.GetCurrentAnimatorStateInfo(0).IsName("Hurt")) return "Hurt";
+        else if (animator.GetCurrentAnimatorStateInfo(0).IsName("Fall")) return "Fall";
         return "Unknown";
     }
 }

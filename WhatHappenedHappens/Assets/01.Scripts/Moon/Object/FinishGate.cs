@@ -21,17 +21,14 @@ public class FinishGate : MonoBehaviour
         {
             if (player.hasCardKey)
             {
-                Debug.Log("Finish Gate Opened!");
+                // Debug.Log("Finish Gate Opened!");
 
-                // 문 여는 애니메이션 재생 -> 파라미터 이름은 유동적으로 설정! 예시임!! 
-                // animator?.SetTrigger("Open");
-
+                animator.SetTrigger("Open");
                 isOpened = true;
             }
             else
             {
                 Debug.Log("Need Card Key to Open the Gate!");
-
             }
         }
     }
