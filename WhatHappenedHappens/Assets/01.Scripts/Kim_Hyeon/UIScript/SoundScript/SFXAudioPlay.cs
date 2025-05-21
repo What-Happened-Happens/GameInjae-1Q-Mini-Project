@@ -2,6 +2,18 @@ using UnityEngine;
 
 public class SFXAudioPlay : SFXAudioManager
 {
+    private static SFXAudioPlay instance = null;
+    public static SFXAudioPlay Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = FindObjectOfType(typeof(SFXAudioPlay)) as SFXAudioPlay;
+            }
+            return instance;
+        }
+    }
     [Header("Short or Long Threshold")]
     [SerializeField] private float shortThreshold = 1f;
 
@@ -65,20 +77,26 @@ public class SFXAudioPlay : SFXAudioManager
                   $" Object AudioSource : {entry.targetOutput.ToString()}" +
                   $" Object State =  {entry.state.ToString()}," +
                   $" Object clip =  {entry.clip.ToString()}");
-        PlayStateClip(entry.targetOutput, SFXState.OBJECT, isClipLength);
+        PlayStateClip(entry.targetOutput, SFXState.OBJECT, IsClipLength);
     }
 
     public void OnMuteVolume()
     {
+        Debug.LogWarning($"SFXAudioPlay : SFX Mute Volume is Noting!"); 
         foreach (var entry in stateClips)
         {
-            if (entry.targetOutput != null)
+            Debug.Log($"AudioSource : {entry.targetOutput.ToString()} " +
+                        $"AudioState :  {entry.state.ToString()} " +
+                        $"AudioClip :   {entry.clip.ToString()} " +
+                        $"AudioVolume : {entry.targetOutput.volume}");
+            if (entry.targetOutput != null && isMute()) // 음소거 상태일 때 
             {
-                entry.targetOutput.volume = 0f;
-                Debug.Log($"AudioSource : {entry.targetOutput.ToString()} " +
-                          $"AudioState :  {entry.state.ToString()} " +
-                          $"AudioClip :   {entry.clip.ToString()} " +
-                          $"AudioVolume : {entry.targetOutput.volume}");
+                entry.targetOutput.mute = true;              
+            }
+            else
+            {
+                entry.targetOutput.mute = false; // 음소거 해제 
+                entry.targetOutput.volume = 1f; // 음소거 해제 시, 볼륨을 원래대로 복구  
             }
         }
     }

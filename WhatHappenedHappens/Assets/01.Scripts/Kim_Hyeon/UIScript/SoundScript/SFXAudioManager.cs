@@ -24,6 +24,18 @@ public struct StateClip
 }
 public class SFXAudioManager : MonoBehaviour
 {
+     private static SFXAudioManager instance = null; 
+     public static SFXAudioManager Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = FindObjectOfType(typeof(SFXAudioManager)) as SFXAudioManager;
+            }
+            return instance; 
+        }
+    }
 
     [Header("Playeback Setting")]
     public float ShortDuration = 0.1f;
@@ -33,8 +45,10 @@ public class SFXAudioManager : MonoBehaviour
     public List<StateClip> stateClips = new List<StateClip>();
     private Dictionary<AudioSource, Coroutine> _stopCoroutines;
 
-    public bool isClipLength { get; set; }    // 재생할 clip 의 길이를 길게 할 지, 아니면 짧게 할 지 결정. : 길게(false)는 클립의 원래 길이로 재생 
-    public bool isStageClear { get;  set; }   // 스테이지 클리어를 체크 
+    public bool IsClipLength { get; set; }    // 재생할 clip 의 길이를 길게 할 지, 아니면 짧게 할 지 결정. : 길게(false)는 클립의 원래 길이로 재생 
+    public bool IsStageClear { get;  set; }   // 스테이지 클리어를 체크 
+    public bool IsMute { get; set; } = false; // 사운드 음소거 체크 
+
 
     private void Awake()
     {
@@ -46,6 +60,11 @@ public class SFXAudioManager : MonoBehaviour
     // 외부 스크립트에서 이 함수를 호출해서 오디오 효과음을 재생. 
     public void PlayStateClip(AudioSource source, SFXState state, bool isClipLength)
     {
+        if (isMute() == true)
+        {
+            Debug.Log($"사운드 음소거 상태입니다. 사운드 재생을 하지 않습니다.");
+            return; 
+        }
         // 사운드 효과음이 필요한 상태 에 따라서 실제로 오디오가 출력이 될
         // AudioSource 컴포넌트를 가진 오브젝트인, targetOuput 을 찾는다.
         source.volume = 0f; 
@@ -100,5 +119,19 @@ public class SFXAudioManager : MonoBehaviour
 
         source.Stop();
         _stopCoroutines.Remove(source);
+    }
+
+    public bool isMute()
+    {
+        if (IsMute)
+        {
+            Debug.Log($"사운드 음소거 상태입니다.");
+            return true;
+        }
+        else
+        {
+            Debug.Log($"사운드 음소거 해제 상태입니다.");
+            return false;
+        } 
     }
 }

@@ -31,6 +31,8 @@ public class AudioManager : MonoBehaviour
     [SerializeField] protected TMP_Text _BGMaudioText;
     [SerializeField] protected TMP_Text _SFXaudioText;
 
+    private SFXAudioPlay _sfxAudioPlay;
+
     // 스테이지 클리어 여부 확인용 test
     public bool isStageCleard = false;
 
@@ -45,7 +47,8 @@ public class AudioManager : MonoBehaviour
                                                 //배경음은 씬 전환이 되더라도 남도록.   
     protected async void Awake()
     {
-
+        _sfxAudioPlay = FindObjectOfType<SFXAudioPlay>();
+        if (_sfxAudioPlay == null) Debug.LogError("SFXAudioManager 할당되지 않았습니다.");
         if (_BGMaudioSource == null) Debug.LogError("AudioSource 할당되지 않았습니다.");
         if (_BGMAudioSlider == null) Debug.LogError("AudioSlider 할당되지 않았습니다.");
         if (_BGMaudioText == null) Debug.LogError("VolumeText  할당되지 않았습니다.");
@@ -95,6 +98,8 @@ public class AudioManager : MonoBehaviour
         _BGMAudioSlider.value = 0f;
         Debug.Log($"BGM 음향을 음소거 시킵니다. 현 상태 : {_isMute}");
 
+        // SFX 음소거 
+        _sfxAudioPlay.OnMuteVolume(); 
     }
 
     // ------------------------------------------ 비동기 데이터 저장 및 로드 ------------------------------------//
