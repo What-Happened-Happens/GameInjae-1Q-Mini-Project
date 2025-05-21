@@ -19,6 +19,8 @@ public class Laser_Object : MonoBehaviour
     [Header("Raycast Direction")]
     public bool isUp = false; // 레이캐스트 방향 정함
 
+    private AudioSource audioSource;
+
     private bool IsPlayerDead = false;
 
     void Start()
@@ -26,6 +28,8 @@ public class Laser_Object : MonoBehaviour
         rb = gameObject.AddComponent<Rigidbody2D>();
         rb.bodyType = RigidbodyType2D.Static;
         lr = GetComponent<LineRenderer>();
+        audioSource = GetComponent<AudioSource>();
+        audioSource.Play();
         layerMask = LayerMask.GetMask("Player", "GhostPlayer","Ground");        //레이캐스트 방향 정함
         startPos = transform.position;
         Debug.Log(startPos);
