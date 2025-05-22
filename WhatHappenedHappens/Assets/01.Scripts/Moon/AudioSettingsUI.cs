@@ -55,7 +55,7 @@ public class AudioSettingsUI : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && pauseScreen.GetComponent<pauseScreen>().isScreenPause)
+        if (Input.GetKeyDown(KeyCode.Escape) /*&& pauseScreen.GetComponent<pauseScreen>().isScreenPause*/)
         {
             audioSettingsUI.SetActive(true);
         }

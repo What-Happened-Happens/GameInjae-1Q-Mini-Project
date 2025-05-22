@@ -19,13 +19,13 @@ public class GhostCountUIcontroller : UIHelper
 
         if (ghosts == null || ghosts.Count == 0)
             Debug.LogWarning("Ghost UI Image 리스트가 비어있습니다. 인스펙터에서 할당해주세요.");
-
+        /*
         foreach (var img in ghosts)
         {
             if (img != null)
                 img.gameObject.SetActive(true);
-          
         }
+        */
 
     }
     private void Update()
@@ -39,7 +39,7 @@ public class GhostCountUIcontroller : UIHelper
     {
         if (ghosts == null || ghosts.Count == 0) return;
 
-        // 생성된 고스트의 개수만큼 리스트 안에 있는 고스트 이미지의 색을 white로 변경 
+        // 생성된 고스트의 개수만큼 리스트 안에 있는 고스트 이미지 활성화
         for (int i = 0; i < ghosts.Count; i++)
         {
             var img = ghosts[i];
@@ -47,11 +47,11 @@ public class GhostCountUIcontroller : UIHelper
 
             if (i < ghostCount)
             {
-                SetImageColor(ghosts[i], Color.white);
+                ghosts[i].gameObject.SetActive(true);
             }
             else 
             {
-                SetImageColor(ghosts[i], Color.gray);
+                ghosts[i].gameObject.SetActive(false);
             }
 
         }
