@@ -9,11 +9,7 @@ public class UIManager_Moon : MonoBehaviour
     public GameObject CardKey;
     private bool isActiveCardKey = false; // 카드키가 활성화 되었는지 확인하는 변수
 
-    [Header("Battary")]
-    public GameObject Battary;
-
     [SerializeField] private Player player;
-    [SerializeField] private ParadoxManager _paradoxManager;
 
     void Start()
     {
