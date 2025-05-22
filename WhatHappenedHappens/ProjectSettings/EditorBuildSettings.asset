@@ -8,10 +8,19 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/00.Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
-  - enabled: 1
+  - enabled: 0
     path: Assets/00.Scenes/Kim_Hyeon/MainGame_test.unity
     guid: 271917804d0b61e4ba9b166d18a2238d
   - enabled: 1
     path: Assets/00.Scenes/Kim_Hyeon/UI.unity
     guid: be0063c060eaa324c8b94b4adef2fb8c
+  - enabled: 1
+    path: Assets/00.Scenes/StartScene.unity
+    guid: 353dc0fc12e175a4e8e9011b52f2c2df
+  - enabled: 1
+    path: Assets/00.Scenes/Stage1Scene.unity
+    guid: 85b33293754fe4b40b002b367d1e6fe5
+  - enabled: 1
+    path: Assets/00.Scenes/Stage2Scene.unity
+    guid: 232f5ee73c70bdd48bf0e0bcb25b1dda
   m_configObjects: {}

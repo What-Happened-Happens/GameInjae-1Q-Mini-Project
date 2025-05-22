@@ -1,24 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
-public class MenuManager : MonoBehaviour
+public class Stage1Manager : MonoBehaviour
 {
-    public GameObject AudioSettingUI;
+    public GameObject AudioSettingUI; 
     public GameObject MenuUI;
 
     public GameObject pauseScreen;
+    public GameObject FinishGate;
 
-    void Start()
+    private bool isFinish = false;
+
+    private void Start()
     {
-        // 첫번째 클립 재생 
-        SoundManager.Instance.PlayBGM(SoundManager.Instance.bgmClips[0]);
-
+        
     }
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Escape) && !MenuUI.activeSelf)
+        if (Input.GetKeyDown(KeyCode.Escape) && !MenuUI.activeSelf)
         {
             MenuUI.SetActive(true);
         }
@@ -27,6 +29,19 @@ public class MenuManager : MonoBehaviour
             AudioSettingUI.SetActive(false);
             MenuUI.SetActive(false);
         }
+
+        if (FinishGate.GetComponent<FinishGate>().isOpened && !isFinish)
+        {
+            isFinish = true;
+            StartCoroutine(WaitAndLoadNextScene());
+        }
+    }
+
+    IEnumerator WaitAndLoadNextScene()
+    {
+        yield return new WaitForSeconds(4f);
+        // 다음 씬 로드
+        SceneController.Instance.LoadScene("Stage2Scene");
     }
 
     public void ContinuePlay()
