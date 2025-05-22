@@ -29,8 +29,11 @@ public class OnOff_Platform_Effect : MonoBehaviour
     }
     public void TriggerDestroy()
     {
-        StartCoroutine(DissolveEffect());
-        Debug.Log("Destroy");
+        if(gameObject.activeSelf)
+        {
+            StartCoroutine(DissolveEffect());
+            Debug.Log("Destroy");
+        }
     }
 
     public void TriggerCreate()
@@ -41,12 +44,12 @@ public class OnOff_Platform_Effect : MonoBehaviour
     IEnumerator DissolveEffect()
     {
         sr.material = dissolveMaterial;
-        if (dissolveValue >= 0f)
+        while (dissolveValue >= 0f)
         { 
-            dissolveValue -= Time.deltaTime; 
+            dissolveValue -= Time.deltaTime/dissolvingTime; 
+            sr.material.SetFloat("_Dissolve", dissolveValue);
+            yield return /*new WaitForSeconds(dissolvingTime)*/null;
         }
-        sr.material.SetFloat("_Dissolve", dissolveValue);
-        yield return new WaitForSeconds(dissolvingTime)/*null*/;
         gameObject.SetActive(false);
     }
     IEnumerator AssembleEffect()
