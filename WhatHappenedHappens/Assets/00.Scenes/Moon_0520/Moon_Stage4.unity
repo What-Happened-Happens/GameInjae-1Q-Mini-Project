@@ -934,6 +934,7 @@ GameObject:
   - component: {fileID: 155685174}
   - component: {fileID: 155685176}
   - component: {fileID: 155685175}
+  - component: {fileID: 155685177}
   m_Layer: 5
   m_Name: CardKey_Img
   m_TagString: Untagged
@@ -998,6 +999,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 155685173}
   m_CullTransparentMesh: 1
+--- !u!95 &155685177
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 155685173}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 58139cbcbd3de304b8b9376d6446253e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &193945032 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7741481901036988896, guid: 81dd3d51f6e65f74199190df6eabe654, type: 3}
