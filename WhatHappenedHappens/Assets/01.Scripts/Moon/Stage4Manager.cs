@@ -37,6 +37,11 @@ public class MenuManager : MonoBehaviour
             isFinish = true;
             StartCoroutine(WaitAndLoadNextScene());
         }
+
+        if (Input.GetKeyDown(KeyCode.Alpha0))
+        {
+            SceneController.Instance.LoadScene("EndingScene");
+        }
     }
 
     IEnumerator WaitAndLoadNextScene()

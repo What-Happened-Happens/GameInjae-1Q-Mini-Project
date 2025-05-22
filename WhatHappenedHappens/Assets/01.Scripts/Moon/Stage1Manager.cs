@@ -35,6 +35,11 @@ public class Stage1Manager : MonoBehaviour
             isFinish = true;
             StartCoroutine(WaitAndLoadNextScene());
         }
+
+        if (Input.GetKeyDown(KeyCode.Alpha0))
+        {
+            SceneController.Instance.LoadScene("Stage2Scene");
+        }
     }
 
     IEnumerator WaitAndLoadNextScene()

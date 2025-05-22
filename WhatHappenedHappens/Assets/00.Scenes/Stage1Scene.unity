@@ -4899,8 +4899,8 @@ MonoBehaviour:
   - {fileID: 426946665}
   cam: {fileID: 0}
   parallaxStrength: 1
-  virtualZoom: {fileID: 0}
-  pulse: {fileID: 0}
+  virtualZoom: {fileID: 1450976628}
+  pulse: {fileID: 1899753692}
 --- !u!1 &1736301684
 GameObject:
   m_ObjectHideFlags: 0
