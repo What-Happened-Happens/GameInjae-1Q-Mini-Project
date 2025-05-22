@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.Build.Pipeline.Tasks;
 using UnityEngine;
 
 public class ReverseGravity_Adjust : MonoBehaviour
@@ -9,25 +10,33 @@ public class ReverseGravity_Adjust : MonoBehaviour
     {
         Normal, Reversed, Half, Double
     }
-    // Start is called before the first frame update
+
     // 현재 중력장치 관련
     public GameObject operatingObject;
     GravityState currState;
+    GravityState prevstate;
+
+    ParticleSystem currParticle;
+
     float gravityScale;
     float originalGravityScale;
 
     // 작동하는 중력 장치 관련
-    /*public Color poweredColor; // 켰을때 적용 
-    public Color unpoweredColor; // 껐을때 적용*/
-    
-    // 색상 대신 머티리얼로 대체
+    public GravityState poweredState;
+    public GravityState unpoweredState;
+
     public Material ReverseGravityEffect;
     public Material HalfGravityEffect;
     public Material DoubledGravityEffect;
     public Material NormalGravityEffect;
 
-    public GravityState poweredState;
-    public GravityState unpoweredState;
+    public ParticleSystem ReverseParticlePrefab;
+    public ParticleSystem HalfParticlePrefab;
+    public ParticleSystem DoubledParticlePrefab;
+
+    ParticleSystem reverseparticle;
+    ParticleSystem halfparticle;
+    ParticleSystem doubleparticle;
 
     public float reversedGravityScale;
     public float weakenedGravityScale;
@@ -36,7 +45,7 @@ public class ReverseGravity_Adjust : MonoBehaviour
 
     TrueFalse truefalse;
     bool powerOn = false; // 켰나?
-    public bool useGravity = false; // 껐는데 작동 하나?
+    public bool useGravity; // 껐는데 작동 하나?
 
     SpriteRenderer sr;
     void Start()
@@ -46,9 +55,12 @@ public class ReverseGravity_Adjust : MonoBehaviour
         weakenedGravityScale = 0.5f;
         reinforcedGravityScale = 2;
         currState = GravityState.Normal;
+        prevstate = currState;
         gravityScale = normalGravityScale;
         truefalse = operatingObject.GetComponent<TrueFalse>();
         sr = GetComponent<SpriteRenderer>();
+        /*currParticle = Instantiate(ReverseParticlePrefab, transform.position, transform.rotation);
+        currParticle.Play();*/
     }
 
     // Update is called once per frame
@@ -56,7 +68,15 @@ public class ReverseGravity_Adjust : MonoBehaviour
     {
         CheckPower();
         ChangeState();
-        ChangeEffect();
+        
+        if(currState != prevstate)
+        {
+            ChangeParticle(); 
+            ChangeEffect();
+            Debug.Log(currState);
+            Debug.Log(prevstate);
+            prevstate = currState;
+        }
     }
 
     void CheckPower()
@@ -85,7 +105,6 @@ public class ReverseGravity_Adjust : MonoBehaviour
         {
             case GravityState.Normal:
                 gravityScale = normalGravityScale;
-                useGravity = false;
                 break;
             case GravityState.Reversed:
                 gravityScale = reversedGravityScale;
@@ -101,8 +120,12 @@ public class ReverseGravity_Adjust : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         originalGravityScale = collision.gameObject.GetComponent<Rigidbody2D>().gravityScale;
-        collision.gameObject.GetComponent<Rigidbody2D>().gravityScale *= gravityScale;
         Debug.Log("Gravity Scale : " + collision.gameObject.GetComponent<Rigidbody2D>().gravityScale);
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        collision.gameObject.GetComponent<Rigidbody2D>().gravityScale = originalGravityScale * gravityScale;
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -129,5 +152,32 @@ public class ReverseGravity_Adjust : MonoBehaviour
                 break;
         }
     }
+
+    void ChangeParticle()
+    {
+        switch (currState)
+        {
+            case GravityState.Normal:
+                currParticle.Stop();
+                Destroy(currParticle);
+                break;
+            case GravityState.Reversed:
+                Destroy(currParticle);
+                currParticle = Instantiate(ReverseParticlePrefab, transform.position, transform.rotation);
+                currParticle.Play();
+                break;
+            case GravityState.Half:
+                Destroy(currParticle);
+                currParticle = Instantiate(HalfParticlePrefab, transform.position, transform.rotation);
+                currParticle.Play();
+                break;
+            case GravityState.Double:
+                Destroy(currParticle);
+                currParticle = Instantiate(DoubledParticlePrefab, transform.position, transform.rotation);
+                currParticle.Play();
+                break;
+        }
+    }
+
     public GravityState GetCurrGravityState() { return currState; }
 }
