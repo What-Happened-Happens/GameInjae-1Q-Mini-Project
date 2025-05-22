@@ -43,4 +43,11 @@ public class StartSceneManager : MonoBehaviour
         Debug.Log("게임 종료");
     }
 
+    public void GotoEnding()
+    {
+        SoundManager.Instance.UISFX("UI_Click", 1f);
+        // 엔딩 씬으로 이동
+        SceneController.Instance.LoadScene("EndingScene");
+    }
+
 }
