@@ -5,7 +5,7 @@ using System;
 
 public class CameraFade_KangJin : MonoBehaviour
 {
-    public static CameraFade instance; 
+    public static CameraFade_KangJin instance; 
    
     [Header("PlayerPrefab")]
     [SerializeField] private GameObject PlayerPrefab; // 중심이 될 플레이어 프리팹 
