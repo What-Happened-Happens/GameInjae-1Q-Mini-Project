@@ -20,8 +20,9 @@ public class LazerXor : TrueFalse
     }
     void LazerLeftOnOff()
     {
-        if (circuitBreakerLeft.IsTrue == pressureButtonMiddle)
+        if (circuitBreakerLeft.IsTrue != pressureButtonMiddle.IsTrue)
         {//레이저 off
+            Debug.Log("버튼" + pressureButtonMiddle);
             isTrue = false;
         }
         else

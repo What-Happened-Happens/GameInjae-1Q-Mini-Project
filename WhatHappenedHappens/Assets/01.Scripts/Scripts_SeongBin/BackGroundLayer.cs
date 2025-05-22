@@ -30,29 +30,36 @@ public class BackGroundLayer : MonoBehaviour
     // 초기 설정 (게임 시작 시 호출됨)
     void Start()
     {
-        bGRelativePos = 20f;
-        // 이전 프레임의 카메라 위치를 현재 위치로 초기화
-        this.previousCamPos = this.cam.position;   
+        bGRelativePos = 5f;
 
-        // 배경 수만큼 parallaxScales 배열 초기화
+        // 카메라 위치 기준 정렬
+        for (int i = 0; i < backgrounds.Length; i++)
+        {
+            Vector3 camPos = this.cam.position;
+            Vector3 newPos = new Vector3(camPos.x, camPos.y, backgrounds[i].position.z);
+            backgrounds[i].position = newPos;
+        }
+
+        // 초기 카메라 위치 저장
+        this.previousCamPos = this.cam.position;
+
+        // parallax 비율 계산
         this.parallaxScales = new float[this.backgrounds.Length];
         for (int i = 0; i < backgrounds.Length; i++)
         {
             if (this.backgrounds[i].position.z > 0)
             {
-                // Z값에 따라 움직임 비율 설정 (멀수록 느리게 움직이도록)
                 this.parallaxScales[i] = backgrounds[i].position.z * -bGRelativePos;
             }
-            else if(this.backgrounds[i].position.z < 0)  // 이거는 실험 필요!!
+            else if (this.backgrounds[i].position.z < 0)
             {
-                this.parallaxScales[i] = backgrounds[i].position.z * -bGRelativePos * (-1f);
+                this.parallaxScales[i] = backgrounds[i].position.z * bGRelativePos;
             }
-            
         }
     }
 
     // 매 프레임마다 실행됨
-    void Update()
+    void FixedUpdate()
     {
         for (int i = 0; i < this.backgrounds.Length; i++)
         {
