@@ -2030,6 +2030,52 @@ Transform:
   - {fileID: 953254748}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &437902227
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 437902228}
+  - component: {fileID: 437902229}
+  m_Layer: 0
+  m_Name: Stage4Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &437902228
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 437902227}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1370280147}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &437902229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 437902227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 219a1f6bdc1f7964aaf914685f13c7e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FinishGate: {fileID: 439467200}
+  Player: {fileID: 1312624387}
 --- !u!1001 &439467198
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2102,6 +2148,11 @@ PrefabInstance:
 --- !u!4 &439467199 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8613220271917278055, guid: 9f5754b5d4279d247a2a69f21c6a8a28, type: 3}
+  m_PrefabInstance: {fileID: 439467198}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &439467200 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3042225738477206812, guid: 9f5754b5d4279d247a2a69f21c6a8a28, type: 3}
   m_PrefabInstance: {fileID: 439467198}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &446347260
@@ -11926,6 +11977,7 @@ Transform:
   - {fileID: 1483589632}
   - {fileID: 359735323}
   - {fileID: 446347261}
+  - {fileID: 437902228}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1394216540
@@ -15742,7 +15794,7 @@ GameObject:
   - component: {fileID: 2118412491}
   - component: {fileID: 2118412490}
   m_Layer: 0
-  m_Name: Stage4Manager
+  m_Name: MenuManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

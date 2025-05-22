@@ -6,7 +6,8 @@ public class EndSceneManager : MonoBehaviour
 {
     void Start()
     {
-        
+        // 두번째 클립 재생
+        SoundManager.Instance.PlayBGM(SoundManager.Instance.bgmClips[2]);
     }
 
     void Update()

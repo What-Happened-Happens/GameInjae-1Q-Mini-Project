@@ -4668,6 +4668,7 @@ MonoBehaviour:
   MenuUI: {fileID: 1522889265}
   pauseScreen: {fileID: 1899753690}
   FinishGate: {fileID: 1422278954}
+  Player: {fileID: 1859318515}
 --- !u!1 &1644541929
 GameObject:
   m_ObjectHideFlags: 0

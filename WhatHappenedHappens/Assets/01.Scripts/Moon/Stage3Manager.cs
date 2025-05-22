@@ -10,6 +10,8 @@ public class Stage3Manager : MonoBehaviour
     public GameObject pauseScreen;
     public GameObject FinishGate;
 
+    public GameObject Player;
+
     private bool isFinish = false;
 
     void Update()
@@ -34,6 +36,11 @@ public class Stage3Manager : MonoBehaviour
         {
             SceneController.Instance.LoadScene("Stage4Scene");
         }
+
+        if (Player.GetComponent<Player>().isDead)
+        {
+            StartCoroutine(WaitAndLoadStartScene());
+        }
     }
 
     IEnumerator WaitAndLoadNextScene()
@@ -41,6 +48,12 @@ public class Stage3Manager : MonoBehaviour
         yield return new WaitForSeconds(4f);
         // ¥Ÿ¿Ω æ¿ ∑ŒµÂ
         SceneController.Instance.LoadScene("Stage4Scene");
+    }
+
+    IEnumerator WaitAndLoadStartScene()
+    {
+        yield return new WaitForSeconds(2f);
+        SceneController.Instance.LoadScene("StartScene");
     }
 
     public void ContinuePlay()

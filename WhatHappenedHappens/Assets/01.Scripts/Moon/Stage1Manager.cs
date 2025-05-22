@@ -11,11 +11,14 @@ public class Stage1Manager : MonoBehaviour
     public GameObject pauseScreen;
     public GameObject FinishGate;
 
+    public GameObject Player;
+
     private bool isFinish = false;
 
     private void Start()
     {
-        
+        // 두번째 클립 재생
+        SoundManager.Instance.PlayBGM(SoundManager.Instance.bgmClips[1]);
     }
 
     void Update()
@@ -40,6 +43,11 @@ public class Stage1Manager : MonoBehaviour
         {
             SceneController.Instance.LoadScene("Stage2Scene");
         }
+
+        if (Player.GetComponent<Player>().isDead)
+        {
+            StartCoroutine(WaitAndLoadStartScene());
+        }
     }
 
     IEnumerator WaitAndLoadNextScene()
@@ -47,6 +55,12 @@ public class Stage1Manager : MonoBehaviour
         yield return new WaitForSeconds(4f);
         // 다음 씬 로드
         SceneController.Instance.LoadScene("Stage2Scene");
+    }
+
+    IEnumerator WaitAndLoadStartScene()
+    {
+        yield return new WaitForSeconds(2f);
+        SceneController.Instance.LoadScene("StartScene");
     }
 
     public void ContinuePlay()

@@ -65,7 +65,7 @@ public class Player : MonoBehaviour
         if (IsAccelerated()) SetExternalModifier(2f, 1.5f);
         else if (!IsAccelerated() && IsGrounded()) ResetExternalModifier(); // 가속 상태가 끝나고 땅을 밟았을 때 
 
-        // [ 중력장 ]
+        
         
     }
 

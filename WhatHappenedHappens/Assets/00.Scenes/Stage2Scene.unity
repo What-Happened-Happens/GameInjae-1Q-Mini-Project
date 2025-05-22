@@ -5715,6 +5715,7 @@ MonoBehaviour:
   MenuUI: {fileID: 899468771}
   pauseScreen: {fileID: 654171433}
   FinishGate: {fileID: 968101954}
+  Player: {fileID: 1108840117}
 --- !u!1001 &1648594328
 PrefabInstance:
   m_ObjectHideFlags: 0

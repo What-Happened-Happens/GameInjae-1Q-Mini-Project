@@ -1464,7 +1464,9 @@ MonoBehaviour:
   loopSFXSource: {fileID: 1814447284}
   UISource: {fileID: 1265219668}
   bgmClips:
-  - {fileID: 8300000, guid: 2b313bc2a42aac44f8f0e7668608d8c8, type: 3}
+  - {fileID: 8300000, guid: d10cb228f26eebc4f8c4f878a440b4d0, type: 3}
+  - {fileID: 8300000, guid: b0aace99ae9800f41ba03fa09faeaf08, type: 3}
+  - {fileID: 8300000, guid: 741a10fd90c83be4984e5ea0f89eaa59, type: 3}
   sfxClips:
   - {fileID: 8300000, guid: 0ea7de956d4252f439c27844a81551e9, type: 3}
   - {fileID: 8300000, guid: bd1217de971a5d74ea5e9ef9382ea302, type: 3}
