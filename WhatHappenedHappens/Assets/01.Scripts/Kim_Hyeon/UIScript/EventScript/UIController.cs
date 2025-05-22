@@ -20,7 +20,6 @@ public class UIController : MonoBehaviour
     private float minDistance = 2f; // 최소 거리 
     private float maxDistance = 3f; // 최대 거리 
     private float offset = 2f;
-    private bool isStageClear = true; // 스테이지 클리어 여부 > Test 
 
     private void Awake()
     {
@@ -51,7 +50,7 @@ public class UIController : MonoBehaviour
         {
             Debug.Log($"Show : 플레이어와 타겟의 거리:  {distance}");
             IconShow(_targetIcon); // 아이콘 활성화
-            MoveIconAll(_targetIcon_Move, true); // 이동 아이콘 활성화 
+            MoveIconAll(_targetIcon_Move, true); // 이동 아이콘 비활성화 
 
         }
         else if (distance > maxDistance)
@@ -60,11 +59,7 @@ public class UIController : MonoBehaviour
             HideIcon(_targetIcon); // 아이콘 비활성화 
 
         }
-        else if (isStageClear)
-        {
-            MoveIconAll(_targetIcon_Move, false); // 이동 아이콘 비활성화 
-        }
-        else return; 
+        else return;
 
     }
 
@@ -83,21 +78,17 @@ public class UIController : MonoBehaviour
     }
     private void MoveIconAll(GameObject iconObj, bool isActive) // isActive : 이동 아이콘 활성화 여부 // 숨기고 싶을 땐 따로 시간에 맞춰서 false 로 바꾸기 
     {
-        iconObj.SetActive(isActive); // 이동 아이콘 활성화 
-        foreach (GameObject child in iconObj.GetComponentsInChildren<GameObject>())
-        {
-            child.SetActive(isActive); // 자식 오브젝트 포함 
-            child.transform.position = _player.transform.position + Vector3.up;  // 아이콘 위치 업데이트
-        }
-    }
 
-    // 이동 아이콘 끄기
-  
+        iconObj.transform.position = _player.transform.position + Vector3.up ; // 아이콘 위치 업데이트
+
+        iconObj.SetActive(isActive); // 이동 아이콘 활성화 
+
+    }
 
     private void UpdatePosition(GameObject iconObj)
     {
-        
-            iconObj.transform.position = _target.transform.position + Vector3.up * offset;  // 아이콘 위치 업데이트
+
+        iconObj.transform.position = _target.transform.position + Vector3.up * offset;  // 아이콘 위치 업데이트
 
     }
 
