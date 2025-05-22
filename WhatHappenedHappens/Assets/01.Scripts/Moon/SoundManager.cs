@@ -30,6 +30,7 @@ public class SoundManager : MonoBehaviour
     public AudioSource sfxSource;
     public AudioSource sfxSource_player;
     public AudioSource loopSFXSource; // 叭扁 家府 殿 风橇侩
+    public AudioSource UISource; // UI 家府
 
     [Header("Audio Clips")]
     public AudioClip[] bgmClips;
@@ -109,6 +110,21 @@ public class SoundManager : MonoBehaviour
             loopSFXSource.pitch = pitch;
             loopSFXSource.loop = true;
             loopSFXSource.Play();
+        }
+    }
+
+    public void UISFX(string name, float pitch = 1f)
+    {
+        if (UISource == null) return;
+
+        if (sfxDict.TryGetValue(name, out var clip))
+        {
+            UISource.pitch = pitch;
+            UISource.PlayOneShot(clip);
+        }
+        else
+        {
+            Debug.LogWarning("SFX not found: " + name);
         }
     }
 

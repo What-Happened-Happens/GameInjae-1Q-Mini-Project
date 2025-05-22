@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class UIManager_Moon : MonoBehaviour
 {
     public GameObject CardKey;
-    // public GameObject Player;
     private bool isActiveCardKey = false; // 카드키가 활성화 되었는지 확인하는 변수
 
     [SerializeField] private Player player;
@@ -36,6 +35,5 @@ public class UIManager_Moon : MonoBehaviour
         yield return new WaitForSeconds(2.7f);
         CardKey.GetComponent<Image>().color = Color.white;
         CardKey.GetComponent<Animator>().SetTrigger("Active"); // 한번 커졌다가 작아지는 애니메이션
-        
     }
 }

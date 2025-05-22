@@ -11,6 +11,7 @@ public class AudioSettingsUI : MonoBehaviour
     public Slider sliderBGM;
     public Slider sliderSFX;
     public Button muteAllButton;
+    public Button BackButton;
 
     void Start()
     {
@@ -32,11 +33,20 @@ public class AudioSettingsUI : MonoBehaviour
         // 3. 음소거 버튼
         muteAllButton.onClick.AddListener(() =>
         {
+            SoundManager.Instance.UISFX("UI_Click", 1f);
+
             bool isMuted = mixerManager.ToggleMute(EAudioMixerType.Master);
 
             // 볼륨을 강제로 0 또는 이전 값으로 설정 (슬라이더도 반영)
             sliderBGM.value = isMuted ? 0f : mixerManager.GetVolume(EAudioMixerType.BGM);
             sliderSFX.value = isMuted ? 0f : mixerManager.GetVolume(EAudioMixerType.SFX);
+        });
+
+        // 4. 뒤로가기 버튼
+        BackButton.onClick.AddListener(() =>
+        {
+            SoundManager.Instance.UISFX("UI_Click", 1f);
+            gameObject.SetActive(false); // 현재 UI 비활성화
         });
     }
 }
