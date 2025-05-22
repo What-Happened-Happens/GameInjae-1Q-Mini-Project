@@ -979,6 +979,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isScreenWide: 0
+  isScreenPause: 0
 --- !u!4 &601659647
 Transform:
   m_ObjectHideFlags: 0
@@ -1184,6 +1185,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7252079612230502852, guid: de4e5dcd33e46e5418e8e3f141be88b5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7579579078912094610, guid: de4e5dcd33e46e5418e8e3f141be88b5, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
