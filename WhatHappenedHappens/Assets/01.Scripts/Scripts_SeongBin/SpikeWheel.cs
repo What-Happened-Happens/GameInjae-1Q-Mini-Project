@@ -84,7 +84,7 @@ public class SpikeWheel : MonoBehaviour
 
     void SetNextTarget()
     {
-        Debug.Log("Time : "+ elapsedTime);
+        //Debug.Log("Time : "+ elapsedTime);
         if (wayPoint == null) { return; }
         if (moveDisPer >= 1f)
         {

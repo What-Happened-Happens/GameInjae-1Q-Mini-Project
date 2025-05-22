@@ -12,6 +12,7 @@ public class ButtonTF : TrueFalse
 
     private void Start()
     {
+        isTrue = false;
     }
 
     // 버튼 눌림
