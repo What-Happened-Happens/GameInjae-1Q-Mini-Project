@@ -57,8 +57,6 @@ public class GhostTimerUIController : UIHelper
 
     }
 
-    // 남아있는 시간을 받아서, 남아있는 시간 동안 타이머 스프라이트가 변경. 
-    // 남아있는 시간에 따라서 매초바다 변경 되어야 하기 때문에, Update에서 호출 필요
     public void UpdateSpriteForTime(float timeRemaining)
     {
         if (spriteCount == 0 || totalDuration <= 0f) return;

@@ -17,6 +17,6 @@ public class OverlayCameraSize : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        CameraTmp.orthographicSize = virCamerasize.currentZoom;
+            CameraTmp.orthographicSize = virCamerasize.currentZoom;
     }
 }

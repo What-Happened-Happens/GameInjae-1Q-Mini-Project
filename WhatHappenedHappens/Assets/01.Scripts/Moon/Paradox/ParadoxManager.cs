@@ -17,6 +17,7 @@ public class ParadoxManager : MonoBehaviour
 
     [Header("UI")]
     public GameObject RecordEffect;
+    public BatteryUI batteryUI;
 
     [Header("Paradox Settings")]
     public int maxParadox = 3;
@@ -69,6 +70,8 @@ public class ParadoxManager : MonoBehaviour
     {
         if (!RecordEffect.activeSelf) RecordEffect.SetActive(true);
 
+        batteryUI.StartBattery();
+
         if (isReplaying)
         {
             float trimTime = Time.time - replayStartTime;
@@ -104,6 +107,7 @@ public class ParadoxManager : MonoBehaviour
         isReplaying = true;
         replayStartTime = Time.time;
         ghostCounter = 0;
+        
 
         List<List<PlayerMovementRecord>> moveData = recorder.GetAllMovementData();
         List<List<PlayerAnimationRecord>> animData = recorder.GetAllAnimationData();
@@ -137,6 +141,7 @@ public class ParadoxManager : MonoBehaviour
                 StartCoroutine(ReplayTrueFalse(obj, records));
             }
         }
+
     }
 
     private IEnumerator ReplayTrueFalse(GameObject obj, List<ObjectTrueFalseRecord> records)

@@ -17,6 +17,7 @@ public class pauseScreen : MonoBehaviour
     public bool isScreenWide;   //화면 키울래?, t/f
     public bool isScreenPause;  //ESC눌렀니? , t/f
                                 //-> ESC 누르고 나오는 UI 넣을 때 사용하면 좋을것같음! 
+    public int escPressCount = 0; // ESC 누른 횟수
     bool storeScreenPause;      //ESC 눌렀을 때, Q 상태를 저장할 코드
     bool applyStoredScreenWide = false;
     // Start is called before the first frame update
@@ -26,46 +27,42 @@ public class pauseScreen : MonoBehaviour
         ToggleStopScreen();
         TimeStop();
     }
-    void ToggleStopScreen()  // q, esc를 눌렀을때, bool값 변경
+    void ToggleStopScreen()
     {
-        // Q키로 화면 정지 상태 토글 (ESC 눌린 상태가 아니어야만 반응)
+        // Q키: 와이드 토글 (ESC 중이면 무시)
         if (!isScreenPause && Input.GetKeyDown(KeyCode.Q))
         {
             isScreenWide = !isScreenWide;
-            //Debug.Log("Q 눌림: isScreenWide = " + isScreenWide);
         }
 
-        // ESC 키 눌렀을 때
+        // ESC키 눌림
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            escPressCount++;
+
             isScreenPause = !isScreenPause;
 
             if (isScreenPause)
             {
-                // 화면이 멈출 때 Q 상태 저장 + Q 해제
                 storeScreenPause = isScreenWide;
                 isScreenWide = false;
             }
             else
             {
-                // 화면이 다시 돌아올 때 저장값을 다음 프레임에서 적용
                 applyStoredScreenWide = true;
             }
 
-            Debug.Log("ESC 눌림: isScreenPause = " + isScreenPause);
+            Debug.Log($"ESC 누름: {escPressCount}회");
         }
 
-        //다음 프레임에서 Q 상태 복구
         if (applyStoredScreenWide)
         {
             isScreenWide = storeScreenPause;
-           // Debug.Log("Q 복원: isScreenWide = " + isScreenWide);
             storeScreenPause = false;
             applyStoredScreenWide = false;
         }
-
     }
-    
+
     void TimeStop() // TimeScale을 조정해서 Time을 사용하는 대부분의 물체를 멈춤
     {
         if (isScreenWide || isScreenPause)

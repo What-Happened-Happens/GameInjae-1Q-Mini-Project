@@ -36,7 +36,7 @@ public class JumpState_Player : IState_Player
         if ((player.IsGrounded() || player.IsAccelerated()) && player.GetVelocity().y <= 0.01f && elapsedTime >= coyoteTime)
             player.ChangeState(new IdleState_Player(player));
 
-        if (!player.IsGrounded() && !player.IsAccelerated() && player.GetVelocity().y < 0f && elapsedTime >= minJumpTime)
+        if ((!player.IsGrounded() && !player.IsAccelerated() && player.GetVelocity().y < 0f && elapsedTime >= minJumpTime) || player.IsGravityField())
             player.ChangeState(new FallState_Player(player));
 
         if (player.isDead)

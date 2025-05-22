@@ -3,23 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
-
-// 사용 예시
-
-// 배경음악 재생
-// SoundManager.Instance.PlayBGM(SoundManager.Instance.bgmClips[0]);
-
-// 캐릭터가 점프할 때
-// SoundManager.Instance.PlaySFX("Jump");
-
-// UI 버튼 클릭 시
-/*
-public void OnButtonClick()
-{
-    SoundManager.Instance.PlaySFX("UIClick");
-}
-*/
-
+using UnityEngine.SceneManagement;
 
 public class SoundManager : MonoBehaviour
 {
@@ -30,12 +14,14 @@ public class SoundManager : MonoBehaviour
     public AudioSource sfxSource;
     public AudioSource sfxSource_player;
     public AudioSource loopSFXSource; // 걷기 소리 등 루프용
+    public AudioSource UISource; // UI 소리
 
     [Header("Audio Clips")]
     public AudioClip[] bgmClips;
     public AudioClip[] sfxClips;
 
     private Dictionary<string, AudioClip> sfxDict = new();
+
 
     void Awake()
     {
@@ -50,6 +36,23 @@ public class SoundManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+
+    // 씬이 로드될 때 호출되는 함수
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        PlayBGMForScene(scene.name);  // 현재 씬 이름에 따라 배경음악 재생
+    }
+
+
+    // 특정 씬에 맞는 배경음악 재생
+    void PlayBGMForScene(string sceneName)
+    {
+
+    }
+
+
+    // --------------------------------------
 
     void InitSFXDictionary()
     {
@@ -108,6 +111,21 @@ public class SoundManager : MonoBehaviour
             loopSFXSource.pitch = pitch;
             loopSFXSource.loop = true;
             loopSFXSource.Play();
+        }
+    }
+
+    public void UISFX(string name, float pitch = 1f)
+    {
+        if (UISource == null) return;
+
+        if (sfxDict.TryGetValue(name, out var clip))
+        {
+            UISource.pitch = pitch;
+            UISource.PlayOneShot(clip);
+        }
+        else
+        {
+            Debug.LogWarning("SFX not found: " + name);
         }
     }
 

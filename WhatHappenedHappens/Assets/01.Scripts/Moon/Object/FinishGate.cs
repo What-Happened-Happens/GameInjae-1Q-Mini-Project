@@ -5,7 +5,7 @@ using UnityEngine;
 public class FinishGate : MonoBehaviour
 {
     private bool isPlayerNearby = false;
-    private bool isOpened = false;
+    public bool isOpened = false;
     private Player player;
 
     private Animator animator; // 문 여는 애니메이션
@@ -28,6 +28,7 @@ public class FinishGate : MonoBehaviour
                 animator.SetTrigger("Open");
                 audioSource.Play();
                 isOpened = true;
+                // SceneController.Instance.LoadScene("Stage2Scene");
             }
             else
             {

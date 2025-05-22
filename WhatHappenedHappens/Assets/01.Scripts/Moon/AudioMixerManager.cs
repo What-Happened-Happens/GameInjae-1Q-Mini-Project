@@ -11,40 +11,66 @@ public class AudioMixerManager : MonoBehaviour
     public AudioMixer audioMixer;
 
     private bool[] isMute = new bool[3];
-    private float[] audioVolumes = new float[3];
+    private float[] originalVolumes = new float[3];
 
-
-    public void SetAudioVolume(EAudioMixerType audioMixerType, float volume)
+    public void SetAudioVolume(EAudioMixerType type, float volume)
     {
-        // 오디오 믹서의 값은 -80 ~ 0까지이기 때문에 0.0001 ~ 1의 Log10 * 20을 한다.
-        audioMixer.SetFloat(audioMixerType.ToString(), Mathf.Log10(volume) * 20);
+        float dB = Mathf.Log10(Mathf.Clamp(volume, 0.0001f, 1f)) * 20f;
+        audioMixer.SetFloat(type.ToString(), dB);
+        originalVolumes[(int)type] = dB;
+
+        // 마스터 볼륨이 음소거 상태일 때, 마스터 볼륨을 해제
+        if (isMute[(int)EAudioMixerType.Master])
+        {
+            isMute[(int)EAudioMixerType.Master] = false;
+            audioMixer.SetFloat(EAudioMixerType.Master.ToString(), originalVolumes[(int)EAudioMixerType.Master]);
+        }
+
     }
 
-    public void SetAudioMute(EAudioMixerType audioMixerType)
+    public void SetAudioMute(EAudioMixerType type)
     {
-        int type = (int)audioMixerType;
-        if (!isMute[type]) // 뮤트 
+        int index = (int)type;
+        if (!isMute[index])
         {
-            isMute[type] = true;
-            audioMixer.GetFloat(audioMixerType.ToString(), out float curVolume);
-            audioVolumes[type] = curVolume;
-            SetAudioVolume(audioMixerType, 0.001f);
+            isMute[index] = true;
+            audioMixer.GetFloat(type.ToString(), out float currentVolume);
+            originalVolumes[index] = currentVolume;
+            audioMixer.SetFloat(type.ToString(), -80f); // 거의 무음
         }
         else
         {
-            isMute[type] = false;
-            SetAudioVolume(audioMixerType, audioVolumes[type]);
+            isMute[index] = false;
+            audioMixer.SetFloat(type.ToString(), originalVolumes[index]);
         }
     }
-    /*
-    private void Mute()
+
+    public float GetVolume(EAudioMixerType type)
     {
-        AudioManager.Instance.SetAudioMute(EAudioMixerType.BGM);
+        if (audioMixer.GetFloat(type.ToString(), out float dB))
+        {
+            return Mathf.Pow(10f, dB / 20f); // dB → 0~1 로 변환
+        }
+        return 1f; // 기본값
     }
 
-    private void ChangeVolume(float volume)
+    public bool ToggleMute(EAudioMixerType type)
+{
+    int index = (int)type;
+
+    if (!isMute[index])
     {
-        AudioManager.Instance.SetAudioVolume(EAudioMixerType.BGM, volume);
+        isMute[index] = true;
+        audioMixer.GetFloat(type.ToString(), out float currentVolume);
+        originalVolumes[index] = currentVolume;
+        audioMixer.SetFloat(type.ToString(), -80f);
     }
-    */
+    else
+    {
+        isMute[index] = false;
+        audioMixer.SetFloat(type.ToString(), originalVolumes[index]);
+    }
+
+    return isMute[index]; // true = 음소거 상태
+}
 }

@@ -86,7 +86,6 @@ GameObject:
   - component: {fileID: 5244923138155272110}
   - component: {fileID: 2621831415169330222}
   - component: {fileID: 8593449048225803392}
-  - component: {fileID: 3086873119816699415}
   - component: {fileID: 4199216063759903206}
   m_Layer: 5
   m_Name: PlayScene_Canvas
@@ -163,20 +162,6 @@ MonoBehaviour:
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
   m_PresetInfoIsWorld: 0
---- !u!114 &3086873119816699415
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3947187699233755476}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7804637d5ddf8ee41a3147354bd9ec35, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _targetCamera: {fileID: 0}
-  _uiCanvas: {fileID: 2621831415169330222}
 --- !u!114 &4199216063759903206
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -373,6 +358,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 210db2604e792054799f5add249d8038, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _paradoxManager: {fileID: 0}
   ghostTimerSprites:
   - {fileID: 21300000, guid: f464b45b4d8b9804eb73ed01ae5fc588, type: 3}
   - {fileID: 21300000, guid: 022027c8572e59e4380de3b6ef857699, type: 3}

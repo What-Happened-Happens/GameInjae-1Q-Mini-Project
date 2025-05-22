@@ -128,6 +128,7 @@ public class SFXAudioManager : AudioManager
 
     public bool isMute()
     {
+        /*
         if (_isMute)
         {
             Debug.Log($"사운드 음소거 상태입니다.");
@@ -138,5 +139,8 @@ public class SFXAudioManager : AudioManager
             Debug.Log($"사운드 음소거 해제 상태입니다.");
             return _isMute = false;
         }
+        */
+
+        return false;
     }
 }
