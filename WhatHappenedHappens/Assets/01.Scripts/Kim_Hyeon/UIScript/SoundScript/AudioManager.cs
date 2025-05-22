@@ -37,7 +37,7 @@ public class AudioManager : MonoBehaviour
     // 스테이지 클리어 여부 확인용 test
     public bool isStageCleard = false;
 
-    protected bool _isMute = false;             // 사운드 플레이 중인지 확인하기 위한 변수 
+    // protected bool _isMute = false;             // 사운드 플레이 중인지 확인하기 위한 변수 
 
     protected float _currentSliderValue;        // 현재 슬라이더 값 
     protected float _currentSourceVolume;       // 현재 오디오 소스 볼륨
@@ -64,10 +64,11 @@ public class AudioManager : MonoBehaviour
 
         // BGM
         float saveCurrentAudio = await AudioLoad("save_BGMSoundVolume", 10f);
-        _BGMaudioSource.volume = saveCurrentAudio;
-        _BGMAudioSlider.value = saveCurrentAudio;
-        _PrevBGMSoundValue = saveCurrentAudio;
+        // _BGMaudioSource.volume = saveCurrentAudio;
+        // _BGMAudioSlider.value = saveCurrentAudio;
+        // _PrevBGMSoundValue = saveCurrentAudio;
 
+        /*
         _isMute = PlayerPrefs.GetInt("save_IsMuted", 0) == 1;
         if (_isMute)
             await ApplyMuteAsync();
@@ -75,12 +76,13 @@ public class AudioManager : MonoBehaviour
         // SFX 
         float savedSFXvolume = await AudioLoad("save_SFXSoundVolume", 10f);
         _SFXAudioSlider.value = savedSFXvolume;
-        _PrevSFXaudioValue = savedSFXvolume;
+        _PrevSFXaudioValue = savedSFXvolume;\*/
     }
    
     // 음소거 
     public async void OnClickMuteButton()  // 음소거 버튼을 눌렀을 때
     {
+        /*
         if (_isMute && isStageCleard) // 음소거 상태이고, 스테이지를 클리어 했을 때 
         {          
             await ApplyMuteAsync();            
@@ -91,26 +93,26 @@ public class AudioManager : MonoBehaviour
             await ApplyMuteAsync();
            
         }
-
+        */
     }
 
     public async Task ApplyMuteAsync()
     {
-        if (!_isMute) return;
+        // if (!_isMute) return;
 
         // 현재 볼륨을 저장해두고
-        _currentSourceVolume = _BGMaudioSource.volume;
+       //  _currentSourceVolume = _BGMaudioSource.volume;
 
         // 비동기 저장
-        await AudioSave("save_BGMSoundVolume", _currentSourceVolume);
+        // await AudioSave("save_BGMSoundVolume", _currentSourceVolume);
 
         // BGM 음소거
-        _BGMaudioSource.volume = 0f;
-        _BGMAudioSlider.value = 0f;
-        Debug.Log($"BGM 음향을 음소거 시킵니다. 현 상태 : {_isMute}");
+        // _BGMaudioSource.volume = 0f;
+        // _BGMAudioSlider.value = 0f;
+        // Debug.Log($"BGM 음향을 음소거 시킵니다. 현 상태 : {_isMute}");
 
         // SFX 음소거 
-        _sfxAudioPlay.OnMuteVolume();
+        // _sfxAudioPlay.OnMuteVolume();
     }
 
     // ------------------------------------------ 비동기 데이터 저장 및 로드 ------------------------------------//
@@ -145,6 +147,7 @@ public class AudioManager : MonoBehaviour
 
     public bool isMute(bool soundState) // 음소거 가 풀리면, 저장된 값을 다시 불러와서 그 순간 부터 재생. 
     {
+        /*
         if (soundState)
         {
             Debug.Log($"현재 음소거 상태 일 때 : {soundState}");
@@ -157,7 +160,8 @@ public class AudioManager : MonoBehaviour
             _isMute = true;
             return _isMute;
         }
-
+        */
+        return false;
     }
 
 }

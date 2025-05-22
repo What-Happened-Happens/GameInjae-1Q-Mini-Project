@@ -37,6 +37,7 @@ public class SoundManager : MonoBehaviour
 
     private Dictionary<string, AudioClip> sfxDict = new();
 
+
     void Awake()
     {
         if (Instance == null)

@@ -1,83 +1,43 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
-public class AudioSliderUI : AudioManager, IPointerDownHandler
+public class AudioSliderUI : AudioManager /*, IPointerDownHandler*/
 {
+    [Header("BGM")]
+    [SerializeField] private Slider _BGMAudioSlider;
+    [SerializeField] private Text _BGMaudioText;
+
+    [Header("SFX")]
+    [SerializeField] private Slider _SFXAudioSlider;
+    [SerializeField] private Text _SFXaudioText;
+
     private void OnEnable()
     {
-        // BGM
-        _BGMAudioSlider.onValueChanged.AddListener(onBGMValueChangedAsync);
-        onBGMValueChangedAsync(_BGMAudioSlider.value);
-        //SFX
-        _SFXAudioSlider.onValueChanged.AddListener(OnSFXSliderChangedAsync);
-        OnSFXSliderChangedAsync(_SFXAudioSlider.value);
+        _BGMAudioSlider.onValueChanged.AddListener(OnBGMValueChanged);
+        _SFXAudioSlider.onValueChanged.AddListener(OnSFXValueChanged);
 
-}
+        // 초기 텍스트 설정
+        OnBGMValueChanged(_BGMAudioSlider.value);
+        OnSFXValueChanged(_SFXAudioSlider.value);
+    }
 
     private void OnDisable()
     {
-        // BGM
-        _BGMAudioSlider.onValueChanged.RemoveListener(onBGMValueChangedAsync);
-        // SFX
-        _SFXAudioSlider.onValueChanged.RemoveListener(OnSFXSliderChangedAsync);
+        _BGMAudioSlider.onValueChanged.RemoveListener(OnBGMValueChanged);
+        _SFXAudioSlider.onValueChanged.RemoveListener(OnSFXValueChanged);
     }
 
-    public async void OnSFXSliderChangedAsync(float value)
+    private void OnBGMValueChanged(float value)
     {
-       
-        if (value >= 0f && value <= 100f)
-        {
-            float normalized = value / 1f;
-            Debug.Log($"현재 SFX 볼륨 : {normalized}"); 
-
-            foreach (var entry in SFXAudioManager.Instance.stateClips)
-            {
-                await AudioSave("save_SFXSoundVolume", normalized);
-
-                if (entry.targetOutput != null)
-                {
-                    _SFXaudioText.text = normalized <= 0f ? "X" : $"{Mathf.RoundToInt(normalized * 100)}%";
-                    SFXAudioManager.Instance.volumeScale = await AudioLoad("save_SFXSoundVolume", normalized);
-                    entry.targetOutput.volume = normalized;
-
-                    if (entry.targetOutput != null)
-                        entry.targetOutput.mute = false;
-                }
-            }
-        }
+        _BGMaudioText.text = value <= 0f ? "X" : $"{Mathf.RoundToInt(value * 100)}%";
     }
 
-    public async void onBGMValueChangedAsync(float value)
+    private void OnSFXValueChanged(float value)
     {
-        if (_isMute) return;
-
-        if (value >= 0f && value <= 100f)
-        {
-            _currentSliderValue = value / 100f;
-
-            _BGMaudioSource.volume = _currentSliderValue;
-            _BGMaudioText.text = _BGMaudioSource.volume <= 0f ? "X" : $"{Mathf.RoundToInt(value)}%";
-
-            //  이전 값에 현재 값을 로드 
-            _PrevBGMSoundValue = await AudioLoad("save_BGMSoundVolume", 0f);
-            Debug.Log($"현재 음향 값을 다시 로드했습니다. ");
-            Debug.Log($"음향을 다시 플레이 합니다.");
-
-            if (!_isMute && _currentSliderValue > 0f)
-            {
-                isMute(true);
-                Debug.Log($"음향을 다시 플레이 합니다.");
-            }
-        }
-        else if (value == 0f)
-        {
-            isMute(false);
-            _BGMaudioSource.volume = 0f;
-            _BGMAudioSlider.value = 0f;
-
-        }
-
+        _SFXaudioText.text = value <= 0f ? "X" : $"{Mathf.RoundToInt(value * 100)}%";
     }
+
     public void OnPointerDown(PointerEventData eventData)
     {
         Debug.Log("Slider clicked");
