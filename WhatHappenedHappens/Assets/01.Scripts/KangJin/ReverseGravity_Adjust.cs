@@ -1,7 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.Build.Pipeline.Tasks;
 using UnityEngine;
 
 public class ReverseGravity_Adjust : MonoBehaviour
