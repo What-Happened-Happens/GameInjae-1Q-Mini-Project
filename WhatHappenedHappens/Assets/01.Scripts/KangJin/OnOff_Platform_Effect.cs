@@ -6,36 +6,56 @@ public class OnOff_Platform_Effect : MonoBehaviour
 {
     // Start is called before the first frame update
     public Material dissolveMaterial;
-    float elapsedTime;
+    private Material instanceMaterial;
+    Material baseMaterial;
+    SpriteRenderer sr;
     public bool isDissolving = false;
-    float dissolveTime;
-    public OnOff_Platform_Effect() // 持失切
-    { 
-
-    }   
-    ~OnOff_Platform_Effect () // 社瑚切
-    {
-        
-    } 
+    float dissolvingTime;
+    float dissolveValue;
     void Start()
     {
-        elapsedTime = 0f;
-        dissolveTime = 1f;
-        gameObject.GetComponent<SpriteRenderer>().material = dissolveMaterial;
+        /*instanceMaterial = new Material(dissolveMaterial);*/
+        sr = gameObject.GetComponent<SpriteRenderer>();
+        dissolvingTime = 1.5f;
+        dissolveValue = 1f;
+        /*sr.material = instanceMaterial;*/
+        baseMaterial = sr.material;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(isDissolving)
+
+    }
+    public void TriggerDestroy()
+    {
+        StartCoroutine(DissolveEffect());
+        Debug.Log("Destroy");
+    }
+
+    public void TriggerCreate()
+    {
+        StartCoroutine(AssembleEffect());
+        Debug.Log("Create");
+    }
+    IEnumerator DissolveEffect()
+    {
+        sr.material = dissolveMaterial;
+        if (dissolveValue >= 0f)
         { 
-            dissolveTime -= Time.deltaTime; 
-            dissolveMaterial.SetFloat("_Dissolve", dissolveTime);
+            dissolveValue -= Time.deltaTime; 
         }
-        
-        if (dissolveTime < 0f)
-        {
-            Destroy(gameObject);
+        sr.material.SetFloat("_Dissolve", dissolveValue);
+        yield return new WaitForSeconds(dissolvingTime)/*null*/;
+        gameObject.SetActive(false);
+    }
+    IEnumerator AssembleEffect()
+    {
+        if (dissolveValue <= 1f)
+        { 
+            dissolveValue += Time.deltaTime; 
         }
+        sr.material.SetFloat("_Dissolve", dissolveValue);
+        yield return new WaitForSeconds (dissolvingTime) ;
     }
 }
