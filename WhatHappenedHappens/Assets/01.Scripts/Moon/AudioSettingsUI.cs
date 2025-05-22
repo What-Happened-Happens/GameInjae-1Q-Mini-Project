@@ -7,6 +7,9 @@ public class AudioSettingsUI : MonoBehaviour
 {
     public AudioMixerManager mixerManager;
 
+    public GameObject audioSettingsUI;
+    public GameObject pauseScreen;
+
     [Header("UI Elements")]
     public Slider sliderBGM;
     public Slider sliderSFX;
@@ -46,7 +49,15 @@ public class AudioSettingsUI : MonoBehaviour
         BackButton.onClick.AddListener(() =>
         {
             SoundManager.Instance.UISFX("UI_Click", 1f);
-            gameObject.SetActive(false); // 현재 UI 비활성화
+            audioSettingsUI.SetActive(false); // UI 비활성화
         });
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape) && pauseScreen.GetComponent<pauseScreen>().isScreenPause)
+        {
+            audioSettingsUI.SetActive(true);
+        }
     }
 }
