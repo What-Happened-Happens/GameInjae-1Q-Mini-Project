@@ -16,7 +16,7 @@ public class Convayor_OnOff : MonoBehaviour
 
             if (rb != null && !rb.isKinematic) /*return;*/
             {
-                if (!truefalse.IsTrue)
+                if (truefalse.IsTrue == false)
                 {
                     rb.AddForce(new Vector2(moveX * moveSpeed * 50f, 0f));
                 }

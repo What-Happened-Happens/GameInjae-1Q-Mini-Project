@@ -56,7 +56,6 @@ public class Button_OnOffPlatform_KangJin : MonoBehaviour
                 {
                     obj.SetActive(false);
                 }
-                
             }
 
             foreach (GameObject obj in OffplatformObjects)
