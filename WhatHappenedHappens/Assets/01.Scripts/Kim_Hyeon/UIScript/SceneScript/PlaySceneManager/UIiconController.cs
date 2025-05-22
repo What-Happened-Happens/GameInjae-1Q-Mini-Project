@@ -50,15 +50,19 @@ public class UIiconController : MonoBehaviour
     public void UIIconUpdate()
     {
 
-        if (distance >= minDistance && distance <= maxDistance)
+        if (distance <= minDistance )
         {
             Debug.Log($"Show : 플레이어와 타겟의 거리가 {distance} 입니다.");
             ShowIcon(targetIcon); // 아이콘 보이기
         }
-        else
+        else if ( distance >= maxDistance)
         {
             Debug.Log($"Hide : 플레이어와 타겟의 거리가 {distance} 사이입니다.");
             HideIcon();
+        }
+        else
+        {
+            return; 
         }
 
     }

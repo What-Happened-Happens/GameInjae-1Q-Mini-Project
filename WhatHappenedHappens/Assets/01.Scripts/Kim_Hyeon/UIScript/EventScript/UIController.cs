@@ -13,16 +13,18 @@ public class UIController : MonoBehaviour
 
     [Header("Distance Setting")]
     private float distance = 0f; // 플레이어와 타겟 사이 거리 
-    private float minDistance = 0.5f; // 최소 거리 
-    private float maxDistance = 5f; // 최대 거리 
+    private float minDistance = 2f; // 최소 거리 
+    private float maxDistance = 3f; // 최대 거리 
+    private float offset = 2f;
     private GameObject currentIcon; // 현재 아이콘
 
     [Header("Use TargetIcon")]
     public GameObject _targetIcon; // 나타나게 할 아이콘 
 
+
     private void Awake()
     {
-        foreach(var icon in _icons)
+        foreach (var icon in _icons)
         {
             icon.gameObject.SetActive(false); // 아이콘 비활성화 
         }
@@ -30,26 +32,26 @@ public class UIController : MonoBehaviour
 
     private void Update()
     {
-      Vector2 playerPos = _player.transform.position; // 플레이어 위치
-      Vector2 targetPos = _target.transform.position; // 타겟 위치
-                                                       
-      distance = Vector2.Distance(playerPos, targetPos); // 거리 계산 
+        distance = Vector2.Distance(_player.transform.position, _target.transform.position); // 거리 계산 
 
+        Debug.Log($"Update : 플레이어와 타겟의 거리:  {distance}");
         IconUpdate();
     }
 
-   public void IconUpdate()
+    public void IconUpdate()
     {
-        if (distance < minDistance)
+        if (distance < minDistance )
         {
+            Debug.Log($"Show : 플레이어와 타겟의 거리:  {distance}"); 
             IconShow(_targetIcon); // 아이콘 활성화 
         }
-        else if (distance > maxDistance)
+        else if(distance > maxDistance) 
         {
+            Debug.Log($"Hide : 플레이어와 타겟의 거리:  {distance}");
             HideIcon(); // 아이콘 비활성화 
         }
-     
-    }    
+
+    }
 
     public void IconShow(GameObject iconObj)
     {
@@ -76,16 +78,14 @@ public class UIController : MonoBehaviour
         {
             currentIcon.SetActive(false); // 현재 아이콘 비활성화 
             currentIcon = null; // 현재 아이콘 초기화 
-        } 
+        }
     }
 
     private void UpdatePosition(GameObject iconObj)
     {
-        Vector2 playerPos = _player.transform.position; // 플레이어 위치
-        Vector2 targetPos = _target.transform.position; // 타겟 위치
-        Vector2 direction = (targetPos - playerPos).normalized; // 방향 벡터 계산 
-        float distance = Vector2.Distance(playerPos, targetPos); // 거리 계산 
-        iconObj.transform.position = playerPos + direction * distance; // 아이콘 위치 업데이트
+        Vector3 IconPos = _target.transform.position + Vector3.up * offset; // 아이콘 위치 설정 
+
+        iconObj.transform.position = IconPos; // 아이콘 위치 업데이트
     }
 
 }
