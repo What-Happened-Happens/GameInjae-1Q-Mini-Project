@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MenuManager : MonoBehaviour
+public class Stage4Manager : MonoBehaviour
 {
     public GameObject AudioSettingUI;
     public GameObject MenuUI;
@@ -11,8 +11,6 @@ public class MenuManager : MonoBehaviour
 
     void Start()
     {
-        // 첫번째 클립 재생 
-        SoundManager.Instance.PlayBGM(SoundManager.Instance.bgmClips[0]);
 
     }
 
