@@ -46,8 +46,7 @@ public class TemporaryPausePopUp : MonoBehaviour
             Debug.Log($"현재 팝업 상태  > {isPopUpActived}");
             _targetCanvas.gameObject.SetActive(false);
             isPopUpActived = false;
-        }
-        
+        }        
     
     }
 
