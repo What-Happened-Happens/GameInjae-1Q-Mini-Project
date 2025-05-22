@@ -25,10 +25,11 @@ public class PixelPerfectZoomCinemachine : MonoBehaviour
     public CinemachineBrain mainConvertUpdate;    // 메인카메라의 업데이트하는곳 바꾸기
     float realDeltaTime = 0f;
     float lastTime = 0f;
+    float delayTime = 0f;                          // 이동 -> 딜레이 -> 줌
+                                                   //  줌  ->  딜레이 -> 이동
 
-    // 할일 : 카메라 끝에가면 떨림....ㅜㅜ -> 벡터로 해결하면 될듯??
+    // 할일 : 
     //        카메라의 크기가 변하고 이동함에따라 화면의 경계 밖으로 살짝씩 이동 -> 해결법? 완전히 움직이고 줌아웃!!
-    //        가끔씩 버그로 화면 밖을 벗어남 , y 축 1~2칸 정도?
     void Awake()
     {
         virtualCam = GetComponent<CinemachineVirtualCamera>();
@@ -161,7 +162,7 @@ public class PixelPerfectZoomCinemachine : MonoBehaviour
             else
             {
                 WideCameraPos.position = new Vector3(WideCameraPos.position.x, CameraLimit.position.y, 0);
-                Debug.Log(CameraLimit.position.y);
+                //Debug.Log(CameraLimit.position.y);
                 if (Input.GetKey(KeyCode.LeftArrow))
                 {
                     //Debug.Log(realDeltaTime);
@@ -175,7 +176,8 @@ public class PixelPerfectZoomCinemachine : MonoBehaviour
             virtualCam.Follow = WideCameraPos;  // 버츄얼 카메라가 이 위치를 따라가게함...
 
             // 카메라 한계점과  카메라 size 값이 1일때의 길이를 나누어 size를 구하고 카메라 크기를 커지게하는 함수에 넣어줌!!
-            SetZoom(CameraLimit.localScale.y / defaultScreenSize , false);
+                SetZoom(CameraLimit.localScale.y / defaultScreenSize, false);
+
             //Debug.Log(CameraLimit.localScale.y / defaultScreenSize);
         }
         else
@@ -185,33 +187,4 @@ public class PixelPerfectZoomCinemachine : MonoBehaviour
             SetZoom(defaultCameraSize, false);
         }
     }
-
-
-
-
-
-
-
-    // 카메라 전체화면 코드, 지금은 사용하지 않으나, 필요하면 해금가능!!!
-    //float CalScreen()
-    //{
-    //    float mulSize;
-    //    if (CameraLimit.localScale.y >= CameraLimit.localScale.x * Camera.main.aspect)
-    //    {
-    //        mulSize = CameraLimit.localScale.y / defaultScreenSize;
-
-    //    }
-
-    //    else if (CameraLimit.localScale.y < CameraLimit.localScale.x * Camera.main.aspect)
-    //    {
-    //        mulSize = CameraLimit.localScale.x * Camera.main.aspect / defaultScreenSize;
-    //    }
-    //    else
-    //    {
-    //        mulSize = 0f;
-    //        Debug.Log("비ㅣㅣㅣㅣ상!!!!   스크린 계산 오류!!");
-    //    }
-    //    Debug.Log(mulSize);
-    //    return mulSize;
-    //}
 }

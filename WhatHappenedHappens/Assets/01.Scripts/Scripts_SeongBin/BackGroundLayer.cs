@@ -1,104 +1,33 @@
-using System.Collections.Generic;
+ï»¿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class BackGroundLayer : MonoBehaviour
 {
-    //// È­¸é Áß¾ÓºÎ¸¦ ³ªÅ¸³»´Â º¯¼ö
-    //public Transform cameraLimit;
-    //// ÆĞ·²·°½º È¿°ú¸¦ ÁÙ ¸ğµç ¹è°æ ¿ÀºêÁ§Æ®µé (¾Õ, µÚ ¹è°æ Æ÷ÇÔ)
-    //public Transform[] backgrounds;
 
-    //// ÆĞ·²·°½º È¿°úÀÇ ºÎµå·¯¿ò Á¤µµ (°ªÀÌ Å¬¼ö·Ï ºÎµå·´°Ô ¿òÁ÷ÀÓ)
-    //public float smoothing = 1f;
 
-    //// °¢ ¹è°æÀÌ Ä«¸Ş¶ó ÀÌµ¿¿¡ ¾ó¸¶³ª ¹İÀÀÇÒÁö °áÁ¤ÇÏ´Â ºñÀ² (Z°ª ±â¹İ)
-    //private float[] parallaxScales;
+    [Header("ë¦¬í• ë°°ê²½ ì¿¼ë“œ ë Œë”ëŸ¬ë“¤")]
+    public List<Renderer> backgroundRenderers;
 
-    //// ¸ŞÀÎ Ä«¸Ş¶óÀÇ Transform ÂüÁ¶
-    //private Transform cam;
-
-    //// ÀÌÀü ÇÁ·¹ÀÓÀÇ Ä«¸Ş¶ó À§Ä¡
-    //private Vector3 previousCamPos;
-
-    ////¹è°æÀÇ »ó´ë ¿òÁ÷ÀÓ Á¤µµ¸¦ Á¶ÀıÇÒ ¼ö ÀÖ´Â ¼ö!!
-    //public float bGRelativePos;
-
-    //// Start()º¸´Ù ¸ÕÀú È£ÃâµÇ¸ç, ÂüÁ¶ ¼³Á¤¿¡ ÀûÇÕÇÑ ½ÃÁ¡
-    //void Awake()
-    //{
-    //    // ¸ŞÀÎ Ä«¸Ş¶óÀÇ Transform °¡Á®¿À±â
-    //    this.cam = Camera.main.transform;
-    //}
-
-    //// ÃÊ±â ¼³Á¤ (°ÔÀÓ ½ÃÀÛ ½Ã È£ÃâµÊ)
-    //void Start()
-    //{
-    //    bGRelativePos = 5f;
-
-    //    // Ä«¸Ş¶ó À§Ä¡ ±âÁØ Á¤·Ä
-    //    for (int i = 0; i < backgrounds.Length; i++)
-    //    {
-    //        Vector3 camPos = this.cam.position;
-    //        Vector3 newPos = new Vector3(camPos.x, camPos.y, backgrounds[i].position.z); 
-    //        backgrounds[i].position = newPos;
-    //    }
-
-    //    // ÃÊ±â Ä«¸Ş¶ó À§Ä¡ ÀúÀå
-    //    this.previousCamPos = this.cam.position;
-
-    //    // parallax ºñÀ² °è»ê
-    //    this.parallaxScales = new float[this.backgrounds.Length];
-    //    for (int i = 0; i < backgrounds.Length; i++)
-    //    {
-    //        if (this.backgrounds[i].position.z > 0)
-    //        {
-    //            this.parallaxScales[i] = backgrounds[i].position.z * -bGRelativePos;
-    //        }
-    //        else if (this.backgrounds[i].position.z < 0)
-    //        {
-    //            this.parallaxScales[i] = backgrounds[i].position.z * bGRelativePos;
-    //        }
-    //    }
-    //}
-
-    //// ¸Å ÇÁ·¹ÀÓ¸¶´Ù ½ÇÇàµÊ
-    //void FixedUpdate()
-    //{
-    //    for (int i = 0; i < this.backgrounds.Length; i++)
-    //    {
-    //        // ÀÌÀü ÇÁ·¹ÀÓ°ú ÇöÀç ÇÁ·¹ÀÓ »çÀÌ Ä«¸Ş¶óÀÇ ÀÌµ¿·® * ¹è°æ ºñÀ² °è»ê
-    //        Vector2 parallax = (this.previousCamPos - this.cam.position) * this.parallaxScales[i];
-
-    //        // ¹è°æÀÇ ¸ñÇ¥ À§Ä¡ °è»ê (X, Y °¢°¢ Àû¿ë)
-    //        float backgroundTargetPosX = this.backgrounds[i].position.x + parallax.x;
-    //        float backgroundTargetPosY = this.backgrounds[i].position.y + parallax.y;
-
-    //        // ÃÖÁ¾ ÀÌµ¿ À§Ä¡ ¼³Á¤ (Z´Â ±×´ë·Î À¯Áö)
-    //        Vector3 backgroundTargetPos = new Vector3(backgroundTargetPosX, backgroundTargetPosY, this.backgrounds[i].position.z);
-
-    //        // ÇöÀç À§Ä¡¿Í ¸ñÇ¥ À§Ä¡ »çÀÌ¸¦ ºÎµå·´°Ô ÀÌµ¿ (Lerp »ç¿ë)
-    //        this.backgrounds[i].position = Vector3.Lerp(this.backgrounds[i].position, backgroundTargetPos, this.smoothing * Time.unscaledDeltaTime);
-    //    }
-
-    //    // ´ÙÀ½ ÇÁ·¹ÀÓÀ» À§ÇØ ÇöÀç Ä«¸Ş¶ó À§Ä¡ ÀúÀå
-    //    this.previousCamPos = this.cam.position;
-    //}
-    [Header("¹è°æ ¿ÀºêÁ§Æ®µé (¸Õ °÷ºÎÅÍ °¡±î¿î ¼ø)")]
-    public List<Transform> backgrounds;
-
-    [Header("Áß½É ±âÁØ (¿¹: CameraLimit)")]
-    public Transform CameraLimit;
-
-    [Header("Ä«¸Ş¶ó ÂüÁ¶ (±âº»°ªÀº MainCamera)")]
+    [Header("ì¹´ë©”ë¼")]
     public Transform cam;
 
-    [Header("ÆĞ·²·º½º ÀÌµ¿ ºÎµå·¯¿ò")]
-    public float smoothing = 5f;
+    [Header("íŒ¨ëŸ´ëŸ­ìŠ¤ ê°•ë„ (ë©€ìˆ˜ë¡ ëœ ì›€ì§ì„)")]
+    public float parallaxStrength = 0.05f;
 
-    [Header("ÆĞ·²·º½º °­µµ (¸Ö¼ö·Ï ÀÛ°Ô ¿òÁ÷ÀÓ)")]
-    public float parallaxStrength = 0.5f;
+    [Header("ë©”ì¸ ì¹´ë©”ë¼ scripts")]
+    public PixelPerfectZoomCinemachine virtualZoom;
+    public pauseScreen pulse;
 
-    private Vector3[] originPositions;
+
+
+    float nowSize;
+    float mulSize;
+    private List<Material> materials;
+    private List<float> zDepths;
+    private List<Vector3> initialScales;
+    private Vector3 lastCamPos;
+    private Vector3 initialScale;
 
     void Awake()
     {
@@ -108,31 +37,88 @@ public class BackGroundLayer : MonoBehaviour
 
     void Start()
     {
-        originPositions = new Vector3[backgrounds.Count];
-        for (int i = 0; i < backgrounds.Count; i++)
+        initialScales = new List<Vector3>();
+        materials = new List<Material>();
+        zDepths = new List<float>();
+        initialScale = new Vector3(18.5f, 10.5f, 1); // ì´ˆê¸° ìŠ¤ì¼€ì¼ ì €ì¥
+        foreach (var renderer in backgroundRenderers)
         {
-            originPositions[i] = backgrounds[i].position;
+            Material matInstance = new Material(renderer.sharedMaterial); // ì¬ì§ˆ ë³µì œ (ì¸ìŠ¤í„´ìŠ¤í™”)
+            renderer.material = matInstance;
+            materials.Add(matInstance);
+            zDepths.Add(renderer.transform.position.z);
+            initialScales.Add(renderer.transform.localScale);
         }
+
+        if (cam != null)
+            lastCamPos = cam.position;
+        Debug.Log("asd"+initialScale);
+
     }
 
-    void LateUpdate()
+    void FixedUpdate()
     {
-        if (CameraLimit == null || cam == null) return;
-
-        Vector3 camDelta = cam.position - CameraLimit.position;
-
-        for (int i = 0; i < backgrounds.Count; i++)
+        if (!pulse.isScreenWide)
         {
-            // ÀÎµ¦½º¸¦ ÀÌ¿ëÇÑ ÆĞ·²·º½º ºñÀ² (¸Õ ¹è°æÀÏ¼ö·Ï ÀÛ°Ô ¿òÁ÷ÀÓ)
-            float parallaxScale = 1f - (i * parallaxStrength / backgrounds.Count);
+            CameraScroll();
+        }
 
-            Vector3 targetPos = originPositions[i] + camDelta * parallaxScale;
-            backgrounds[i].position = Vector3.Lerp(
-                backgrounds[i].position,
-                targetPos,
-                Time.unscaledDeltaTime
-            );
+    }
+
+    private void Update()
+    {
+        if (pulse.isScreenWide)
+        {
+            CameraScroll();
         }
     }
 
+    void CameraScroll(){
+        if (cam == null) return;
+
+        Vector3 camDelta = cam.position - lastCamPos;
+        ScaleCal();
+
+        for (int i = 0; i < backgroundRenderers.Count; i++)
+        {
+            float depthFactor = 1f - Mathf.InverseLerp(GetMinZ(), GetMaxZ(), zDepths[i]);
+            float scrollScale = depthFactor * parallaxStrength * 0.02f;
+
+            // í…ìŠ¤ì²˜ ìŠ¤í¬ë¡¤ (Repeat íš¨ê³¼)
+            Vector2 offset = materials[i].mainTextureOffset;
+            offset += new Vector2(camDelta.x * scrollScale, camDelta.y * scrollScale);
+            materials[i].mainTextureOffset = offset;
+            materials[i].mainTextureScale = new Vector2(1, 1) * mulSize;
+            // ì¿¼ë“œëŠ” í•­ìƒ ì¹´ë©”ë¼ ìœ„ì¹˜ì— ê³ ì •
+            backgroundRenderers[i].transform.position = new Vector3(cam.position.x, cam.position.y, zDepths[i]);
+
+            // ì¤Œì— ë”°ë¥¸ í¬ê¸° ì¡°ì •
+            backgroundRenderers[i].transform.localScale = initialScales[i] * mulSize;
+        }
+
+        lastCamPos = cam.position;
+    }
+
+    float GetMinZ()
+    {
+        float min = float.MaxValue;
+        foreach (float z in zDepths)
+            if (z < min) min = z;
+        return min;
+    }
+
+    float GetMaxZ()
+    {
+        float max = float.MinValue;
+        foreach (float z in zDepths)
+            if (z > max) max = z;
+        return max;
+    }
+
+    void ScaleCal()
+    {
+        nowSize = virtualZoom.currentZoom;
+        mulSize = nowSize / 5f;
+    }
 }
+ 
