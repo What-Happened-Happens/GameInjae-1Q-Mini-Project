@@ -30,14 +30,7 @@ public class ReverseGravity_Adjust : MonoBehaviour
     public Material DoubledGravityEffect;
     public Material NormalGravityEffect;
 
-    public ParticleSystem ReverseParticlePrefab;
-    public ParticleSystem HalfParticlePrefab;
-    public ParticleSystem DoubledParticlePrefab;
-
-    ParticleSystem reverseparticle;
-    ParticleSystem halfparticle;
-    ParticleSystem doubleparticle;
-
+    //파티클을 받을 프리팹
     public float reversedGravityScale;
     public float weakenedGravityScale;
     public float reinforcedGravityScale;
@@ -54,27 +47,21 @@ public class ReverseGravity_Adjust : MonoBehaviour
         reversedGravityScale = -1;
         weakenedGravityScale = 0.5f;
         reinforcedGravityScale = 2;
+
         currState = GravityState.Normal;
         prevstate = currState;
         gravityScale = normalGravityScale;
         truefalse = operatingObject.GetComponent<TrueFalse>();
         sr = GetComponent<SpriteRenderer>();
-        /*currParticle = Instantiate(ReverseParticlePrefab, transform.position, transform.rotation);
-        currParticle.Play();*/
     }
 
-    // Update is called once per frame
     void Update()
     {
         CheckPower();
         ChangeState();
-        
         if(currState != prevstate)
         {
-            ChangeParticle(); 
             ChangeEffect();
-            Debug.Log(currState);
-            Debug.Log(prevstate);
             prevstate = currState;
         }
     }
@@ -153,31 +140,6 @@ public class ReverseGravity_Adjust : MonoBehaviour
         }
     }
 
-    void ChangeParticle()
-    {
-        switch (currState)
-        {
-            case GravityState.Normal:
-                currParticle.Stop();
-                Destroy(currParticle);
-                break;
-            case GravityState.Reversed:
-                Destroy(currParticle);
-                currParticle = Instantiate(ReverseParticlePrefab, transform.position, transform.rotation);
-                currParticle.Play();
-                break;
-            case GravityState.Half:
-                Destroy(currParticle);
-                currParticle = Instantiate(HalfParticlePrefab, transform.position, transform.rotation);
-                currParticle.Play();
-                break;
-            case GravityState.Double:
-                Destroy(currParticle);
-                currParticle = Instantiate(DoubledParticlePrefab, transform.position, transform.rotation);
-                currParticle.Play();
-                break;
-        }
-    }
-
     public GravityState GetCurrGravityState() { return currState; }
+    public GravityState GetPrevGravityState() { return prevstate; }
 }

@@ -24,25 +24,23 @@ public class ShowGravityState : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        ChangeSprite();
+    }
+
+    void ChangeSprite()
+    {
         switch (gravityZone.GetCurrGravityState())
         {
             case ReverseGravity_Adjust.GravityState.Normal:
-
                 break;
             case ReverseGravity_Adjust.GravityState.Reversed:
                 sr.sprite = ReverseSprite;
-                /*Destroy(mode);
-                mode = Instantiate(gravityModes[0]);*/
                 break;
             case ReverseGravity_Adjust.GravityState.Half:
                 sr.sprite = HalfSprite;
-                /*Destroy(mode);
-                mode = Instantiate(gravityModes[1]);*/
                 break;
             case ReverseGravity_Adjust.GravityState.Double:
                 sr.sprite = DoubleSprite;
-                /*Destroy(mode);
-                mode = Instantiate(gravityModes[2]);*/
                 break;
         }
     }
