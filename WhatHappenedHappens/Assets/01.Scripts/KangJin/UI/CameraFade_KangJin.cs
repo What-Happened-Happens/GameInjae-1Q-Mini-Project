@@ -7,9 +7,6 @@ public class CameraFade_KangJin : MonoBehaviour
 {
     public static CameraFade_KangJin instance; 
    
-    [Header("PlayerPrefab")]
-    [SerializeField] private GameObject PlayerPrefab; // 중심이 될 플레이어 프리팹 
-   
     [Header("Fade Settings")]
     [SerializeField, Range(0.1f, 5f)] private float fadeTime = 1f;
     public Image FadeImage;                           // 페이드에 사용할 이미지 
@@ -18,9 +15,6 @@ public class CameraFade_KangJin : MonoBehaviour
 
     private void Awake()
     {
-        if (PlayerPrefab == null)
-            PlayerPrefab = GameObject.FindWithTag("Player");
-         
         FadeImage.gameObject.SetActive(true);
         isClear = false;
         SequenceBegin();
