@@ -1732,7 +1732,7 @@ Transform:
   m_GameObject: {fileID: 325706738}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 14.79196, y: 5.5759087, z: 0.04092598}
+  m_LocalPosition: {x: -11.52804, y: -6.024091, z: 0.04092598}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3861,13 +3861,29 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5046048786931980365, guid: f602b33f45761a744b1a6042cc3ee668, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 2.1355
+      objectReference: {fileID: 0}
+    - target: {fileID: 5046048786931980365, guid: f602b33f45761a744b1a6042cc3ee668, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.4323
+      objectReference: {fileID: 0}
     - target: {fileID: 5490139635775257114, guid: f602b33f45761a744b1a6042cc3ee668, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.8639
       objectReference: {fileID: 0}
     - target: {fileID: 5490139635775257114, guid: f602b33f45761a744b1a6042cc3ee668, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.7118
+      objectReference: {fileID: 0}
+    - target: {fileID: 5490139635775257114, guid: f602b33f45761a744b1a6042cc3ee668, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.034
+      objectReference: {fileID: 0}
+    - target: {fileID: 5490139635775257114, guid: f602b33f45761a744b1a6042cc3ee668, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.4323
       objectReference: {fileID: 0}
     - target: {fileID: 5545287007769289125, guid: f602b33f45761a744b1a6042cc3ee668, type: 3}
       propertyPath: m_Name
@@ -6580,7 +6596,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -1
+  m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -11424,11 +11440,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4431936122387101988, guid: 0792c1f7925defd4aa28a7a06578deee, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 30.42
+      value: 4.1
       objectReference: {fileID: 0}
     - target: {fileID: 4431936122387101988, guid: 0792c1f7925defd4aa28a7a06578deee, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.2
+      value: -7.4
       objectReference: {fileID: 0}
     - target: {fileID: 4431936122387101988, guid: 0792c1f7925defd4aa28a7a06578deee, type: 3}
       propertyPath: m_LocalPosition.z
@@ -15368,7 +15384,7 @@ Transform:
   m_GameObject: {fileID: 2016399103}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 11.27305, y: 5.4397287, z: 0.04092598}
+  m_LocalPosition: {x: -11.52805, y: -5.390931, z: 0.04092598}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -15726,7 +15742,7 @@ GameObject:
   - component: {fileID: 2118412491}
   - component: {fileID: 2118412490}
   m_Layer: 0
-  m_Name: GameManager
+  m_Name: Stage4Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

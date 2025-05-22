@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MenuManager : MonoBehaviour
+public class Stage3Manager : MonoBehaviour
 {
     public GameObject AudioSettingUI;
     public GameObject MenuUI;
@@ -12,17 +12,9 @@ public class MenuManager : MonoBehaviour
 
     private bool isFinish = false;
 
-
-    void Start()
-    {
-        // 첫번째 클립 재생 
-        // SoundManager.Instance.PlayBGM(SoundManager.Instance.bgmClips[0]);
-
-    }
-
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Escape) && !MenuUI.activeSelf)
+        if (Input.GetKeyDown(KeyCode.Escape) && !MenuUI.activeSelf)
         {
             MenuUI.SetActive(true);
         }
@@ -43,7 +35,7 @@ public class MenuManager : MonoBehaviour
     {
         yield return new WaitForSeconds(4f);
         // 다음 씬 로드
-        SceneController.Instance.LoadScene("EndingScene");
+        SceneController.Instance.LoadScene("Stage4Scene");
     }
 
     public void ContinuePlay()

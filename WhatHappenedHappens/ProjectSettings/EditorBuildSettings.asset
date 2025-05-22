@@ -11,7 +11,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/00.Scenes/Kim_Hyeon/MainGame_test.unity
     guid: 271917804d0b61e4ba9b166d18a2238d
-  - enabled: 1
+  - enabled: 0
     path: Assets/00.Scenes/Kim_Hyeon/UI.unity
     guid: be0063c060eaa324c8b94b4adef2fb8c
   - enabled: 1
@@ -23,4 +23,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/00.Scenes/Stage2Scene.unity
     guid: 232f5ee73c70bdd48bf0e0bcb25b1dda
+  - enabled: 1
+    path: Assets/00.Scenes/Stage3Scene.unity
+    guid: 326f90431bb496f4c8ebe81c3b5dc9d7
+  - enabled: 1
+    path: Assets/00.Scenes/Stage4Scene.unity
+    guid: 9d99d4f8f809666489ce9efb054ecfec
   m_configObjects: {}
