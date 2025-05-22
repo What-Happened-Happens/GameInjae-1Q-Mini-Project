@@ -147,8 +147,12 @@ MonoBehaviour:
   ReverseGravityEffect: {fileID: 2100000, guid: 98b430d8f90bef34ab22eec9c6298a77, type: 2}
   HalfGravityEffect: {fileID: 2100000, guid: 0956e7533329ccd4e96722c1c6fb3852, type: 2}
   DoubledGravityEffect: {fileID: 2100000, guid: e291973cae750714583295c06b13d6bd, type: 2}
+  NormalGravityEffect: {fileID: 0}
   poweredState: 3
   unpoweredState: 1
+  ReverseParticlePrefab: {fileID: 7108780920677646112, guid: db6f85d2d2760e344b4228642c1c46e2, type: 3}
+  HalfParticlePrefab: {fileID: 2633672001968348666, guid: 03ca2349fed9d394a9635ac1f40b7c59, type: 3}
+  DoubledParticlePrefab: {fileID: 3062293105573084358, guid: 8a8551865a431fe41ab072e646770604, type: 3}
   reversedGravityScale: -1
   weakenedGravityScale: 0.5
   reinforcedGravityScale: 10
