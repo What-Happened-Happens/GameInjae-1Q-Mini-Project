@@ -10,27 +10,26 @@ public class UIController : UIHelper
     public GameObject target;
 
     [Header("Icon")]
-    public Camera uiCamera;
     public Canvas uiCanvas;
+    private RectTransform canvasRect;
 
     [Header("Icon List")]
     public List<GameObject> icons = new List<GameObject>();
 
     [Header("Setting")]
     [SerializeField] private float minDistance = 0.5f;
-    [SerializeField] private float maxDistance = 5f;
+    [SerializeField] private float maxDistance = 3f;
     private float offset = 2f;
     private float duration = 3f; // 아이콘이 사라지는 시간 
 
     // test code 
     private bool isIntrective = true; // 테스트 용으로 true  
 
-    private void Start()
+    private void Awake()
     {
-        //iconInstance = Instantiate(iconInstance, uiCanvas.transform);
-        //iconInstance.gameObject.SetActive(false);
-        //UIIconUpdate();
-       
+        canvasRect = uiCanvas.GetComponent<RectTransform>();
+        foreach (var icon in icons)
+            icon.gameObject.SetActive(false);
     }
 
     private void Update()
@@ -48,12 +47,15 @@ public class UIController : UIHelper
         float distance = Vector2.Distance(playerPos, targetPos);
         Debug.Log($"플레이어와 타겟 거리: {distance}");
 
-        if (distance <= maxDistance && distance >= minDistance)
+        if (distance >= minDistance && distance <= maxDistance)
         {
-            ShowIcon(target);
+            Debug.Log($"플레이어와 타겟의 거리가 {minDistance} ~ {maxDistance} 사이입니다."); 
+            Debug.Log($"아이콘을 보입니다."); 
         }
         else
         {
+            Debug.Log($"플레이어와 타겟의 거리가 {minDistance} ~ {maxDistance} 사이입니다.");
+            Debug.Log($"아이콘을 숨깁니다.");
             UIIconHide();
         }
 
@@ -61,16 +63,18 @@ public class UIController : UIHelper
 
     public void ShowIcon(GameObject obj)
     {
+        Vector3 screenPos = Camera.main.WorldToScreenPoint(obj.transform.position);
+
+        string wantName = obj.name;
+
         for (int i = 0; i < icons.Count; i++)
         {
-            if (icons[i].activeSelf == true) return;  
-
-            icons[i].SetActive(true); 
+            bool show = icons[i].name == wantName;
+            icons[i].SetActive(show);
+            if (show)
+                icons[i].transform.position = screenPos;
         }
-        Debug.Log($"아이콘이 보입니다.");
 
-        Vector2 worldPos = obj.transform.position + Vector3.down * offset;
-        Vector3 screenPos = uiCamera.WorldToScreenPoint(worldPos);
 
     }
 
@@ -79,6 +83,13 @@ public class UIController : UIHelper
     public void UIIconHide()
     {
         // 아이콘 숨기기 
-        iconInstance.gameObject.SetActive(false);
+        for (int i = 0; i < icons.Count; i++)
+        {
+            if (icons[i].activeSelf == false) return;
+
+            icons[i].SetActive(false);
+            Debug.Log($"아이콘을 숨깁니다.");
+
+        }
     }
 }
