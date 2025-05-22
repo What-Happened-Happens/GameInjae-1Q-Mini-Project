@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5490139635775257114}
   - component: {fileID: 8863589814981706995}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Sidegate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 2095121970276463398}
   - component: {fileID: 1313127901919634629}
   - component: {fileID: 3883928094359065430}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: SideGate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -196,7 +196,7 @@ GameObject:
   - component: {fileID: 5046048786931980365}
   - component: {fileID: 7537841538717383494}
   - component: {fileID: 5135111635297267974}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Sidegate_Door
   m_TagString: Untagged
   m_Icon: {fileID: 0}
