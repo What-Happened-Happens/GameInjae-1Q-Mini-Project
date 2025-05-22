@@ -3588,7 +3588,6 @@ MonoBehaviour:
   _player: {fileID: 584572228}
   _target: {fileID: 1952272119}
   _icons:
-  - {fileID: 1737819257}
   - {fileID: 1047282582}
   - {fileID: 1789825144}
   _targetIcon: {fileID: 1789825144}

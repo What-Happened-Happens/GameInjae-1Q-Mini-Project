@@ -13,7 +13,6 @@ public class UIController : MonoBehaviour
 
     [Header("Use TargetIcon")] // 나타나게 할 아이콘 
     public GameObject _targetIcon;
-    public GameObject _targetIcon_Move;
 
     [Header("Distance Setting")]
     private float distance = 0f; // 플레이어와 타겟 사이 거리 
@@ -21,15 +20,14 @@ public class UIController : MonoBehaviour
     private float maxDistance = 3f; // 최대 거리 
     private float offset = 2f;
 
-    private void Awake()
+    private void Start()
     {
+
         foreach (var icon in _icons)
         {
-            if (icon.name == _targetIcon_Move.name)
-            {
-                icon.SetActive(true); // 이동 아이콘은 활성화 
-            }// 이동 아이콘은 제외
-            icon.gameObject.SetActive(false); // 아이콘 비활성화 
+
+            icon.SetActive(false); // 아이콘 초기화 :  비활성화 
+
         }
 
     }
@@ -37,20 +35,19 @@ public class UIController : MonoBehaviour
     private void Update()
     {
         if (_player == null || _target == null) return;
-        distance = Vector3.Distance(_player.transform.position, _target.transform.position); // 거리 계산 
 
-        Debug.Log($"Update : 플레이어와 타겟의 거리:  {distance}");
         IconUpdate();
     }
 
     public void IconUpdate()
     {
+        distance = Vector3.Distance(_player.transform.position, _target.transform.position); // 거리 계산 
+        Debug.Log($"Update : 플레이어와 타겟의 거리:  {distance}");
 
         if (distance < minDistance)
         {
             Debug.Log($"Show : 플레이어와 타겟의 거리:  {distance}");
             IconShow(_targetIcon); // 아이콘 활성화
-            MoveIconAll(_targetIcon_Move, true); // 이동 아이콘 비활성화 
 
         }
         else if (distance > maxDistance)
@@ -78,10 +75,9 @@ public class UIController : MonoBehaviour
     }
     private void MoveIconAll(GameObject iconObj, bool isActive) // isActive : 이동 아이콘 활성화 여부 // 숨기고 싶을 땐 따로 시간에 맞춰서 false 로 바꾸기 
     {
+        iconObj.gameObject.SetActive(isActive); // 이동 아이콘 활성화 
 
-        iconObj.transform.position = _player.transform.position + Vector3.up ; // 아이콘 위치 업데이트
-
-        iconObj.SetActive(isActive); // 이동 아이콘 활성화 
+        iconObj.transform.position = _player.transform.position + Vector3.up * offset;
 
     }
 
