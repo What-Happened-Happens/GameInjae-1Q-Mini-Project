@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class AudioSliderUI : AudioManager /*, IPointerDownHandler*/
+public class AudioSliderUI : MonoBehaviour /*, IPointerDownHandler*/
 {
     [Header("BGM")]
     [SerializeField] private Slider _BGMAudioSlider;

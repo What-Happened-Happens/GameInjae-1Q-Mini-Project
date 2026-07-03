@@ -27,7 +27,7 @@ public struct StateClip
 public class SFXAudioManager : AudioManager
 {
     private static SFXAudioManager instance = null;
-    public static SFXAudioManager Instance
+    public static new SFXAudioManager Instance
     {
         get
         {
@@ -52,7 +52,7 @@ public class SFXAudioManager : AudioManager
     public bool IsLoop { get; set; } = false; // 사운드 루프 체크    
     public SFXState SFXstate { get; set; } = SFXState.NONE; // 현재 재생중인 사운드 상태 체크 
 
-    private void Awake()
+    private new void Awake()
     {
         DontDestroyOnLoad(gameObject);
         _stopCoroutines = new Dictionary<AudioSource, Coroutine>();
